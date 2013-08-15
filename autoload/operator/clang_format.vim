@@ -42,7 +42,7 @@ function! operator#clang_format#do(motion_wise)
     " FIXME check if the region is empty or not
 
     if a:motion_wise ==# 'line'
-        let args = " -lines=".start[0].":".last[0]." "
+        let args = printf(" -lines=%d:%d %s", start[0], last[0], g:operator_clang_complete_clang_args)
     else
         " FIXME character wise and block wise
         throw "not implemented"
