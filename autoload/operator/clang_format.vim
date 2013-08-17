@@ -51,8 +51,8 @@ function! operator#clang_format#do(motion_wise)
 
     " FIXME a bug when the number of lines of the after is diffrent from the one
     " of the before
-    let clang_format = printf("clang-format %s %s --", args, expand('%:p'))
-    let formatted = s:system(clang_format)
+    let clang_format = printf("clang-format %s --", args)
+    let formatted = s:system(clang_format, join(getbufline(winbufnr(winnr()), 1, line('$')), "\n"))
     call setreg('g', formatted)
 
     let pos = getpos('.')
