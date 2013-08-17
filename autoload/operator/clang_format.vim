@@ -45,7 +45,7 @@ function! operator#clang_format#do(motion_wise)
         let args = printf(" -lines=%d:%d -style=%s %s", start[0], last[0], g:operator_clang_format_code_style, g:operator_clang_format_clang_args)
     else
         " FIXME character wise and block wise
-        throw "not implemented"
+        throw "not implemented except for line wise text objects."
         return
     endif
 
