@@ -41,13 +41,19 @@ function! operator#clang_format#do(motion_wise)
 
     " FIXME check if the region is empty or not
 
-    if a:motion_wise ==# 'line'
-        let args = printf(" -lines=%d:%d -style=%s %s", start[0], last[0], g:operator_clang_format_code_style, g:operator_clang_format_clang_args)
-    else
+    if a:motion_wise !=# 'line'
         " FIXME character wise and block wise
         throw "not implemented except for line wise text objects."
         return
     endif
+
+    let style = printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s}'",
+                      \ g:operator_clang_format_code_style,
+                      \ &l:shiftwidth,
+                      \ &l:expandtab==1 ? "false" : "true")
+
+    let args = printf(" -lines=%d:%d -style=%s %s", start[0], last[0], style, g:operator_clang_format_clang_args)
+    echo args
 
     " FIXME a bug when the number of lines of the after is diffrent from the one
     " of the before
