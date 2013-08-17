@@ -14,6 +14,7 @@ let g:operator_clang_format_clang_args = s:tmp
 unlet s:tmp
 
 let g:operator_clang_format_code_style = get(g:, 'operator_clang_format_code_style', "google")
+let g:operator_clang_format_options = get(g:, 'operator_clang_format_options', {})
 
 call operator#user#define('clang-format', 'operator#clang_format#do')
 
