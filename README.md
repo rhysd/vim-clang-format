@@ -11,6 +11,10 @@ This plugin provides a vim operator mapping to format your C++ code with specifi
 - clang-format command in your $PATH.
 - [vim-operator-user](https://github.com/kana/vim-operator-user)
 
+### Usage
+
+Map `<Plug>(operator-clang-format)` to your favorite key bind.
+
 ### Customize
 
 - `g:operator_clang_format_code_style`
