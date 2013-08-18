@@ -41,6 +41,7 @@ function! operator#clang_format#do(motion_wise)
 
     " FIXME check if the region is empty or not
     " FIXME character wise
+    " FIXME cursor position history is violated by ggVG"gp
     " TODO  error handling
     "           - exit code is not 0
     "           - YAML error in a style option
@@ -52,7 +53,7 @@ function! operator#clang_format#do(motion_wise)
 
     let args = printf(" -lines=%d:%d -style=%s %s", start[0], last[0], style, g:operator_clang_format_clang_args)
 
-    let clang_format = printf("clang-format %s --", args)
+    let clang_format = printf("%s %s --", g:operator_clang_format_command, args)
     let formatted = s:system(clang_format, join(getline(1, '$'), "\n"))
     call setreg('g', formatted)
 
