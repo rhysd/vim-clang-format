@@ -8,7 +8,7 @@ This plugin provides a vim operator mapping to format your C++ code with specifi
 
 ### Requirements
 
-- clang-format command in your $PATH.
+- clang-format command which is bundled in clang tools
 - [vim-operator-user](https://github.com/kana/vim-operator-user)
 - [vimproc.vim](https://github.com/Shougo/vimproc.vim)(recommended)
 
