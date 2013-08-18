@@ -29,6 +29,34 @@ function! s:system(str, ...)
   return output
 endfunction
 
+function! s:make_style_options()
+    let extra_options = ""
+    for [key, value] in items(g:operator_clang_format_style_options)
+        let extra_options .= printf(", %s: %s", key, value)
+    endfor
+    return printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
+                        \ g:operator_clang_format_code_style,
+                        \ &l:shiftwidth,
+                        \ &l:expandtab==1 ? "false" : "true",
+                        \ extra_options)
+endfunction
+
+function! s:success(result)
+    return (s:has_vimproc() ? vimproc#get_last_status() : v:shell_error) == 0
+                \ && a:result !~# '^YAML:\d\+:\d\+: error: unknown key '
+endfunction
+
+function! s:error_message(result)
+    echoerr "clang-format has failed to format."
+    if a:result =~# '^YAML:\d\+:\d\+: error: unknown key '
+        echohl Error
+        for l in split(a:result, "\n")[0:1]
+            echomsg l
+        endfor
+        echohl None
+    endif
+endfunction
+
 function! operator#clang_format#do(motion_wise)
 
     let sel_save = &l:selection
@@ -36,45 +64,26 @@ function! operator#clang_format#do(motion_wise)
     let save_g_reg = getreg('g')
     let save_g_regtype = getregtype('g')
 
-    let start = getpos("'[")[1:2]
-    let last = getpos("']")[1:2]
-
     " FIXME check if the region is empty or not
     " FIXME character wise
     " FIXME cursor position history is violated by ggVG"gp
 
-    let extra_options = ""
-    for [key, value] in items(g:operator_clang_format_style_options)
-        let extra_options .= printf(", %s: %s", key, value)
-    endfor
-
-    let style = printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
-                      \ g:operator_clang_format_code_style,
-                      \ &l:shiftwidth,
-                      \ &l:expandtab==1 ? "false" : "true",
-                      \ extra_options)
-
-    let args = printf(" -lines=%d:%d -style=%s %s", start[0], last[0], style, g:operator_clang_format_clang_args)
+    let args = printf(" -lines=%d:%d -style=%s %s",
+                \     getpos("'[")[1],
+                \     getpos("']")[1],
+                \     s:make_style_options(),
+                \     g:operator_clang_format_clang_args)
 
     let clang_format = printf("%s %s --", g:operator_clang_format_command, args)
     let formatted = s:system(clang_format, join(getline(1, '$'), "\n"))
-    let success = (s:has_vimproc() ? vimproc#get_last_status() : v:shell_error) == 0
-                \ && formatted !~# '^YAML:\d\+:\d\+: error: unknown key '
 
-    if success
+    if s:success(formatted)
         call setreg('g', formatted)
         let pos = getpos('.')
         execute 'normal!' 'ggVG"gp'
         call setpos('.', pos)
     else
-        echoerr "clang-format has failed to format."
-        if formatted =~# '^YAML:\d\+:\d\+: error: unknown key '
-            echohl Error
-            for l in split(formatted, "\n")[0:1]
-                echomsg l
-            endfor
-            echohl None
-        endif
+        call s:error_message(formatted)
     endif
 
     call setreg('g', save_g_reg, save_g_regtype)
