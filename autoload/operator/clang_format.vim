@@ -46,10 +46,16 @@ function! operator#clang_format#do(motion_wise)
     "           - exit code is not 0
     "           - YAML error in a style option
 
-    let style = printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s}'",
+    let extra_options = ""
+    for [key, value] in items(g:operator_clang_format_style_options)
+        extra_options .= printf(", %s: %s", key, value)
+    endfor
+
+    let style = printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
                       \ g:operator_clang_format_code_style,
                       \ &l:shiftwidth,
-                      \ &l:expandtab==1 ? "false" : "true")
+                      \ &l:expandtab==1 ? "false" : "true",
+                      \ extra_options)
 
     let args = printf(" -lines=%d:%d -style=%s %s", start[0], last[0], style, g:operator_clang_format_clang_args)
 
