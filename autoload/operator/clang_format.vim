@@ -1,3 +1,4 @@
+" helper functions {{{
 function! s:has_vimproc()
   if !exists('s:exists_vimproc')
     try
@@ -60,7 +61,9 @@ endfunction
 function! s:is_empty_region(begin, end)
   return a:begin[1] == a:end[1] && a:end[2] < a:begin[2]
 endfunction
+" }}}
 
+" main logic {{{
 function! operator#clang_format#do(motion_wise)
 
     if s:is_empty_region(getpos("'["), getpos("']"))
@@ -96,5 +99,4 @@ function! operator#clang_format#do(motion_wise)
     call setreg('g', save_g_reg, save_g_regtype)
     let &l:selection = sel_save
 endfunction
-
-
+" }}}
