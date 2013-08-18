@@ -22,10 +22,11 @@ Map `<Plug>(operator-clang-format)` to your favorite key bind.
 
 `g:operator_clang_format_code_style` is a base style.
 `llvm`, `google`, `chromium`, `mozilla` is supported.
+The default value is `google`.
 
 - `g:operator_clang_format_style_options`
 
-YAML options as dictionary.
+Coding style options as dictionary.
 
 An example is below:
 
@@ -48,6 +49,17 @@ Default value is `clang-format`.
 - `g:operator_clang_format_clang_args`
 
 You can specify more extra options in `g:operator_clang_format_clang_args` as String or List of String.
+
+### Example
+
+```vim
+let g:operator_clang_format_style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++11"}
+autocmd FileType cpp map <buffer><Leader>x <Plug>(operator-clang-format)
+```
 
 ### For More Information
 
