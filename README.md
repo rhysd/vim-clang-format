@@ -22,6 +22,28 @@ Map `<Plug>(operator-clang-format)` to your favorite key bind.
 `g:operator_clang_format_code_style` is a base style.
 `llvm`, `google`, `chromium`, `mozilla` is supported.
 
+- `g:operator_clang_format_style_options`
+
+YAML options as dictionary.
+
+An example is below:
+
+```vim
+let g:operator_clang_format_style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++11"}
+```
+
+For config information, execute `clang-format -dump-config` command.
+
+- `g:operator_clang_format_command`
+
+Name of `clang-format`. If the name of command is not `clang-format`
+or you want to specify a command by absolute path, set this variable.
+Default value is `clang-format`.
+
 - `g:operator_clang_format_clang_args`
 
 You can specify more extra options in `g:operator_clang_format_clang_args` as String or List of String.
@@ -29,8 +51,11 @@ You can specify more extra options in `g:operator_clang_format_clang_args` as St
 ### For More Information
 
 ```
-clang-format -help
-clang-format -dump-config
+$ clang-format -help
+```
+
+```
+$ clang-format -dump-config
 ```
 
 ### License
