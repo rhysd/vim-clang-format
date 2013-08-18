@@ -10,6 +10,7 @@ This plugin provides a vim operator mapping to format your C++ code with specifi
 
 - clang-format command in your $PATH.
 - [vim-operator-user](https://github.com/kana/vim-operator-user)
+- [vimproc.vim](https://github.com/Shougo/vimproc.vim)(recommended)
 
 ### Usage
 
