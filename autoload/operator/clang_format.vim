@@ -42,13 +42,10 @@ function! operator#clang_format#do(motion_wise)
     " FIXME check if the region is empty or not
     " FIXME character wise
     " FIXME cursor position history is violated by ggVG"gp
-    " TODO  error handling
-    "           - exit code is not 0
-    "           - YAML error in a style option
 
     let extra_options = ""
     for [key, value] in items(g:operator_clang_format_style_options)
-        extra_options .= printf(", %s: %s", key, value)
+        let extra_options .= printf(", %s: %s", key, value)
     endfor
 
     let style = printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
@@ -61,11 +58,24 @@ function! operator#clang_format#do(motion_wise)
 
     let clang_format = printf("%s %s --", g:operator_clang_format_command, args)
     let formatted = s:system(clang_format, join(getline(1, '$'), "\n"))
-    call setreg('g', formatted)
+    let success = (s:has_vimproc() ? vimproc#get_last_status() : v:shell_error) == 0
+                \ && formatted !~# '^YAML:\d\+:\d\+: error: unknown key '
 
-    let pos = getpos('.')
-    execute 'normal!' 'ggVG"gp'
-    call setpos('.', pos)
+    if success
+        call setreg('g', formatted)
+        let pos = getpos('.')
+        execute 'normal!' 'ggVG"gp'
+        call setpos('.', pos)
+    else
+        echoerr "clang-format has failed to format."
+        if formatted =~# '^YAML:\d\+:\d\+: error: unknown key '
+            echohl Error
+            for l in split(formatted, "\n")[0:1]
+                echomsg l
+            endfor
+            echohl None
+        endif
+    endif
 
     call setreg('g', save_g_reg, save_g_regtype)
     let &l:selection = sel_save
