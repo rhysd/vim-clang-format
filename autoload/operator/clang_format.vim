@@ -57,14 +57,21 @@ function! s:error_message(result)
     endif
 endfunction
 
+function! s:is_empty_region(begin, end)
+  return a:begin[1] == a:end[1] && a:end[2] < a:begin[2]
+endfunction
+
 function! operator#clang_format#do(motion_wise)
+
+    if s:is_empty_region(getpos("'["), getpos("']"))
+        return
+    endif
 
     let sel_save = &l:selection
     let &l:selection = "inclusive"
     let save_g_reg = getreg('g')
     let save_g_regtype = getregtype('g')
 
-    " FIXME check if the region is empty or not
     " FIXME character wise
     " FIXME cursor position history is violated by ggVG"gp
 
