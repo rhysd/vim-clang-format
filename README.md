@@ -35,7 +35,8 @@ let g:operator_clang_format_style_options = {
             \ "AccessModifierOffset" : -4,
             \ "AllowShortIfStatementsOnASingleLine" : "true",
             \ "AlwaysBreakTemplateDeclarations" : "true",
-            \ "Standard" : "C++11"}
+            \ "Standard" : "C++11",
+            \ "BreakBeforeBraces" : "Stroustrup"}
 ```
 
 For config information, execute `clang-format -dump-config` command.
@@ -70,6 +71,8 @@ $ clang-format -help
 ```
 $ clang-format -dump-config
 ```
+
+clang-format's documentation and API documentation is useful in some cases.
 
 ### License
 
