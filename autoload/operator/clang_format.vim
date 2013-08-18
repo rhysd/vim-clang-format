@@ -40,12 +40,10 @@ function! operator#clang_format#do(motion_wise)
     let last = getpos("']")[1:2]
 
     " FIXME check if the region is empty or not
-
-    if a:motion_wise !=# 'line'
-        " FIXME character wise and block wise
-        throw "not implemented except for line wise text objects."
-        return
-    endif
+    " FIXME character wise
+    " TODO  error handling
+    "           - exit code is not 0
+    "           - YAML error in a style option
 
     let style = printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s}'",
                       \ g:operator_clang_format_code_style,
@@ -53,10 +51,7 @@ function! operator#clang_format#do(motion_wise)
                       \ &l:expandtab==1 ? "false" : "true")
 
     let args = printf(" -lines=%d:%d -style=%s %s", start[0], last[0], style, g:operator_clang_format_clang_args)
-    echo args
 
-    " FIXME a bug when the number of lines of the after is diffrent from the one
-    " of the before
     let clang_format = printf("clang-format %s --", args)
     let formatted = s:system(clang_format, join(getline(1, '$'), "\n"))
     call setreg('g', formatted)
