@@ -16,7 +16,7 @@ This plugin provides a vim operator mapping to format your C++ code with specifi
 
 Map `<Plug>(operator-clang-format)` to your favorite key bind.
 
-### Customize
+### Customization
 
 - `g:operator_clang_format_code_style`
 
