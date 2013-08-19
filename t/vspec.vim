@@ -1,0 +1,29 @@
+" test with vim-vspec
+" https://github.com/kana/vim-vspec
+
+set rtp +=..
+set rtp +=~/.vim/bundle/vim-operator-user
+runtime! plugin/operator/clang_format.vim
+
+describe 'default mapping and autoload functions and variables.'
+
+    it 'provides default <Plug> mapping'
+        Expect maparg('<Plug>(operator-clang-format)') !=# ''
+    end
+
+    it 'provides autoload functions'
+        runtime! autoload/operator/clang_format.vim
+        Expect exists('*operator#clang_format#do') to_be_true
+    end
+
+    it 'provides variables for settings'
+        Expect exists('g:operator_clang_format_clang_args') to_be_true
+        Expect exists('g:operator_clang_format_code_style') to_be_true
+        Expect exists('g:operator_clang_format_style_options') to_be_true
+        Expect exists('g:operator_clang_format_command') to_be_true
+        Expect g:operator_clang_format_clang_args == ""
+        Expect g:operator_clang_format_code_style ==# 'google'
+        Expect g:operator_clang_format_style_options == {}
+        Expect g:operator_clang_format_command ==# 'clang-format'
+    end
+end
