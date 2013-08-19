@@ -50,7 +50,7 @@ endfunction
 function! s:error_message(result)
     echoerr "clang-format has failed to format."
     if a:result =~# '^YAML:\d\+:\d\+: error: unknown key '
-        echohl Error
+        echohl ErrorMsg
         for l in split(a:result, "\n")[0:1]
             echomsg l
         endfor
