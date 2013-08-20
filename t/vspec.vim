@@ -6,7 +6,7 @@ if executable('clang-format-3.4')
     let g:operator_clang_format_command = 'clang-format-3.4'
 elseif executable('clang-format')
 else
-    echoerr '!!!could not detect clang-format in $PATH!!!'
+    echoerr 'not ok could not detect clang-format in $PATH'
 endif
 
 execute 'set' 'rtp +=./'.system('git rev-parse --show-cdup')
