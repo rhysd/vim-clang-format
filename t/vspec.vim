@@ -9,7 +9,8 @@ else
     echoerr '!!!could not detect clang-format in $PATH!!!'
 endif
 
-set rtp +=..
+execute 'set' 'rtp +=./'.system('git rev-parse --show-cdup')
+
 set rtp +=~/.vim/bundle/vim-operator-user
 runtime! plugin/operator/clang_format.vim
 
