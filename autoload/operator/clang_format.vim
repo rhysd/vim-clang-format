@@ -45,6 +45,7 @@ endfunction
 function! s:success(result)
     return (s:has_vimproc() ? vimproc#get_last_status() : v:shell_error) == 0
                 \ && a:result !~# '^YAML:\d\+:\d\+: error: unknown key '
+                \ && a:result !~# '^\n\?$'
 endfunction
 
 function! s:error_message(result)
