@@ -1,0 +1,13 @@
+language: viml
+script:
+    - vim --version
+    - ./vim-vspec/bin/vspec ./vim-vspec t/vspec.vim
+install:
+    - mkdir -p ~/.vim/bundle && pushd ~/.vim/bundle && git clone https://github.com/kana/vim-operator-user.git && popd
+    - git clone https://github.com/kana/vim-vspec.git
+    - sudo echo 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main' > llvm.list
+    - sudo echo 'deb-src http://llvm.org/apt/precise/ llvm-toolchain-precise main' >> llvm.list
+    - sudo mv llvm.list /etc/apt/sources.list.d/
+    - sudo apt-get -qq update
+    - sudo apt-get -qq --force-yes install clang-format-3.4
+# clang-format maybe require include paths and argument
