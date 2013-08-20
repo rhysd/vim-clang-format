@@ -83,7 +83,7 @@ function! operator#clang_format#do(motion_wise)
                 \     getpos("'[")[1],
                 \     getpos("']")[1],
                 \     s:make_style_options(),
-                \     g:operator_clang_format_clang_args)
+                \     g:operator_clang_format_extra_args)
 
     let clang_format = printf("%s %s --", g:operator_clang_format_command, args)
     let formatted = s:system(clang_format, join(getline(1, '$'), "\n"))

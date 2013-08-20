@@ -25,11 +25,11 @@ describe 'default mapping and autoload functions and variables.'
     end
 
     it 'provides variables for settings'
-        Expect exists('g:operator_clang_format_clang_args') to_be_true
+        Expect exists('g:operator_clang_format_extra_args') to_be_true
         Expect exists('g:operator_clang_format_code_style') to_be_true
         Expect exists('g:operator_clang_format_style_options') to_be_true
         Expect exists('g:operator_clang_format_command') to_be_true
-        Expect g:operator_clang_format_clang_args == ""
+        Expect g:operator_clang_format_extra_args == ""
         Expect g:operator_clang_format_code_style ==# 'google'
         Expect g:operator_clang_format_style_options == {}
         Expect executable(g:operator_clang_format_command) to_be_true

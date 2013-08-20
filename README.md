@@ -47,9 +47,9 @@ Name of `clang-format`. If the name of command is not `clang-format`
 or you want to specify a command by absolute path, set this variable.
 Default value is `clang-format`.
 
-- `g:operator_clang_format_clang_args`
+- `g:operator_clang_format_extra_args`
 
-You can specify more extra options in `g:operator_clang_format_clang_args` as String or List of String.
+You can specify more extra options in `g:operator_clang_format_extra_args` as String or List of String.
 
 ### Example
 

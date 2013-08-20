@@ -9,9 +9,9 @@ if ! executable(g:operator_clang_format_command)
 endif
 
 
-let g:operator_clang_format_clang_args = get(g:, 'operator_clang_format_clang_args', "")
-if type(g:operator_clang_format_clang_args) == type([])
-    let g:operator_clang_format_clang_args = join(g:operator_clang_format_clang_args, " ")
+let g:operator_clang_format_extra_args = get(g:, 'operator_clang_format_extra_args', "")
+if type(g:operator_clang_format_extra_args) == type([])
+    let g:operator_clang_format_extra_args = join(g:operator_clang_format_extra_args, " ")
 endif
 
 let g:operator_clang_format_code_style = get(g:, 'operator_clang_format_code_style', 'google')
