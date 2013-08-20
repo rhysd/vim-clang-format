@@ -1,4 +1,4 @@
-## Format your C++ code
+## Format your C++ code [![Build Status](https://travis-ci.org/rhysd/vim-operator-clang-format.png?branch=master)](https://travis-ci.org/rhysd/vim-operator-clang-format)
 
 This plugin provides a vim operator mapping to format your C++ code with specific coding style.
 
