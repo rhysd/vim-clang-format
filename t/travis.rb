@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
 require './t/vspec_helper'
 
 v = Vspec.new(vspec_root: "./vim-vspec")
