@@ -3,6 +3,7 @@ script:
     - vim --version
     - rake --version
     - rake travis
+rvm: 2.0.0
 install:
     - mkdir -p ~/.vim/bundle && pushd ~/.vim/bundle && git clone https://github.com/kana/vim-operator-user.git && popd
     - git clone https://github.com/kana/vim-vspec.git
