@@ -1,7 +1,8 @@
 language: viml
 script:
     - vim --version
-    - ./vim-vspec/bin/vspec ./vim-vspec t/vspec.vim
+    - rake --version
+    - rake travis
 install:
     - mkdir -p ~/.vim/bundle && pushd ~/.vim/bundle && git clone https://github.com/kana/vim-operator-user.git && popd
     - git clone https://github.com/kana/vim-vspec.git
