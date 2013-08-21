@@ -16,15 +16,25 @@ end
 
 class Vspec
 
-  def detect_vspec_root
-    if which 'locate'
-      locate('vim-vspec').split("\n").first
-    else
-      File.join(ENV['HOME'], ".vim/bundle/vim-vspec")
-    end
+  private
+
+  def detect_from_rtp
+    @@detect_from_rtp ||= `vim -u ~/.vimrc -E -c 'exe "!echo" &rtp' -c q`
+                          .split(',')
+                          .find{|p| p =~ /vim-vspec$/ }
   end
 
-  private :detect_vspec_root
+  def detect_from_locate
+    @@detect_from_locate ||= locate('vim-vspec').split("\n").first
+  end
+
+  def detect_vspec_root
+    detect_from_rtp if File.executable? File.join(detect_from_rtp, "bin", "vspec")
+    detect_from_locate if File.executable? File.join(detect_from_locate, "bin", "vspec")
+    "#{ENV['HOME']}/.vim/bundle/vim-vspec"
+  end
+
+  public
 
   def initialize( path: File.executable?("/usr/local/bin/vim") ? "/usr/local/bin" : "",
                   vspec_root: detect_vspec_root )
