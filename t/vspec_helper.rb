@@ -3,11 +3,22 @@ def which cmd
   File.join(dir, cmd) unless dir.nil?
 end
 
+def locate query
+  case RbConfig::CONFIG['host_os']
+  when /^darwin/
+    `mdfind #{query}`
+  when /^linux/
+    `locate #{query}`
+  else
+    raise "unknown environment"
+  end
+end
+
 class Vspec
 
   def detect_vspec_root
     if which 'locate'
-      `locate vim-vspec`.split("\n").first
+      locate('vim-vspec').split("\n").first
     else
       File.join(ENV['HOME'], ".vim/bundle/vim-vspec")
     end
