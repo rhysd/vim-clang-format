@@ -1,12 +1,9 @@
 # encoding: utf-8
 
-def which cmd
-  dir = ENV['PATH'].split(':').find {|p| File.executable? File.join(p, cmd)}
-  File.join(dir, cmd) unless dir.nil?
-end
+require './t/vspec_helper'
 
-def notify failed
-  msg = "'#{failed} test#{failed>1 ? 's' : ''} failed.\n#{Time.now.to_s}'"
+def notify m
+  msg = "'#{m}\\n#{Time.now.to_s}'"
   case
   when which('terminal-notifier')
     `terminal-notifier -message #{msg}`
@@ -20,9 +17,14 @@ end
 
 guard :shell do
   watch /^(.+\.vim)$/ do |m|
-    result = `PATH=/usr/local/bin:$PATH $HOME/.vim/bundle/vim-vspec/bin/vspec $HOME/.vim/bundle/vim-vspec t/vspec.vim`
-    failed = result.scan(/^not ok /).size
-    notify(failed) unless failed==0
-    result
+    v = Vspec.new
+    v.run "t/vspec.vim"
+    if v.success?
+      failed = v.count_failed
+      notify("#{failed} test#{failed>1 ? 's' : ''} failed") unless failed==0
+    else
+      notify "vspec occurs an error"
+    end
+    v.result
   end
 end
