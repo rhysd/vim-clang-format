@@ -62,6 +62,17 @@ endfunction
 function! s:is_empty_region(begin, end)
   return a:begin[1] == a:end[1] && a:end[2] < a:begin[2]
 endfunction
+
+function! operator#clang_format#format(line1, line2)
+    let args = printf(" -lines=%d:%d -style=%s %s",
+                \     a:line1,
+                \     a:line2,
+                \     s:make_style_options(),
+                \     g:operator_clang_format_extra_args)
+
+    let clang_format = printf("%s %s --", g:operator_clang_format_command, args)
+    return s:system(clang_format, join(getline(1, '$'), "\n"))
+endfunction
 " }}}
 
 " main logic {{{
@@ -79,14 +90,7 @@ function! operator#clang_format#do(motion_wise)
     " FIXME character wise
     " FIXME cursor position history is violated by ggVG"gp
 
-    let args = printf(" -lines=%d:%d -style=%s %s",
-                \     getpos("'[")[1],
-                \     getpos("']")[1],
-                \     s:make_style_options(),
-                \     g:operator_clang_format_extra_args)
-
-    let clang_format = printf("%s %s --", g:operator_clang_format_command, args)
-    let formatted = s:system(clang_format, join(getline(1, '$'), "\n"))
+    let formatted = operator#clang_format#format(getpos("'[")[1], getpos("']")[1])
 
     if s:success(formatted)
         call setreg('g', formatted)
