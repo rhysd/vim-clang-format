@@ -14,18 +14,18 @@ execute 'set' 'rtp +=./'.system('git rev-parse --show-cdup')
 set rtp +=~/.vim/bundle/vim-operator-user
 runtime! plugin/operator/clang_format.vim
 
-describe 'default mapping and autoload functions and variables.'
+describe 'default settings'
 
-    it 'provides default <Plug> mapping'
+    it 'provide a default <Plug> mapping'
         Expect maparg('<Plug>(operator-clang-format)') !=# ''
     end
 
-    it 'provides autoload functions'
+    it 'provide autoload functions'
         runtime! autoload/operator/clang_format.vim
         Expect exists('*operator#clang_format#do') to_be_true
     end
 
-    it 'provides variables for settings'
+    it 'provide variables to customize this plugin'
         Expect exists('g:operator_clang_format_extra_args') to_be_true
         Expect exists('g:operator_clang_format_code_style') to_be_true
         Expect exists('g:operator_clang_format_style_options') to_be_true
