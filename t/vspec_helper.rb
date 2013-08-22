@@ -19,20 +19,35 @@ class Vspec
   private
 
   def detect_from_rtp
-    @@detect_from_rtp ||= `vim -u ~/.vimrc -e -s -c 'set rtp' -c q`
+    @@detect_from_rtp_cache ||= `vim -u ~/.vimrc -e -s -c 'set rtp' -c q`
                           .match(/^\s+runtimepath=(.+)\n$/)[0]
                           .split(',')
                           .find{|p| p =~ /vim-vspec$/ }
   end
 
   def detect_from_locate
-    @@detect_from_locate ||= locate('vim-vspec').split("\n").first
+    @@detect_from_locate_cache ||= locate('vim-vspec').split("\n").first
+  end
+
+  def has_vspec? dir
+    File.executable?(File.join dir, 'bin', 'vspec')
   end
 
   def detect_vspec_root
-    return detect_from_rtp if File.executable? File.join(detect_from_rtp, "bin", "vspec")
-    return detect_from_locate if File.executable? File.join(detect_from_locate, "bin", "vspec")
-    "#{ENV['HOME']}/.vim/bundle/vim-vspec"
+    case
+    when has_vspec?(detect_from_rtp)
+      detect_from_rtp
+    when has_vspec?(detect_from_locate)
+      detect_from_locate
+    when which('vspec')
+      File.dirname(File.dirname(which('vspec')))
+    when has_vspec?("#{ENV['HOME']}/.vim")
+      "#{ENV['HOME']}/.vim"
+    when has_vspec?("vim-vspec")
+      "./vim-vspec"
+    else
+      raise "vspec is not found"
+    end
   end
 
   public
@@ -42,7 +57,6 @@ class Vspec
     @path = path
     @vspec_root = vspec_root
     @vspec = File.join vspec_root, "bin", "vspec"
-    raise "vspec is not found" unless File.executable? @vspec
   end
 
   def run(file, autoloads: [])
