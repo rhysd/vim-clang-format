@@ -30,7 +30,7 @@ class Vspec
   end
 
   def has_vspec? dir
-    File.executable?(File.join dir, 'bin', 'vspec')
+    File.executable?(File.expand_path(File.join dir, 'bin', 'vspec'))
   end
 
   def detect_vspec_root
