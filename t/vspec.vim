@@ -2,12 +2,15 @@
 " https://github.com/kana/vim-vspec
 
 " clang-format detection
-if executable('clang-format-3.4')
-    let g:operator_clang_format_command = 'clang-format-3.4'
-elseif executable('clang-format')
-else
-    echoerr 'not ok could not detect clang-format in $PATH'
-endif
+function! s:detect_clang_format()
+    for candidate in ['clang-format-3.4', 'clang-format']
+        if executable(candidate)
+            return candidate
+        endif
+    endfor
+    throw 'not ok bnecause detect clang-format could not be found in $PATH'
+endfunction
+let g:operator_clang_format_command = s:detect_clang_format()
 
 execute 'set' 'rtp +=./'.system('git rev-parse --show-cdup')
 
