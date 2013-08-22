@@ -19,7 +19,8 @@ class Vspec
   private
 
   def detect_from_rtp
-    @@detect_from_rtp ||= `vim -u ~/.vimrc -E -c 'exe "!echo" &rtp' -c q`
+    @@detect_from_rtp ||= `vim -u ~/.vimrc -e -s -c 'set rtp' -c q`
+                          .match(/^\s+runtimepath=(.+)\n$/)[0]
                           .split(',')
                           .find{|p| p =~ /vim-vspec$/ }
   end
@@ -29,8 +30,8 @@ class Vspec
   end
 
   def detect_vspec_root
-    detect_from_rtp if File.executable? File.join(detect_from_rtp, "bin", "vspec")
-    detect_from_locate if File.executable? File.join(detect_from_locate, "bin", "vspec")
+    return detect_from_rtp if File.executable? File.join(detect_from_rtp, "bin", "vspec")
+    return detect_from_locate if File.executable? File.join(detect_from_locate, "bin", "vspec")
     "#{ENV['HOME']}/.vim/bundle/vim-vspec"
   end
 
@@ -50,11 +51,11 @@ class Vspec
   end
 
   def count_failed
-    @result.scan(/^not ok /).size if @success
+    @result.scan(/^not ok /).size if @success && @result
   end
 
   def all_passed?
-    count_failed == 0 if @success
+    count_failed == 0 if @success && @result
   end
 
   def success?
@@ -64,3 +65,4 @@ class Vspec
   attr_reader :result
 
 end
+
