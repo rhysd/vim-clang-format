@@ -13,15 +13,25 @@ function! s:detect_clang_format()
 endfunction
 let g:operator_clang_format_command = s:detect_clang_format()
 
-function! s:chomp(s)
+function! Chomp(s)
     return a:s =~# '\n$'
                 \ ? a:s[0:len(a:s)-2]
                 \ : a:s
 endfunction
+
+function! Chomp_head(s)
+    return a:s =~# '^\n'
+                \ ? a:s[1:len(a:s)-1]
+                \ : a:s
+endfunction
+
+function! s:get_buffer()
+    return join(getline(1, '$'))
+endfunction
 "}}}
 
 " setup {{{
-let s:root_dir = s:chomp(system('git rev-parse --show-cdup'))
+let s:root_dir = Chomp_head(Chomp(system('git rev-parse --show-cdup')))
 execute 'set' 'rtp +=./'.s:root_dir
 
 set rtp +=~/.vim/bundle/vim-operator-user
@@ -32,7 +42,6 @@ call vspec#customize_matcher('to_be_empty', function('empty'))
 
 " test for default settings {{{
 describe 'default settings'
-
     it 'provide a default <Plug> mapping'
         Expect maparg('<Plug>(operator-clang-format)') not to_be_empty
     end
@@ -61,15 +70,22 @@ end
 describe '<Plug>(operator-clang-format)'
 
     before
-
+        new
+        map x <Plug>(operator-clang-format)
+        execute 'edit' './'.s:root_dir.'t/test.cpp'
     end
 
     after
-
+        close!
     end
 
     it 'formats t/test.cpp'
-        TODO
+        let by_operator_clang_format = operator#clang_format#format(1, line('$'))
+
+        let opt = printf("-style='{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s}'", &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
+        let cmd = g:operator_clang_format_command.' '.opt.' ./'.s:root_dir.'t/test.cpp --'
+        let by_command = system(cmd)
+        Expect Chomp(by_operator_clang_format) == Chomp(by_command)
     end
 
 end
