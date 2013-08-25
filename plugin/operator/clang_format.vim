@@ -5,6 +5,7 @@ endif
 " variable definitions {{{
 let g:operator_clang_format_command = get(g:, 'operator_clang_format_command', 'clang-format')
 if ! executable(g:operator_clang_format_command)
+    echoerr "clang-format is not found. check g:operator_clang_format_command."
     finish
 endif
 
@@ -18,6 +19,10 @@ let g:operator_clang_format_code_style = get(g:, 'operator_clang_format_code_sty
 let g:operator_clang_format_style_options = get(g:, 'operator_clang_format_style_options', {})
 " }}}
 
-call operator#user#define('clang-format', 'operator#clang_format#do')
+try
+    call operator#user#define('clang-format', 'operator#clang_format#do')
+catch /E117/
+    echoerr "vim-operator-user is not found."
+endtry
 
 let g:loaded_operator_clang_format = 1
