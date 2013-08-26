@@ -4,7 +4,7 @@ This plugin provides a vim operator mapping to format your C++ code with specifi
 
 ### Screenshot
 
-![Screenshot](http://gifzo.net/BTZFDliMJSa.gif)
+![Screenshot](http://gifzo.net/BIteGJ9Vasg.gif)
 
 ### Requirements
 
