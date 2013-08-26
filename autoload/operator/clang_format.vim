@@ -85,8 +85,7 @@ function! operator#clang_format#do(motion_wise)
 
     let sel_save = &l:selection
     let &l:selection = "inclusive"
-    let save_g_reg = getreg('g')
-    let save_g_regtype = getregtype('g')
+    let [save_g_reg, save_g_regtype] = [getreg('g'), getregtype('g')]
 
     " FIXME character wise
     " FIXME cursor position history is violated by ggVG"gp
@@ -106,3 +105,4 @@ function! operator#clang_format#do(motion_wise)
     let &l:selection = sel_save
 endfunction
 " }}}
+
