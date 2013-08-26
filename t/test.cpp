@@ -7,6 +7,7 @@ void f(){ std::cout << "hello\n"; }
 int main()
 {
     int * hoge = {1,3,5,7};
+
     for(int i=0;i<4;++i){
         if(i%2==0) std::cout << hoge[i] << std::endl;
     }
