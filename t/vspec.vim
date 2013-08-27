@@ -19,19 +19,25 @@ function! Chomp(s)
                 \ : a:s
 endfunction
 
-function! Chomp_head(s)
+function! ChompHead(s)
     return a:s =~# '^\n'
                 \ ? a:s[1:len(a:s)-1]
                 \ : a:s
 endfunction
 
-function! s:get_buffer()
-    return join(getline(1, '$'))
+function! GetBuffer()
+    return join(getline(1, '$'), "\n")
+endfunction
+
+function! ClangFormat(line1, line2)
+    let opt = printf(" -lines=%d:%d -style='{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s}' ", a:line1, a:line2, &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
+    let cmd = g:operator_clang_format_command.opt.'./'.s:root_dir.'t/test.cpp --'
+    return Chomp(system(cmd))
 endfunction
 "}}}
 
 " setup {{{
-let s:root_dir = Chomp_head(Chomp(system('git rev-parse --show-cdup')))
+let s:root_dir = ChompHead(Chomp(system('git rev-parse --show-cdup')))
 execute 'set' 'rtp +=./'.s:root_dir
 
 set rtp +=~/.vim/bundle/vim-operator-user
@@ -65,6 +71,49 @@ describe 'default settings'
 
 end
 "}}}
+
+" test for operator#clang_format#format() {{{
+function! CheckForSameOutput(line1, line2)
+    return operator#clang_format#format(a:line1, a:line2) ==# ClangFormat(a:line1, a:line2)
+endfunction
+
+describe 'operator#clang_format#format()'
+
+    before
+        new
+        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+    end
+
+    after
+        bdelete!
+    end
+
+    it 'formats whole t/test.cpp'
+        Expect CheckForSameOutput(1, line('$')) to_be_true
+    end
+
+    it 'formats too long macro definitions'
+        Expect CheckForSameOutput(3, 3) to_be_true
+    end
+
+    it 'formats one line functions'
+        Expect CheckForSameOutput(5, 5) to_be_true
+    end
+
+    it 'formats initilizer list definition'
+        Expect CheckForSameOutput(9, 9) to_be_true
+    end
+
+    it 'formats for statement'
+        Expect CheckForSameOutput(11, 13) to_be_true
+    end
+
+    it 'formats too long string to multiple lines'
+        Expect CheckForSameOutput(17, 17) to_be_true
+    end
+
+end
+" }}}
 
 " test for <Plug>(operator-clang-format) {{{
 describe '<Plug>(operator-clang-format)'
