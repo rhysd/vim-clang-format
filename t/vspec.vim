@@ -120,21 +120,30 @@ describe '<Plug>(operator-clang-format)'
 
     before
         new
+        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
         map x <Plug>(operator-clang-format)
-        execute 'edit' './'.s:root_dir.'t/test.cpp'
     end
 
     after
-        close!
+        bdelete!
     end
 
-    it 'formats t/test.cpp'
-        let by_operator_clang_format = operator#clang_format#format(1, line('$'))
+    it 'formats in visual mode'
+        let by_clang_format_command = ClangFormat(1, line('$'))
+        normal ggVGx
+        let buffer = GetBuffer()
+        Expect by_clang_format_command ==# buffer
+    end
 
-        let opt = printf("-style='{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s}'", &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
-        let cmd = g:operator_clang_format_command.' '.opt.' ./'.s:root_dir.'t/test.cpp --'
-        let by_command = system(cmd)
-        Expect Chomp(by_operator_clang_format) == Chomp(by_command)
+    it 'formats a text object'
+        " format for statement
+        let by_clang_format_command = ClangFormat(11, 13)
+        " move to for statement block
+        execute 12
+        " do format a text object {}
+        normal xa{
+        let buffer = GetBuffer()
+        Expect by_clang_format_command ==# buffer
     end
 
 end
