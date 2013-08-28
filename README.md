@@ -73,7 +73,7 @@ $ clang-format -dump-config
 ```
 
 clang-format's documentation and API documentation is useful in some cases.
-In paticular, the following link is usefult to know the information of a key and its value of a style setting.
+In paticular, the following link is useful to know the information of a key and its value of a style setting.
 [clang::format::FormatStyle Struct Reference](http://clang.llvm.org/doxygen/structclang_1_1format_1_1FormatStyle.html)
 
 ### License
