@@ -2,8 +2,7 @@
 function! s:has_vimproc()
     if !exists('s:exists_vimproc')
         try
-            " TODO warnings when vimproc.vim is not installed?
-            call vimproc#version()
+            silent call vimproc#version()
             let s:exists_vimproc = 1
         catch
             let s:exists_vimproc = 0

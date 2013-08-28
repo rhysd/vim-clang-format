@@ -21,7 +21,7 @@ let g:operator_clang_format_style_options = get(g:, 'operator_clang_format_style
 
 try
     call operator#user#define('clang-format', 'operator#clang_format#do')
-catch /E117/
+catch /^E117/
     echoerr "vim-operator-user is not found."
 endtry
 
