@@ -94,7 +94,7 @@ function! operator#clang_format#do(motion_wise)
     if s:success(formatted)
         call setreg('g', formatted)
         let pos = getpos('.')
-        execute 'normal!' 'ggVG"gp'
+        execute 'keepjumps' 'silent' 'normal!' 'ggVG"gp'
         call setpos('.', pos)
     else
         call s:error_message(formatted)
