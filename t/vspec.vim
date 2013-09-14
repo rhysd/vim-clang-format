@@ -73,8 +73,8 @@ end
 "}}}
 
 " test for operator#clang_format#format() {{{
-function! CheckForSameOutput(line1, line2)
-    return operator#clang_format#format(a:line1, a:line2) ==# ClangFormat(a:line1, a:line2)
+function! s:expect_the_same_output(line1, line2)
+    Expect operator#clang_format#format(a:line1, a:line2) ==# ClangFormat(a:line1, a:line2)
 endfunction
 
 describe 'operator#clang_format#format()'
@@ -89,27 +89,27 @@ describe 'operator#clang_format#format()'
     end
 
     it 'formats whole t/test.cpp'
-        Expect CheckForSameOutput(1, line('$')) to_be_true
+        call s:expect_the_same_output(1, line('$'))
     end
 
     it 'formats too long macro definitions'
-        Expect CheckForSameOutput(3, 3) to_be_true
+        call s:expect_the_same_output(3, 3)
     end
 
     it 'formats one line functions'
-        Expect CheckForSameOutput(5, 5) to_be_true
+        call s:expect_the_same_output(5, 5)
     end
 
     it 'formats initilizer list definition'
-        Expect CheckForSameOutput(9, 9) to_be_true
+        call s:expect_the_same_output(9, 9)
     end
 
     it 'formats for statement'
-        Expect CheckForSameOutput(11, 13) to_be_true
+        call s:expect_the_same_output(11, 13)
     end
 
     it 'formats too long string to multiple lines'
-        Expect CheckForSameOutput(17, 17) to_be_true
+        call s:expect_the_same_output(17, 17)
     end
 
 end
