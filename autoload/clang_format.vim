@@ -1,3 +1,30 @@
+" variable definitions {{{
+function! s:getg(name, default)
+    " backward compatibility
+    if exists('g:operator_'.substitute(a:name, '#', '_', ''))
+        echoerr 'g:operator_'.substitute(a:name, '#', '_', '').' is deprecated. Please use g:'.a:name
+        return g:operator_{substitute(a:name, '#', '_', '')}
+    else
+        return get(g:, a:name, a:default)
+    endif
+endfunction
+
+let g:clang_format#command = s:getg('clang_format#command', 'clang-format')
+if ! executable(g:clang_format#command)
+    echoerr "clang-format is not found. check g:clang_format#command."
+    finish
+endif
+
+
+let g:clang_format#extra_args = s:getg('clang_format#extra_args', "")
+if type(g:clang_format#extra_args) == type([])
+    let g:clang_format#extra_args = join(g:clang_format#extra_args, " ")
+endif
+
+let g:clang_format#code_style = s:getg('clang_format#code_style', 'google')
+let g:clang_format#style_options = s:getg('clang_format#style_options', {})
+" }}}
+
 " helper functions {{{
 function! s:has_vimproc()
     if !exists('s:exists_vimproc')
@@ -32,11 +59,11 @@ endfunction
 
 function! s:make_style_options()
     let extra_options = ""
-    for [key, value] in items(g:clang_format_style_options)
+    for [key, value] in items(g:clang_format#style_options)
         let extra_options .= printf(", %s: %s", key, value)
     endfor
     return printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
-                        \ g:clang_format_code_style,
+                        \ g:clang_format#code_style,
                         \ &l:shiftwidth,
                         \ &l:expandtab==1 ? "false" : "true",
                         \ extra_options)
@@ -58,20 +85,22 @@ function! s:error_message(result)
         echohl None
     endif
 endfunction
+" }}}
 
+" format codes {{{
 function! clang_format#format(line1, line2)
     let args = printf(" -lines=%d:%d -style=%s %s",
                 \     a:line1,
                 \     a:line2,
                 \     s:make_style_options(),
-                \     g:clang_format_extra_args)
+                \     g:clang_format#extra_args)
 
-    let clang_format = printf("%s %s --", g:clang_format_command, args)
+    let clang_format = printf("%s %s --", g:clang_format#command, args)
     return s:system(clang_format, join(getline(1, '$'), "\n"))
 endfunction
 " }}}
 
-" main logic {{{
+" replace buffer {{{
 function! clang_format#replace(line1, line2)
     let sel_save = &l:selection
     let &l:selection = "inclusive"
