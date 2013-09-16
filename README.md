@@ -20,16 +20,6 @@ It is more convenient to map `:ClangFormat` to your favorite key mapping in norm
 
 If you install [vim-operator-user](https://github.com/kana/vim-operator-user) in advance, you can also map `<Plug>(operator-clang-format)` to your favorite key bind.
 
-Below is an example.
-
-```vim
-" map to <Leader>cf in C++ code
-autocmd FileType cpp nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType cpp vnoremap <buffer><Leader>cf :ClangFormat<CR>
-" if you install vim-operator-user
-autocmd FileType cpp map <buffer><Leader>x <Plug>(operator-clang-format)
-```
-
 ### Customization
 
 - `g:clang_format#code_style`
@@ -73,7 +63,12 @@ let g:clang_format#style_options = {
             \ "AllowShortIfStatementsOnASingleLine" : "true",
             \ "AlwaysBreakTemplateDeclarations" : "true",
             \ "Standard" : "C++11"}
-autocmd FileType cpp map <buffer><Leader>x <Plug>(operator-clang-format)
+
+" map to <Leader>cf in C++ code
+autocmd FileType c,cpp nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp vnoremap <buffer><Leader>cf :ClangFormat<CR>
+" if you install vim-operator-user
+autocmd FileType c,cpp map <buffer><Leader>x <Plug>(operator-clang-format)
 ```
 
 ### For More Information
