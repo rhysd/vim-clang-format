@@ -70,6 +70,10 @@ describe 'default settings'
         Expect executable(g:clang_format#command) to_be_true
     end
 
+    it 'provide commands'
+        Expect exists(':ClangFormat') to_be_true
+        Expect exists(':ClangFormatEchoFormattedCode') to_be_true
+    end
 end
 "}}}
 
@@ -143,6 +147,39 @@ describe '<Plug>(operator-clang-format)'
         execute 12
         " do format a text object {}
         normal xa{
+        let buffer = GetBuffer()
+        Expect by_clang_format_command ==# buffer
+    end
+
+end
+" }}}
+
+" test for :ClangFormat {{{
+describe ':ClangFormat'
+
+    before
+        new
+        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+    end
+
+    after
+        bdelete!
+    end
+
+    it 'formats the whole code in normal mode'
+        let by_clang_format_command = ClangFormat(1, line('$'))
+        ClangFormat
+        let buffer = GetBuffer()
+        Expect by_clang_format_command ==# buffer
+    end
+
+    it 'formats selected code in visual mode'
+        " format for statement
+        let by_clang_format_command = ClangFormat(11, 13)
+        " move to for statement block
+        execute 11
+        normal! VjjV
+        '<,'>ClangFormat
         let buffer = GetBuffer()
         Expect by_clang_format_command ==# buffer
     end
