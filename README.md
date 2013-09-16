@@ -55,7 +55,7 @@ Default value is `clang-format`.
 
 You can specify more extra options in `g:clang_format#extra_args` as String or List of String.
 
-### Example
+### Vimrc Example
 
 ```vim
 let g:clang_format#style_options = {
