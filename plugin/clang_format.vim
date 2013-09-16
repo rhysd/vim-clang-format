@@ -3,6 +3,7 @@ if exists('g:loaded_clang_format')
 endif
 
 function! s:getg(name, default)
+    " backward compatibility
     if exists('g:operator_'.a:name)
         echoerr 'g:operator_'.a:name.' is deprecated. Please use g:'.a:name
         return g:operator_{a:name}

@@ -53,9 +53,10 @@ describe 'default settings'
     end
 
     it 'provide autoload functions'
+        runtime! autoload/clang_format.vim
         runtime! autoload/operator/clang_format.vim
         Expect exists('*operator#clang_format#do') to_be_true
-        Expect exists('*operator#clang_format#format') to_be_true
+        Expect exists('*clang_format#format') to_be_true
     end
 
     it 'provide variables to customize this plugin'
@@ -72,12 +73,12 @@ describe 'default settings'
 end
 "}}}
 
-" test for operator#clang_format#format() {{{
+" test for clang_format#format() {{{
 function! s:expect_the_same_output(line1, line2)
-    Expect operator#clang_format#format(a:line1, a:line2) ==# ClangFormat(a:line1, a:line2)
+    Expect clang_format#format(a:line1, a:line2) ==# ClangFormat(a:line1, a:line2)
 endfunction
 
-describe 'operator#clang_format#format()'
+describe 'clang_format#format()'
 
     before
         new
