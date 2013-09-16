@@ -32,11 +32,11 @@ endfunction
 
 function! s:make_style_options()
     let extra_options = ""
-    for [key, value] in items(g:operator_clang_format_style_options)
+    for [key, value] in items(g:clang_format_style_options)
         let extra_options .= printf(", %s: %s", key, value)
     endfor
     return printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
-                        \ g:operator_clang_format_code_style,
+                        \ g:clang_format_code_style,
                         \ &l:shiftwidth,
                         \ &l:expandtab==1 ? "false" : "true",
                         \ extra_options)
@@ -68,7 +68,7 @@ function! operator#clang_format#format(line1, line2)
                 \     a:line1,
                 \     a:line2,
                 \     s:make_style_options(),
-                \     g:operator_clang_format_extra_args)
+                \     g:clang_format_extra_args)
 
     let clang_format = printf("%s %s --", g:clang_format_command, args)
     return s:system(clang_format, join(getline(1, '$'), "\n"))

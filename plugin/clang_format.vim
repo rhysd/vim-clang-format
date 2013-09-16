@@ -1,4 +1,4 @@
-if exists('g:loaded_operator_clang_format')
+if exists('g:loaded_clang_format')
   finish
 endif
 
@@ -19,13 +19,13 @@ if ! executable(g:clang_format_command)
 endif
 
 
-let g:operator_clang_format_extra_args = get(g:, 'operator_clang_format_extra_args', "")
-if type(g:operator_clang_format_extra_args) == type([])
-    let g:operator_clang_format_extra_args = join(g:operator_clang_format_extra_args, " ")
+let g:clang_format_extra_args = s:getg('clang_format_extra_args', "")
+if type(g:clang_format_extra_args) == type([])
+    let g:clang_format_extra_args = join(g:clang_format_extra_args, " ")
 endif
 
-let g:operator_clang_format_code_style = get(g:, 'operator_clang_format_code_style', 'google')
-let g:operator_clang_format_style_options = get(g:, 'operator_clang_format_style_options', {})
+let g:clang_format_code_style = s:getg('clang_format_code_style', 'google')
+let g:clang_format_style_options = s:getg('clang_format_style_options', {})
 " }}}
 
 try
@@ -34,4 +34,4 @@ catch /^E117/
     echoerr "vim-operator-user is not found."
 endtry
 
-let g:loaded_operator_clang_format = 1
+let g:loaded_clang_format = 1

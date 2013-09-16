@@ -59,13 +59,13 @@ describe 'default settings'
     end
 
     it 'provide variables to customize this plugin'
-        Expect exists('g:operator_clang_format_extra_args') to_be_true
-        Expect exists('g:operator_clang_format_code_style') to_be_true
-        Expect exists('g:operator_clang_format_style_options') to_be_true
+        Expect exists('g:clang_format_extra_args') to_be_true
+        Expect exists('g:clang_format_code_style') to_be_true
+        Expect exists('g:clang_format_style_options') to_be_true
         Expect exists('g:clang_format_command') to_be_true
-        Expect g:operator_clang_format_extra_args to_be_empty
-        Expect g:operator_clang_format_code_style ==# 'google'
-        Expect g:operator_clang_format_style_options to_be_empty
+        Expect g:clang_format_extra_args to_be_empty
+        Expect g:clang_format_code_style ==# 'google'
+        Expect g:clang_format_style_options to_be_empty
         Expect executable(g:clang_format_command) to_be_true
     end
 
