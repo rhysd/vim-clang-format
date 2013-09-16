@@ -1,6 +1,6 @@
-## Format your C++ code [![Build Status](https://travis-ci.org/rhysd/vim-operator-clang-format.png?branch=master)](https://travis-ci.org/rhysd/vim-operator-clang-format)
+## Format your C++ code [![Build Status](https://travis-ci.org/rhysd/vim-clang-format.png?branch=master)](https://travis-ci.org/rhysd/vim-operator-clang-format)
 
-This plugin provides a vim operator mapping to format your C++ code with specific coding style.
+This plugin formats your C++ code with specific coding style using [clang](http://clang.llvm.org/).
 
 ### Screenshot
 
@@ -9,7 +9,7 @@ This plugin provides a vim operator mapping to format your C++ code with specifi
 ### Requirements
 
 - clang-format command which is bundled in clang tools
-- [vim-operator-user](https://github.com/kana/vim-operator-user)
+- [vim-operator-user](https://github.com/kana/vim-operator-user)(highly recommended)
 - [vimproc.vim](https://github.com/Shougo/vimproc.vim)(recommended)
 
 ### Usage
@@ -18,20 +18,20 @@ Map `<Plug>(operator-clang-format)` to your favorite key bind.
 
 ### Customization
 
-- `g:operator_clang_format_code_style`
+- `g:clang_format#code_style`
 
-`g:operator_clang_format_code_style` is a base style.
+`g:clang_format#code_style` is a base style.
 `llvm`, `google`, `chromium`, `mozilla` is supported.
 The default value is `google`.
 
-- `g:operator_clang_format_style_options`
+- `g:clang_format#style_options`
 
 Coding style options as dictionary.
 
 An example is below:
 
 ```vim
-let g:operator_clang_format_style_options = {
+let g:clang_format#style_options = {
             \ "AccessModifierOffset" : -4,
             \ "AllowShortIfStatementsOnASingleLine" : "true",
             \ "AlwaysBreakTemplateDeclarations" : "true",
@@ -41,20 +41,20 @@ let g:operator_clang_format_style_options = {
 
 For config information, execute `clang-format -dump-config` command.
 
-- `g:operator_clang_format_command`
+- `g:clang_format#command`
 
 Name of `clang-format`. If the name of command is not `clang-format`
 or you want to specify a command by absolute path, set this variable.
 Default value is `clang-format`.
 
-- `g:operator_clang_format_extra_args`
+- `g:clang_format#extra_args`
 
-You can specify more extra options in `g:operator_clang_format_extra_args` as String or List of String.
+You can specify more extra options in `g:clang_format#extra_args` as String or List of String.
 
 ### Example
 
 ```vim
-let g:operator_clang_format_style_options = {
+let g:clang_format#style_options = {
             \ "AccessModifierOffset" : -4,
             \ "AllowShortIfStatementsOnASingleLine" : "true",
             \ "AlwaysBreakTemplateDeclarations" : "true",
