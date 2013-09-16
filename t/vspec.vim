@@ -41,7 +41,7 @@ let s:root_dir = ChompHead(Chomp(system('git rev-parse --show-cdup')))
 execute 'set' 'rtp +=./'.s:root_dir
 
 set rtp +=~/.vim/bundle/vim-operator-user
-runtime! plugin/operator/clang_format.vim
+runtime! plugin/clang_format.vim
 
 call vspec#customize_matcher('to_be_empty', function('empty'))
 "}}}
