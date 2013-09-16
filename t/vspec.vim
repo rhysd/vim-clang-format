@@ -11,7 +11,7 @@ function! s:detect_clang_format()
     endfor
     throw 'not ok bnecause detect clang-format could not be found in $PATH'
 endfunction
-let g:operator_clang_format_command = s:detect_clang_format()
+let g:clang_format_command = s:detect_clang_format()
 
 function! Chomp(s)
     return a:s =~# '\n$'
@@ -31,7 +31,7 @@ endfunction
 
 function! ClangFormat(line1, line2)
     let opt = printf(" -lines=%d:%d -style='{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s}' ", a:line1, a:line2, &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
-    let cmd = g:operator_clang_format_command.opt.'./'.s:root_dir.'t/test.cpp --'
+    let cmd = g:clang_format_command.opt.'./'.s:root_dir.'t/test.cpp --'
     return Chomp(system(cmd))
 endfunction
 "}}}
@@ -62,11 +62,11 @@ describe 'default settings'
         Expect exists('g:operator_clang_format_extra_args') to_be_true
         Expect exists('g:operator_clang_format_code_style') to_be_true
         Expect exists('g:operator_clang_format_style_options') to_be_true
-        Expect exists('g:operator_clang_format_command') to_be_true
+        Expect exists('g:clang_format_command') to_be_true
         Expect g:operator_clang_format_extra_args to_be_empty
         Expect g:operator_clang_format_code_style ==# 'google'
         Expect g:operator_clang_format_style_options to_be_empty
-        Expect executable(g:operator_clang_format_command) to_be_true
+        Expect executable(g:clang_format_command) to_be_true
     end
 
 end

@@ -2,10 +2,19 @@ if exists('g:loaded_operator_clang_format')
   finish
 endif
 
+function! s:getg(name, default)
+    if exists('g:operator_'.a:name)
+        echoerr 'g:operator_'.a:name.' is deprecated. Please use g:'.a:name
+        return g:operator_{a:name}
+    else
+        return get(g:, a:name, a:default)
+    endif
+endfunction
+
 " variable definitions {{{
-let g:operator_clang_format_command = get(g:, 'operator_clang_format_command', 'clang-format')
-if ! executable(g:operator_clang_format_command)
-    echoerr "clang-format is not found. check g:operator_clang_format_command."
+let g:clang_format_command = s:getg('clang_format_command', 'clang-format')
+if ! executable(g:clang_format_command)
+    echoerr "clang-format is not found. check g:clang_format_command."
     finish
 endif
 
