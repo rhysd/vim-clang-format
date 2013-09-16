@@ -14,7 +14,21 @@ This plugin formats your C++ code with specific coding style using [clang](http:
 
 ### Usage
 
-Map `<Plug>(operator-clang-format)` to your favorite key bind.
+`:ClangFormat` command is available.
+If you use it in normal mode, the whole code will be formatted. If you use it in visual mode, the selected code will be formatted.
+It is more convenient to map `:ClangFormat` to your favorite key mapping in normal mode and visual mode.
+
+If you install [vim-operator-user](https://github.com/kana/vim-operator-user) in advance, you can also map `<Plug>(operator-clang-format)` to your favorite key bind.
+
+Below is an example.
+
+```vim
+" map to <Leader>cf in C++ code
+autocmd FileType cpp nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType cpp vnoremap <buffer><Leader>cf :ClangFormat<CR>
+" if you install vim-operator-user
+autocmd FileType cpp map <buffer><Leader>x <Plug>(operator-clang-format)
+```
 
 ### Customization
 
