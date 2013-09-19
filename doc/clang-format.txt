@@ -17,7 +17,7 @@ License          |vim-clang-format-license|
 ==============================================================================
 INTRODUCTION                                     *vim-clang-format-introduction*
 
-This plugin formats your C++ code with specific coding style using clang.
+*vim-clang-format* formats your C++ code with specific coding style using clang.
 
 
 
