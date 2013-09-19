@@ -10,6 +10,7 @@ Install          |vim-clang-format-install|
 Dependency       |vim-clang-format-dependency|
 Commands         |vim-clang-format-commands|
 Mappings         |vim-clang-format-mappings|
+Functions        |vim-clang-format-functions|
 Variables        |vim-clang-format-variables|
 Setup Example    |vim-clang-format-setup-example|
 License          |vim-clang-format-license|
@@ -29,26 +30,61 @@ USAGE                                                   *vim-clang-format-usage*
 ==============================================================================
 DEPENDENCY                                         *vim-clang-format-dependency*
 
+|clang-format| (essential)
+|vim-operator-user| (highly recommended)
+|vimproc| (recommended)
+
 
 
 ==============================================================================
 COMMANDS                                             *vim-clang-format-commands*
+
+:ClangFormat                                                      *:ClangFormat*
+:ClangFormatEchoFormattedCode                    *:ClangFormatEchoFormattedCode*
 
 
 
 ==============================================================================
 MAPPINGS                                             *vim-clang-format-mappings*
 
+<Plug>(operator-clang-format)                    *<Plug>(operator-clang-format)*
+
+
+
+==============================================================================
+FUNCTIONS                                           *vim-clang-format-functions*
+
+clang_format#replace({start_line}, {last_line})         *clang_format#replace()*
+clang_format#format({start_line}, {last_line})           *clang_format#format()*
+
 
 
 ==============================================================================
 VARIABLES                                           *vim-clang-format-variables*
+
+g:clang_format#command                                  *g:clang_format#command*
+g:clang_format#code_style                            *g:clang_format#code_style*
+g:clang_format#style_options                      *g:clang_format#style_options*
+g:clang_format#extra_args                            *g:clang_format#extra_args*
 
 
 
 ==============================================================================
 SETUP EXAMPLE                                   *vim-clang-format-setup-example*
 
+>
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++11"}
+
+" map to <Leader>cf in C++ code
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+" if you install vim-operator-user
+autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+<
 
 
 ==============================================================================
