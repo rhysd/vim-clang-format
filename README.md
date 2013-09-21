@@ -22,6 +22,8 @@ If you install [vim-operator-user](https://github.com/kana/vim-operator-user) in
 
 ### Customization
 
+You can customize formatting using some variables.
+
 - `g:clang_format#code_style`
 
 `g:clang_format#code_style` is a base style.
