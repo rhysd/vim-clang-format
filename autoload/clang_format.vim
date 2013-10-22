@@ -15,9 +15,6 @@ if ! executable(g:clang_format#command)
     finish
 endif
 
-let s:save_cpo = &cpo
-set cpo&vim
-
 let g:clang_format#extra_args = s:getg('clang_format#extra_args', "")
 if type(g:clang_format#extra_args) == type([])
     let g:clang_format#extra_args = join(g:clang_format#extra_args, " ")
@@ -125,6 +122,3 @@ function! clang_format#replace(line1, line2)
     endtry
 endfunction
 " }}}
-
-let &cpo = s:save_cpo
-unlet s:save_cpo
