@@ -8,9 +8,9 @@ This plugin formats your C++ code with specific coding style using [clang](http:
 
 ### Requirements
 
-- `clang-format` command(3.4 or later), which is bundled in Clang extra tools
+- `clang-format` command (**3.4 or later**), which is bundled in Clang extra tools
 - [vim-operator-user](https://github.com/kana/vim-operator-user)(highly recommended)
-- [vimproc.vim](https://github.com/Shougo/vimproc.vim)(recommended)
+- [vimproc.vim](https://github.com/Shougo/vimproc.vim)(recommended in Windows)
 
 ### Usage
 
