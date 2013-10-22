@@ -63,9 +63,16 @@ function! s:error_message(result)
 endfunction
 
 function! clang_format#get_version()
-    return matchstr(split(s:system(g:clang_format#command.' --version 2>&1'), "\n")[1], '\d\.\d')
+    return matchlist(split(s:system(g:clang_format#command.' --version 2>&1'), "\n")[1], '\(\d\+\)\.\(\d\+\)')[1:2]
 endfunction
 " }}}
+
+" check version of clang-format "{{{
+let s:version = clang_format#get_version()
+if s:version[0] < 3 || (s:version[0] == 3 && s:version[1] < 4)
+    echoerr 'clang-format 3.3 or earlier is not supported for the lack of aruguments'
+endif
+"}}}
 
 " variable definitions {{{
 function! s:getg(name, default)
@@ -93,17 +100,10 @@ endif
 
 let g:clang_format#code_style = s:getg('clang_format#code_style', 'google')
 let g:clang_format#style_options = s:getg('clang_format#style_options', {})
-if ! exists('g:clang_format#version')
-    let g:clang_format#version = clang_format#get_version()
-endif
 " }}}
 
 " format codes {{{
 function! clang_format#format(line1, line2)
-    if g:clang_format#version != '3.4'
-        echoerr 'vim-clang-format seems not to work in 3.3 or earlier.'
-    endif
-
     let args = printf(" -lines=%d:%d -style=%s %s",
                 \     a:line1,
                 \     a:line2,
