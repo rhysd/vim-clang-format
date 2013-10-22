@@ -53,10 +53,12 @@ describe 'default settings'
     end
 
     it 'provide autoload functions'
-        runtime! autoload/clang_format.vim
-        runtime! autoload/operator/clang_format.vim
+        " load autload script
+        silent! call clang_format#get_version()
+        silent! call operator#clang_format#do()
         Expect exists('*operator#clang_format#do') to_be_true
         Expect exists('*clang_format#format') to_be_true
+        Expect exists('*clang_format#get_version') to_be_true
     end
 
     it 'provide variables to customize this plugin'

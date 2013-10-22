@@ -1,3 +1,6 @@
+let s:save_cpo = &cpo
+set cpo&vim
+
 " helper functions {{{
 function! s:has_vimproc()
     if !exists('s:exists_vimproc')
@@ -78,6 +81,8 @@ endfunction
 let g:clang_format#command = s:getg('clang_format#command', 'clang-format')
 if ! executable(g:clang_format#command)
     echoerr "clang-format is not found. check g:clang_format#command."
+    let &cpo = s:save_cpo
+    unlet s:save_cpo
     finish
 endif
 
@@ -133,3 +138,6 @@ function! clang_format#replace(line1, line2)
     endtry
 endfunction
 " }}}
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
