@@ -1,6 +1,3 @@
-let s:save_cpo = &cpo
-set cpo&vim
-
 " variable definitions {{{
 function! s:getg(name, default)
     " backward compatibility
@@ -18,6 +15,8 @@ if ! executable(g:clang_format#command)
     finish
 endif
 
+let s:save_cpo = &cpo
+set cpo&vim
 
 let g:clang_format#extra_args = s:getg('clang_format#extra_args', "")
 if type(g:clang_format#extra_args) == type([])
