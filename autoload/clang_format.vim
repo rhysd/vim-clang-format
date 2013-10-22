@@ -109,19 +109,21 @@ function! clang_format#replace(line1, line2)
     let &l:selection = "inclusive"
     let [save_g_reg, save_g_regtype] = [getreg('g'), getregtype('g')]
 
-    let formatted = clang_format#format(a:line1, a:line2)
+    try
+        let formatted = clang_format#format(a:line1, a:line2)
 
-    if s:success(formatted)
-        call setreg('g', formatted)
-        let pos = getpos('.')
-        execute 'keepjumps' 'silent' 'normal!' 'ggVG"gp'
-        call setpos('.', pos)
-    else
-        call s:error_message(formatted)
-    endif
-
-    call setreg('g', save_g_reg, save_g_regtype)
-    let &l:selection = sel_save
+        if s:success(formatted)
+            call setreg('g', formatted)
+            let pos = getpos('.')
+            execute 'keepjumps' 'silent' 'normal!' 'ggVG"gp'
+            call setpos('.', pos)
+        else
+            call s:error_message(formatted)
+        endif
+    finally
+        call setreg('g', save_g_reg, save_g_regtype)
+        let &l:selection = sel_save
+    endtry
 endfunction
 " }}}
 
