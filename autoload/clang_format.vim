@@ -1,3 +1,6 @@
+let s:save_cpo = &cpo
+set cpo&vim
+
 " variable definitions {{{
 function! s:getg(name, default)
     " backward compatibility
@@ -121,3 +124,6 @@ function! clang_format#replace(line1, line2)
     let &l:selection = sel_save
 endfunction
 " }}}
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
