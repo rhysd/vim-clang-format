@@ -4,7 +4,7 @@
 " helpers "{{{
 " clang-format detection
 function! s:detect_clang_format()
-    for candidate in ['clang-format-3.4', 'clang-format']
+    for candidate in ['clang-format-3.4', 'clang-format', 'clang-format-HEAD']
         if executable(candidate)
             return candidate
         endif
