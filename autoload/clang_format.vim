@@ -1,29 +1,3 @@
-" variable definitions {{{
-function! s:getg(name, default)
-    " backward compatibility
-    if exists('g:operator_'.substitute(a:name, '#', '_', ''))
-        echoerr 'g:operator_'.substitute(a:name, '#', '_', '').' is deprecated. Please use g:'.a:name
-        return g:operator_{substitute(a:name, '#', '_', '')}
-    else
-        return get(g:, a:name, a:default)
-    endif
-endfunction
-
-let g:clang_format#command = s:getg('clang_format#command', 'clang-format')
-if ! executable(g:clang_format#command)
-    echoerr "clang-format is not found. check g:clang_format#command."
-    finish
-endif
-
-let g:clang_format#extra_args = s:getg('clang_format#extra_args', "")
-if type(g:clang_format#extra_args) == type([])
-    let g:clang_format#extra_args = join(g:clang_format#extra_args, " ")
-endif
-
-let g:clang_format#code_style = s:getg('clang_format#code_style', 'google')
-let g:clang_format#style_options = s:getg('clang_format#style_options', {})
-" }}}
-
 " helper functions {{{
 function! s:has_vimproc()
     if !exists('s:exists_vimproc')
@@ -84,16 +58,43 @@ function! s:error_message(result)
         echohl None
     endif
 endfunction
-" }}}
 
 function! clang_format#get_version()
-    return matchstr(split(s:system(g:clang_format#command.' --version'), "\n")[1], '\d\.\d')
+    return matchstr(split(s:system(g:clang_format#command.' --version 2>&1'), "\n")[1], '\d\.\d')
 endfunction
+" }}}
+
+" variable definitions {{{
+function! s:getg(name, default)
+    " backward compatibility
+    if exists('g:operator_'.substitute(a:name, '#', '_', ''))
+        echoerr 'g:operator_'.substitute(a:name, '#', '_', '').' is deprecated. Please use g:'.a:name
+        return g:operator_{substitute(a:name, '#', '_', '')}
+    else
+        return get(g:, a:name, a:default)
+    endif
+endfunction
+
+let g:clang_format#command = s:getg('clang_format#command', 'clang-format')
+if ! executable(g:clang_format#command)
+    echoerr "clang-format is not found. check g:clang_format#command."
+    finish
+endif
+
+let g:clang_format#extra_args = s:getg('clang_format#extra_args', "")
+if type(g:clang_format#extra_args) == type([])
+    let g:clang_format#extra_args = join(g:clang_format#extra_args, " ")
+endif
+
+let g:clang_format#code_style = s:getg('clang_format#code_style', 'google')
+let g:clang_format#style_options = s:getg('clang_format#style_options', {})
+if ! exists('g:clang_format#version')
+    let g:clang_format#version = clang_format#get_version()
+endif
+" }}}
 
 " format codes {{{
 function! clang_format#format(line1, line2)
-    let g:clang_format#version = get(g:, 'clang_format#get_version', clang_format#get_version())
-
     if g:clang_format#version != '3.4'
         echoerr 'vim-clang-format seems not to work in 3.3 or earlier.'
     endif
