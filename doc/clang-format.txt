@@ -30,9 +30,9 @@ USAGE                                                   *vim-clang-format-usage*
 ==============================================================================
 DEPENDENCY                                         *vim-clang-format-dependency*
 
-|clang-format| (essential)
+|clang-format| (3.4 or later is required)
 |vim-operator-user| (highly recommended)
-|vimproc| (recommended)
+|vimproc| (recommended in Windows)
 
 
 
