@@ -32,9 +32,9 @@ USAGE                                                   *vim-clang-format-usage*
 
 |:ClangFormat| command is available.  If you use it in normal mode, the whole
 code will be formatted.  If you use it in visual mode, the selected code will
-be formatted.
-It is more convenient to map |:ClangFormat| to your favorite key mapping in
-normal mode and visual mode.
+be formatted.  It is more convenient to map |:ClangFormat| to your favorite key
+mapping in normal mode and visual mode.
+|shiftwidth| and |expandtab| are used for formatting.
 
 In addition, |<Plug>(operator-clang-format)| is operator mapping to format the
 |text-objects|.  It is also very useful for expert users.
@@ -93,10 +93,12 @@ MAPPINGS                                             *vim-clang-format-mappings*
 FUNCTIONS                                           *vim-clang-format-functions*
 
 clang_format#replace({start_line}, {last_line})         *clang_format#replace()*
+
     This is function version of |:ClangFormat|. {start_line} and {last_line}
     are required.
 
 clang_format#format({start_line}, {last_line})           *clang_format#format()*
+
     This function returns a formatted code.
 
 
@@ -105,14 +107,42 @@ clang_format#format({start_line}, {last_line})           *clang_format#format()*
 VARIABLES                                           *vim-clang-format-variables*
 
 g:clang_format#command                                  *g:clang_format#command*
+
+    Name of clang-format command.
+    The default value is "clang-format".
+
 g:clang_format#code_style                            *g:clang_format#code_style*
+
+    Base coding style for formatting.  Available coding styles are "llvm",
+    "google", "chromium" and "mozilla".
+    The default value is "google".
+
 g:clang_format#style_options                      *g:clang_format#style_options*
+
+    Coding style options to specify the rule of format.  For example, using {}
+    in short if statement or not, use C++11 feature or not, access modifier
+    offset and so on.  This value is a |Dictionary| whose key and value are
+    |String| or |Number|.
+    The key and the value is options passed to clang-format.  You can look up
+    them by executing `clang-format -dump-config` command.  If you want to
+    know all of the keys and values, clang-format's documentation and API
+    documentation is useful.  In paticular, the following link is useful to
+    know.
+
+    clang::format::FormatStyle Struct Reference
+    http://clang.llvm.org/doxygen/structclang_1_1format_1_1FormatStyle.html
+
 g:clang_format#extra_args                            *g:clang_format#extra_args*
+
+    Extra arguments for clang-format.  This |String| value is passed to
+    clang-format directly.
 
 
 
 ==============================================================================
 SETUP EXAMPLE                                   *vim-clang-format-setup-example*
+
+Below is an example for .vimrc.
 >
   let g:clang_format#style_options = {
               \ "AccessModifierOffset" : -4,
@@ -120,11 +150,14 @@ SETUP EXAMPLE                                   *vim-clang-format-setup-example*
               \ "AlwaysBreakTemplateDeclarations" : "true",
               \ "Standard" : "C++11"}
 
-  " map to <Leader>cf in C++ code
-  autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-  autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-  " if you install vim-operator-user
-  autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+  augroup ClangFormatSettings
+    autocmd!
+    " map to <Leader>cf in C++ code
+    autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+    autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+    " if you install vim-operator-user
+    autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+  augroup END
 <
 
 
