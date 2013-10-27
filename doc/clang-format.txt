@@ -71,7 +71,7 @@ COMMANDS                                             *vim-clang-format-commands*
 :[range]ClangFormat                                               *:ClangFormat*
         Format a entire current buffer with clang-format.  If [range] is
         given, |:ClangFormat| formats the range.  In visual mode, |:ClangFormat|
-        formats the selected region with linewise.
+        formats the selected region with linewise way.
 
 :[range]ClangFormatEchoFormattedCode             *:ClangFormatEchoFormattedCode*
         Echo version of |:Clangformat|. Instead of editing buffer directly, echo
@@ -99,7 +99,7 @@ clang_format#replace({start_line}, {last_line})         *clang_format#replace()*
 
 clang_format#format({start_line}, {last_line})           *clang_format#format()*
 
-    This function returns a formatted code.
+    This function returns a formatted code as |String|.
 
 
 
@@ -119,15 +119,15 @@ g:clang_format#code_style                            *g:clang_format#code_style*
 
 g:clang_format#style_options                      *g:clang_format#style_options*
 
-    Coding style options to specify the rule of format.  For example, using {}
-    in short if statement or not, use C++11 feature or not, access modifier
-    offset and so on.  This value is a |Dictionary| whose key and value are
-    |String| or |Number|.
-    The key and the value is options passed to clang-format.  You can look up
-    them by executing `clang-format -dump-config` command.  If you want to
-    know all of the keys and values, clang-format's documentation and API
-    documentation is useful.  In paticular, the following link is useful to
-    know.
+    Coding style options to specify the rule of format in more detail.  For
+    example, using {} in short if statement or not, use C++11 feature or not,
+    access modifier offset and so on.  This value is a |Dictionary| whose key
+    and value are |String| or |Number|.
+    The key and the value are options passed to clang-format's -stryle option.
+    You can look up them by executing `clang-format -dump-config` command.  If
+    you want to know all of the keys and values, clang-format's documentation
+    and API documentation is useful.  In paticular, the following link is
+    useful to know.
 
     clang::format::FormatStyle Struct Reference
     http://clang.llvm.org/doxygen/structclang_1_1format_1_1FormatStyle.html
