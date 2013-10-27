@@ -13,17 +13,31 @@ Mappings         |vim-clang-format-mappings|
 Functions        |vim-clang-format-functions|
 Variables        |vim-clang-format-variables|
 Setup Example    |vim-clang-format-setup-example|
+Repository Page  |vim-clang-format-repository-page|
 License          |vim-clang-format-license|
 
 ==============================================================================
 INTRODUCTION                                     *vim-clang-format-introduction*
 
-*vim-clang-format* formats your C++ code with specific coding style using clang.
+*vim-clang-format* formats your C, C++ and Objective-C code with specific coding
+style using clang.
+
+Screenshot:
+http://gifzo.net/BIteGJ9Vasg.gif
 
 
 
 ==============================================================================
 USAGE                                                   *vim-clang-format-usage*
+
+|:ClangFormat| command is available.  If you use it in normal mode, the whole
+code will be formatted.  If you use it in visual mode, the selected code will
+be formatted.
+It is more convenient to map |:ClangFormat| to your favorite key mapping in
+normal mode and visual mode.
+
+In addition, |<Plug>(operator-clang-format)| is operator mapping to format the
+|text-objects|.  It is also very useful for expert users.
 
 
 
@@ -31,8 +45,23 @@ USAGE                                                   *vim-clang-format-usage*
 DEPENDENCY                                         *vim-clang-format-dependency*
 
 |clang-format| (3.4 or later is required)
+    http://clang.llvm.org/docs/ClangFormat.html
 |vim-operator-user| (highly recommended)
+    https://github.com/kana/vim-operator-user
 |vimproc| (recommended in Windows)
+    https://github.com/Shougo/vimproc.vim
+
+
+
+==============================================================================
+INSTALL                                               *vim-clang-format-install*
+
+Using Vim plugin package manager is recommended.  I use |neobundle| and |vundle|
+seems the most famous.
+If you want to install manually, it is not recommended, copy files and
+directories in autoload and plugin directories to your vim config directory.
+vim config directory is usually $HOME/vimfiles on Windows or ~/.vim in other
+operating systems.
 
 
 
@@ -40,6 +69,8 @@ DEPENDENCY                                         *vim-clang-format-dependency*
 COMMANDS                                             *vim-clang-format-commands*
 
 :ClangFormat                                                      *:ClangFormat*
+
+
 :ClangFormatEchoFormattedCode                    *:ClangFormatEchoFormattedCode*
 
 
@@ -71,20 +102,30 @@ g:clang_format#extra_args                            *g:clang_format#extra_args*
 
 ==============================================================================
 SETUP EXAMPLE                                   *vim-clang-format-setup-example*
-
 >
-let g:clang_format#style_options = {
-            \ "AccessModifierOffset" : -4,
-            \ "AllowShortIfStatementsOnASingleLine" : "true",
-            \ "AlwaysBreakTemplateDeclarations" : "true",
-            \ "Standard" : "C++11"}
+  let g:clang_format#style_options = {
+              \ "AccessModifierOffset" : -4,
+              \ "AllowShortIfStatementsOnASingleLine" : "true",
+              \ "AlwaysBreakTemplateDeclarations" : "true",
+              \ "Standard" : "C++11"}
 
-" map to <Leader>cf in C++ code
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-" if you install vim-operator-user
-autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+  " map to <Leader>cf in C++ code
+  autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+  autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+  " if you install vim-operator-user
+  autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
 <
+
+
+==============================================================================
+REPOSITORY PAGE                               *vim-clang-format-repository-page*
+
+The latest version of |vim-clang-format| is available at
+https://github.com/rhysd/vim-clang-format
+
+Contributions (pull requests) are welcome. None of them are too short.
+Especially, English check is very helpful because I'm poor at English :(
+
 
 
 ==============================================================================
