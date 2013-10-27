@@ -69,15 +69,13 @@ operating systems.
 COMMANDS                                             *vim-clang-format-commands*
 
 :[range]ClangFormat                                               *:ClangFormat*
-
-Format a entire current buffer with clang-format.  If [range] is given,
-|:ClangFormat| formats the range.  In visual mode, |:ClangFormat| formats the
-selected region with linewise.
+        Format a entire current buffer with clang-format.  If [range] is
+        given, |:ClangFormat| formats the range.  In visual mode, |:ClangFormat|
+        formats the selected region with linewise.
 
 :ClangFormatEchoFormattedCode                    *:ClangFormatEchoFormattedCode*
-
-Echo version of |:Clangformat|. Instead of editing buffer directly, echo the
-formatted text.
+        Echo version of |:Clangformat|. Instead of editing buffer directly, echo
+        the formatted text.
 
 
 
@@ -86,13 +84,20 @@ MAPPINGS                                             *vim-clang-format-mappings*
 
 <Plug>(operator-clang-format)                    *<Plug>(operator-clang-format)*
 
+    Operator mapping to format source code with clang-format.  To use this
+    mapping, |operator-user| is required.
+
 
 
 ==============================================================================
 FUNCTIONS                                           *vim-clang-format-functions*
 
 clang_format#replace({start_line}, {last_line})         *clang_format#replace()*
+    This is function version of |:ClangFormat|. {start_line} and {last_line}
+    are required.
+
 clang_format#format({start_line}, {last_line})           *clang_format#format()*
+    This function returns a formatted code.
 
 
 
