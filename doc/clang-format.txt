@@ -34,7 +34,7 @@ USAGE                                                   *vim-clang-format-usage*
 code will be formatted.  If you use it in visual mode, the selected code will
 be formatted.  It is more convenient to map |:ClangFormat| to your favorite key
 mapping in normal mode and visual mode.
-|shiftwidth| and |expandtab| are used for formatting.
+|'shiftwidth'| and |'expandtab'| are used for formatting.
 
 In addition, |<Plug>(operator-clang-format)| is operator mapping to format the
 |text-objects|.  It is also very useful for expert users.
