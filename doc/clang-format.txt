@@ -73,7 +73,7 @@ COMMANDS                                             *vim-clang-format-commands*
         given, |:ClangFormat| formats the range.  In visual mode, |:ClangFormat|
         formats the selected region with linewise.
 
-:ClangFormatEchoFormattedCode                    *:ClangFormatEchoFormattedCode*
+:[range]ClangFormatEchoFormattedCode             *:ClangFormatEchoFormattedCode*
         Echo version of |:Clangformat|. Instead of editing buffer directly, echo
         the formatted text.
 
