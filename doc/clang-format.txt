@@ -1,4 +1,4 @@
-*clang-format.txt*                                                        |(U^w^)|
+*clang-format.txt*                 Format C, C++, Objective-C using clang-format
 
 Author : rhysd <lin90162@yahoo.co.jp>
 
