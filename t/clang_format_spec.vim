@@ -119,6 +119,12 @@ describe 'clang_format#format()'
         call s:expect_the_same_output(17, 17)
     end
 
+    it 'doesn''t move cursor'
+        execute 'normal!' (1+line('$')).'gg'
+        let pos = getpos('.')
+        call s:expect_the_same_output(1, line('$'))
+        Expect pos == getpos('.')
+    end
 end
 " }}}
 
@@ -152,7 +158,6 @@ describe '<Plug>(operator-clang-format)'
         let buffer = GetBuffer()
         Expect by_clang_format_command ==# buffer
     end
-
 end
 " }}}
 
@@ -184,6 +189,13 @@ describe ':ClangFormat'
         '<,'>ClangFormat
         let buffer = GetBuffer()
         Expect by_clang_format_command ==# buffer
+    end
+
+    it 'doesn''t move cursor'
+        execute 'normal!' (1+line('$')).'gg'
+        let pos = getpos('.')
+        ClangFormat
+        Expect pos == getpos('.')
     end
 
 end
