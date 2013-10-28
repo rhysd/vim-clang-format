@@ -40,7 +40,7 @@ function! s:make_style_options()
     endfor
     return printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
                         \ g:clang_format#code_style,
-                        \ &l:shiftwidth,
+                        \ (exists('*shiftwidth') ? shiftwidth() : &l:shiftwidth),
                         \ &l:expandtab==1 ? "false" : "true",
                         \ extra_options)
 endfunction
