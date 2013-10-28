@@ -127,7 +127,6 @@ endfunction
 
 " replace buffer {{{
 function! clang_format#replace(line1, line2)
-    let pos_save = getpos('.')
     let sel_save = &l:selection
     let &l:selection = "inclusive"
     let [save_g_reg, save_g_regtype] = [getreg('g'), getregtype('g')]
@@ -144,7 +143,7 @@ function! clang_format#replace(line1, line2)
     finally
         call setreg('g', save_g_reg, save_g_regtype)
         let &l:selection = sel_save
-        call setpos('.', pos_save)
+        call setpos('.', g:operator_clang_format_save_pos)
     endtry
 endfunction
 " }}}

@@ -3,7 +3,7 @@ if exists('g:loaded_clang_format')
 endif
 
 try
-    call operator#user#define('clang-format', 'operator#clang_format#do')
+    call operator#user#define('clang-format', 'operator#clang_format#do', 'let g:operator_clang_format_save_pos = getpos(".")')
 catch /^E117/
     " vim-operator-user is not installed
 endtry
