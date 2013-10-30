@@ -1,5 +1,5 @@
 function! s:is_empty_region(begin, end)
-    return a:begin[1] == a:end[1] && a:end[2] < a:begin[2]
+    return a:begin[1] > a:end[1] || (a:begin[1] == a:end[1] && a:end[2] < a:begin[2])
 endfunction
 
 function! s:restore_screen_pos()
