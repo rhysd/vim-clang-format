@@ -18,10 +18,14 @@ function! operator#clang_format#do(motion_wise)
 
     call clang_format#replace(getpos("'[")[1], getpos("']")[1])
 
-    " work around for textobject making cursor move
-    call setpos('.', g:operator#clang_format#save_pos)
-    unlet g:operator#clang_format#save_pos
+    " Do not move cursor and screen
+    if exists('g:operator#clang_format#save_pos')
+        call setpos('.', g:operator#clang_format#save_pos)
+        unlet g:operator#clang_format#save_pos
+    endif
 
-    call s:restore_screen_pos()
-    unlet g:operator#clang_format#save_screen_pos
+    if exists('g:operator#clang_format#save_screen_pos')
+        call s:restore_screen_pos()
+        unlet g:operator#clang_format#save_screen_pos
+    endif
 endfunction
