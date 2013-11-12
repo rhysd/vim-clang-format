@@ -36,8 +36,8 @@ be formatted.  It is more convenient to map |:ClangFormat| to your favorite key
 mapping in normal mode and visual mode.
 |'shiftwidth'| and |'expandtab'| are used for formatting.
 
-In addition, |<Plug>(operator-clang-format)| is operator mapping to format the
-|text-objects|.  It is also very useful for expert users.
+In addition, |<Plug>(operator-clang-format)| is an operator mapping to format
+the |text-objects|.  It is also very useful for expert users.
 
 
 
@@ -59,9 +59,9 @@ INSTALL                                               *vim-clang-format-install*
 Using Vim plugin package manager is recommended.  I use |neobundle| and |vundle|
 seems the most famous.
 If you want to install manually, it is not recommended, copy files and
-directories in autoload and plugin directories to your vim config directory.
-vim config directory is usually $HOME/vimfiles on Windows or ~/.vim in other
-operating systems.
+directories in autoload, doc and plugin directories to your vim config
+directory.  Vim config directory is usually $HOME/vimfiles on Windows or
+~/.vim in other operating systems.
 
 
 

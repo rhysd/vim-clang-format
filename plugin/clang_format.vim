@@ -3,7 +3,7 @@ if exists('g:loaded_clang_format')
 endif
 
 try
-    call operator#user#define('clang-format', 'operator#clang_format#do', 'let g:operator_clang_format_save_pos = getpos(".")')
+    call operator#user#define('clang-format', 'operator#clang_format#do', 'let g:operator#clang_format#save_pos = getpos(".") \| let g:operator#clang_format#save_screen_pos = line("w0")')
 catch /^E117/
     " vim-operator-user is not installed
 endtry
