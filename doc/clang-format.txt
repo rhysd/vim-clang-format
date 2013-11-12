@@ -129,8 +129,8 @@ g:clang_format#style_options                      *g:clang_format#style_options*
     and API documentation is useful.  In paticular, the following link is
     useful to know.
 
-    clang::format::FormatStyle Struct Reference
-    http://clang.llvm.org/doxygen/structclang_1_1format_1_1FormatStyle.html
+    CLANG-FORMAT STYLE OPTIONS
+    http://clang.llvm.org/docs/ClangFormatStyleOptions.html
 
 g:clang_format#extra_args                            *g:clang_format#extra_args*
 
