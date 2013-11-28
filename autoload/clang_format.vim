@@ -77,13 +77,6 @@ function! clang_format#get_version()
 endfunction
 " }}}
 
-" check version of clang-format "{{{
-let s:version = clang_format#get_version()
-if s:version[0] < 3 || (s:version[0] == 3 && s:version[1] < 4)
-    echoerr 'clang-format 3.3 or earlier is not supported for the lack of aruguments'
-endif
-"}}}
-
 " variable definitions {{{
 function! s:getg(name, default)
     " backward compatibility
@@ -113,6 +106,13 @@ let g:clang_format#style_options = s:getg('clang_format#style_options', {})
 
 let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 1)
 " }}}
+
+" check version of clang-format "{{{
+let s:version = clang_format#get_version()
+if s:version[0] < 3 || (s:version[0] == 3 && s:version[1] < 4)
+    echoerr 'clang-format 3.3 or earlier is not supported for the lack of aruguments'
+endif
+"}}}
 
 " format codes {{{
 function! s:detect_style_file()
