@@ -124,7 +124,7 @@ endfunction
 
 function! clang_format#format(line1, line2)
     let args = printf(" -lines=%d:%d", a:line1, a:line2)
-    if ! s:detect_style_file()
+    if ! (g:clang_format#detect_style_file && s:detect_style_file())
         let args .= printf(" -style=%s", s:make_style_options())
     endif
     let args .= ' ' . g:clang_format#extra_args
