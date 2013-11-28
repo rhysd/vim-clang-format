@@ -141,6 +141,7 @@ g:clang_format#detect_style_file              *g:clang_format#detect_style_file*
 
     When the value is 1, |vim-clang-format| automatically detects the style file
     like .clang-format or _clang-format and applies the style to formatting.
+    The default value is 1.
 
 
 ==============================================================================
