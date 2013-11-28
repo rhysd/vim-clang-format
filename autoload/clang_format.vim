@@ -110,6 +110,8 @@ endif
 
 let g:clang_format#code_style = s:getg('clang_format#code_style', 'google')
 let g:clang_format#style_options = s:getg('clang_format#style_options', {})
+
+let g:clang_format#style_file_pattern = s:getg('clang_format#style_file_pattern', '')
 " }}}
 
 " format codes {{{
