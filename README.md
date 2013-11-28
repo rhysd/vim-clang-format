@@ -57,6 +57,11 @@ Default value is `clang-format`.
 
 You can specify more extra options in `g:clang_format#extra_args` as String or List of String.
 
+- `g:clang_format#detect_style_file`
+
+When this variable's value is `1`, vim-clang-format automatically detects the style file like
+`.clang-format` or `_clang-format` and applies the style to formatting.
+
 ### Vimrc Example
 
 ```vim
