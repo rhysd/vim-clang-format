@@ -66,10 +66,12 @@ describe 'default settings'
         Expect exists('g:clang_format#code_style') to_be_true
         Expect exists('g:clang_format#style_options') to_be_true
         Expect exists('g:clang_format#command') to_be_true
+        Expect exists('g:clang_format#detect_style_file') to_be_true
         Expect g:clang_format#extra_args to_be_empty
         Expect g:clang_format#code_style ==# 'google'
         Expect g:clang_format#style_options to_be_empty
         Expect executable(g:clang_format#command) to_be_true
+        Expect g:clang_format#detect_style_file to_be_true
     end
 
     it 'provide commands'
