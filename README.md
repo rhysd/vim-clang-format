@@ -20,6 +20,18 @@ It is more convenient to map `:ClangFormat` to your favorite key mapping in norm
 
 If you install [vim-operator-user](https://github.com/kana/vim-operator-user) in advance, you can also map `<Plug>(operator-clang-format)` to your favorite key bind.
 
+### What is the difference from `clang-format.py`?
+
+`clang-format.py` is Python script to use clang-format from Vim, which is installed with clang-format.
+The usage is [here](http://clang.llvm.org/docs/ClangFormat.html#vim-integration).
+Against `clang-format.py`, vim-clang-format has below advantages.
+
+- Style options are highly costomizable in `.vimrc`. `clang-format.py` requires `.clang-format` file to customize a style.
+- vim-clang-format provides an operator mapping.
+- vim-clang-format doesn't need python interface.
+
+In short, vim-clang-format has better Vim integration than `clang-format.py`.
+
 ### Customization
 
 You can customize formatting using some variables.
