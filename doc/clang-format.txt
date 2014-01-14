@@ -173,7 +173,7 @@ REPOSITORY PAGE                               *vim-clang-format-repository-page*
 The latest version of |vim-clang-format| is available at
 https://github.com/rhysd/vim-clang-format
 
-Contributions (pull requests) are welcome. None of them are too short.
+Contributions (pull requests) are welcome. None of them is too short.
 Especially, English check is very helpful because I'm poor at English :(
 
 
