@@ -89,6 +89,7 @@ endfunction
 describe 'clang_format#format()'
 
     before
+        let g:clang_format#detect_style_file = 0
         new
         execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
     end
@@ -134,6 +135,7 @@ end
 describe '<Plug>(operator-clang-format)'
 
     before
+        let g:clang_format#detect_style_file = 0
         new
         execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
         map x <Plug>(operator-clang-format)
@@ -174,6 +176,7 @@ end
 describe ':ClangFormat'
 
     before
+        let g:clang_format#detect_style_file = 0
         new
         execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
     end
