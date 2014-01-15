@@ -8,5 +8,5 @@ install:
     - sudo echo 'deb-src http://llvm.org/apt/precise/ llvm-toolchain-precise main' >> llvm.list
     - sudo mv llvm.list /etc/apt/sources.list.d/
     - sudo apt-get -qq update
-    - sudo apt-get -qq --force-yes install clang-format-3.4
+    - sudo apt-get -qq --force-yes install clang-format-3.5
     - bundle install
