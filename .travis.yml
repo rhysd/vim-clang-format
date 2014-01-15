@@ -3,6 +3,7 @@ rvm:
   - 1.9.3
 script: rake ci
 install:
+    - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
     - sudo echo 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main' > llvm.list
     - sudo echo 'deb-src http://llvm.org/apt/precise/ llvm-toolchain-precise main' >> llvm.list
     - sudo mv llvm.list /etc/apt/sources.list.d/
