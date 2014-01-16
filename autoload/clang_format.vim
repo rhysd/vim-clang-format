@@ -68,7 +68,7 @@ function! clang_format#get_version()
         set shell=/bin/bash
     endif
     try
-        return matchlist(split(s:system(g:clang_format#command.' --version 2>&1'), "\n")[1], '\(\d\+\)\.\(\d\+\)')[1:2]
+        return matchlist(s:system(g:clang_format#command.' --version 2>&1'), '\(\d\+\)\.\(\d\+\)')[1:2]
     finally
         if exists('l:shell_save')
             let &shell = shell_save
