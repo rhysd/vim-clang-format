@@ -46,8 +46,15 @@ DEPENDENCY                                         *vim-clang-format-dependency*
 
 |clang-format| (3.4 or later is required)
     http://clang.llvm.org/docs/ClangFormat.html
+
+    Note:
+    clang-format 3.4 in Ubuntu 13.04 seems to be old.  Please use LLVM's
+    official apt repository.
+    http://llvm.org/apt/
+
 |vim-operator-user| (highly recommended)
     https://github.com/kana/vim-operator-user
+
 |vimproc| (recommended in Windows)
     https://github.com/Shougo/vimproc.vim
 
