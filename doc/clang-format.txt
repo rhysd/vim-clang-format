@@ -150,6 +150,11 @@ g:clang_format#detect_style_file              *g:clang_format#detect_style_file*
     like .clang-format or _clang-format and applies the style to formatting.
     The default value is 1.
 
+g:clang_format#auto_format                          *g:clang_format#auto_format*
+
+    When the value is 1, |vim-clang-format| automatically formats a current
+    buffer on saving the buffer.  Formatting is executed at |BufWritePre| event.
+    The default value is 0.
 
 ==============================================================================
 SETUP EXAMPLE                                   *vim-clang-format-setup-example*
