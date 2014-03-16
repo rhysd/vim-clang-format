@@ -12,11 +12,9 @@ command! -range=% -nargs=0 ClangFormat call clang_format#replace(<line1>, <line2
 
 command! -range=% -nargs=0 ClangFormatEchoFormattedCode echo clang_format#format(<line1>, <line2>)
 
-if 1 || get(g:, 'clang_format#auto_format', 0)
-    augroup plugin-clang-format-auto-format
-        autocmd!
-        autocmd BufWritePre * if &ft ==# 'cpp' | call clang_format#replace(1, line('$')) | endif
-    augroup END
-endif
+augroup plugin-clang-format-auto-format
+    autocmd!
+    autocmd BufWritePre * if &ft ==# 'cpp' && get(g:, 'clang_format#auto_format', 0) | call clang_format#replace(1, line('$')) | endif
+augroup END
 
 let g:loaded_clang_format = 1
