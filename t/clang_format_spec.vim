@@ -213,7 +213,6 @@ describe ':ClangFormat'
 end
 " }}}
 
-
 " test for auto formatting {{{
 describe 'g:clang_format#auto_format'
 
@@ -225,9 +224,6 @@ describe 'g:clang_format#auto_format'
 
     after
         bdelete!
-        if filereadable('./'.s:root_dir.'t/tmp.cpp')
-            call delete('./'.s:root_dir.'t/tmp.cpp')
-        endif
     end
 
     it 'formats a current buffer on BufWritePre if the value is 1'
