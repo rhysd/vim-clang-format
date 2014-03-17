@@ -212,3 +212,30 @@ describe ':ClangFormat'
 
 end
 " }}}
+
+
+" test for auto formatting {{{
+describe 'g:clang_format#auto_format'
+
+    before
+        let g:clang_format#auto_format = 1
+        new
+        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+    end
+
+    after
+        bdelete!
+        if filereadable('./'.s:root_dir.'t/tmp.cpp')
+            call delete('./'.s:root_dir.'t/tmp.cpp')
+        endif
+    end
+
+    it 'formats a current buffer on BufWritePre if the value is 1'
+        SKIP because somehow BufWritePre event isn't fired
+        let formatted = clang_format#format(1, line('$'))
+        doautocmd BufWritePre
+        let auto_formatted = join(getline(1, line('$')), "\n")
+        Expect auto_formatted ==# formatted
+    end
+end
+" }}}
