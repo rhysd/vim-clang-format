@@ -14,7 +14,7 @@ command! -range=% -nargs=0 ClangFormatEchoFormattedCode echo clang_format#format
 
 augroup plugin-clang-format-auto-format
     autocmd!
-    autocmd BufWritePre * if &ft ==# 'cpp' && get(g:, 'clang_format#auto_format', 0) | call clang_format#replace(1, line('$')) | endif
+    autocmd BufWritePre * if &ft ==# 'cpp' && g:clang_format#auto_format | call clang_format#replace(1, line('$')) | endif
 augroup END
 
 let g:loaded_clang_format = 1

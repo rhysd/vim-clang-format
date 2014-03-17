@@ -105,6 +105,7 @@ let g:clang_format#code_style = s:getg('clang_format#code_style', 'google')
 let g:clang_format#style_options = s:getg('clang_format#style_options', {})
 
 let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 1)
+let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
 " }}}
 
 " check version of clang-format "{{{
