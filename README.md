@@ -74,6 +74,11 @@ You can specify more extra options in `g:clang_format#extra_args` as String or L
 When this variable's value is `1`, vim-clang-format automatically detects the style file like
 `.clang-format` or `_clang-format` and applies the style to formatting.
 
+- `g:clang_format#auto_format`
+
+When the value is 1, a current buffer is automatically formatted on saving the buffer.
+Formatting is executed at `BufWritePre` event.
+
 ### Vimrc Example
 
 ```vim
