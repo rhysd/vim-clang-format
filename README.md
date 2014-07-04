@@ -77,7 +77,16 @@ When this variable's value is `1`, vim-clang-format automatically detects the st
 - `g:clang_format#auto_format`
 
 When the value is 1, a current buffer is automatically formatted on saving the buffer.
-Formatting is executed at `BufWritePre` event.
+Formatting is executed on `BufWritePre` event.
+
+- `g:clang_format#auto_format_on_insert_leave`
+
+When the value is 1, inserted lines are automatically formatted on leaving insert mode.
+Formatting is executed on `InsertLeave` event.
+
+![auto formatting on InsertLeave](http://gifzo.net/CPrVbHnKMe.gif)
+
+In above screenshot, inserted 'if' statement are automatically formated on leaving insert mode.
 
 ### Vimrc Example
 
