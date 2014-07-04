@@ -86,7 +86,8 @@ Formatting is executed on `InsertLeave` event.
 
 ![auto formatting on InsertLeave](http://gifzo.net/CPrVbHnKMe.gif)
 
-In above screenshot, inserted 'if' statement are automatically formated on leaving insert mode.
+In above screenshot, the inserted `if` statement is automatically formatted on leaving insert mode.
+(Just before formatting the statement, I leave insert mode.)
 
 ### Vimrc Example
 
