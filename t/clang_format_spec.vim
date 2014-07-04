@@ -67,6 +67,8 @@ describe 'default settings'
         Expect exists('g:clang_format#style_options') to_be_true
         Expect exists('g:clang_format#command') to_be_true
         Expect exists('g:clang_format#detect_style_file') to_be_true
+        Expect exists('g:clang_format#auto_format') to_be_true
+        Expect exists('g:clang_format#auto_format_on_insert_leave') to_be_true
         Expect g:clang_format#extra_args to_be_empty
         Expect g:clang_format#code_style ==# 'google'
         Expect g:clang_format#style_options to_be_empty
@@ -234,4 +236,28 @@ describe 'g:clang_format#auto_format'
         Expect auto_formatted ==# formatted
     end
 end
+" }}}
+
+" test for auto formatting on insert leave {{{
+
+describe 'g:clang_format#auto_format_on_insert_leave'
+
+    before
+        let g:clang_format#auto_format_on_insert_leave = 1
+        new
+        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+    end
+
+    after
+        bdelete!
+    end
+
+    it 'formats a inserted area on InsertLeave if the value is 1'
+        SKIP because somehow InsertEnter and InsertLeave events aren't fired
+        execute 10
+        execute 'normal' "iif(1+2)return 4;\<Esc>"
+        Expect getline('.') ==# '    if (1 + 2) return 4;'
+    end
+end
+
 " }}}

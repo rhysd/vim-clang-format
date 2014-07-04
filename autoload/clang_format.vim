@@ -106,6 +106,7 @@ let g:clang_format#style_options = s:getg('clang_format#style_options', {})
 
 let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 1)
 let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
+let g:clang_format#auto_format_on_insert_leave = s:getg('clang_format#auto_format_on_insert_leave', 0)
 " }}}
 
 " check version of clang-format "{{{
@@ -156,6 +157,27 @@ function! clang_format#replace(line1, line2)
         let &l:selection = sel_save
         call setpos('.', pos_save)
     endtry
+endfunction
+" }}}
+
+" auto formatting on insert leave {{{
+let s:pos_on_insertenter = []
+
+function! s:format_inserted_area()
+    let pos = getpos('.')
+    " When in the same buffer
+    if &modified && ! empty(s:pos_on_insertenter) && s:pos_on_insertenter[0] == pos[0]
+        call clang_format#replace(s:pos_on_insertenter[1], line('.'))
+        let s:pos_on_insertenter = []
+    endif
+endfunction
+
+function! clang_format#enable_format_on_insert()
+    augroup plugin-clang-format-auto-format-insert
+        autocmd!
+        autocmd InsertEnter <buffer> let s:pos_on_insertenter = getpos('.')
+        autocmd InsertLeave <buffer> call s:format_inserted_area()
+    augroup END
 endfunction
 " }}}
 
