@@ -162,10 +162,7 @@ g:clang_format#auto_format_on_insert_leave
     When the value is 1, the inserted lines are automatically formatted on
     leaving insert mode.  Formatting is executed on |InsertLeave| event.
 
-    Below link is a screenshot of an example for this feature.  Inserted 'if'
-    statement is automatically formated on leaving insert mode.
 
-    http://gifzo.net/CPrVbHnKMe.gif
 
 ==============================================================================
 SETUP EXAMPLE                                   *vim-clang-format-setup-example*

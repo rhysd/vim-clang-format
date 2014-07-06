@@ -84,11 +84,6 @@ Formatting is executed on `BufWritePre` event.
 When the value is 1, inserted lines are automatically formatted on leaving insert mode.
 Formatting is executed on `InsertLeave` event.
 
-![auto formatting on InsertLeave](http://gifzo.net/CPrVbHnKMe.gif)
-
-In above screenshot, the inserted `if` statement is automatically formatted on leaving insert mode.
-(Just before formatting the statement, I leave insert mode.)
-
 ### Vimrc Example
 
 ```vim
