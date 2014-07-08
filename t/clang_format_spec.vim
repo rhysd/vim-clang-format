@@ -44,6 +44,18 @@ set rtp +=~/.vim/bundle/vim-operator-user
 runtime! plugin/clang_format.vim
 
 call vspec#customize_matcher('to_be_empty', function('empty'))
+
+function! RaisesException(cmd)
+    try
+        execute a:cmd
+        return 0
+    catch
+        return 1
+    endtry
+endfunction
+
+call vspec#customize_matcher('to_throw_exception', function('RaisesException'))
+
 "}}}
 
 " test for default settings {{{
@@ -129,6 +141,30 @@ describe 'clang_format#format()'
         let pos = getpos('.')
         call s:expect_the_same_output(1, line('$'))
         Expect pos == getpos('.')
+    end
+end
+
+describe 'clang_format#replace()'
+    before
+        let g:clang_format#detect_style_file = 0
+        new
+        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        let s:cmd_tmp = g:clang_format#command
+    end
+
+    after
+        bdelete!
+        let g:clang_format#command = s:cmd_tmp
+    end
+
+    it 'throws an error when command is not found'
+        let g:clang_format#command = "clang_format_not_exist"
+        Expect "call clang_format#replace(1, line('$'))" to_throw_exception
+    end
+
+    it 'throws an error when command is not found'
+        let g:clang_format#command = './' . s:root_dir . 't/clang-format-dummy.sh'
+        Expect "call clang_format#replace(1, line('$'))" to_throw_exception
     end
 end
 " }}}

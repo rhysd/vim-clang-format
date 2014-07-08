@@ -75,6 +75,34 @@ function! clang_format#get_version()
         endif
     endtry
 endfunction
+
+function! clang_format#is_invalid()
+    if !exists('s:command_available')
+        if ! executable(g:clang_format#command)
+            return 1
+        endif
+        let s:command_available = 1
+    endif
+
+    if !exists('s:version')
+        let v = clang_format#get_version()
+        if v[0] < 3 || (v[0] == 3 && v[1] < 4)
+            return 2
+        endif
+        let s:version = v
+    endif
+
+    return 0
+endfunction
+
+function! s:verify_command()
+    let invalidity = clang_format#is_invalid()
+    if invalidity == 1
+        echoerr "clang-format is not found. check g:clang_format#command."
+    elseif invalidity == 2
+        echoerr 'clang-format 3.3 or earlier is not supported for the lack of aruguments'
+    endif
+endfunction
 " }}}
 
 " variable definitions {{{
@@ -89,13 +117,6 @@ function! s:getg(name, default)
 endfunction
 
 let g:clang_format#command = s:getg('clang_format#command', 'clang-format')
-if ! executable(g:clang_format#command)
-    echoerr "clang-format is not found. check g:clang_format#command."
-    let &cpo = s:save_cpo
-    unlet s:save_cpo
-    finish
-endif
-
 let g:clang_format#extra_args = s:getg('clang_format#extra_args', "")
 if type(g:clang_format#extra_args) == type([])
     let g:clang_format#extra_args = join(g:clang_format#extra_args, " ")
@@ -108,13 +129,6 @@ let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 
 let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
 let g:clang_format#auto_format_on_insert_leave = s:getg('clang_format#auto_format_on_insert_leave', 0)
 " }}}
-
-" check version of clang-format "{{{
-let s:version = clang_format#get_version()
-if s:version[0] < 3 || (s:version[0] == 3 && s:version[1] < 4)
-    echoerr 'clang-format 3.3 or earlier is not supported for the lack of aruguments'
-endif
-"}}}
 
 " format codes {{{
 function! s:detect_style_file()
@@ -138,6 +152,9 @@ endfunction
 
 " replace buffer {{{
 function! clang_format#replace(line1, line2)
+
+    call s:verify_command()
+
     let pos_save = getpos('.')
     let sel_save = &l:selection
     let &l:selection = "inclusive"
@@ -157,6 +174,8 @@ function! clang_format#replace(line1, line2)
         let &l:selection = sel_save
         call setpos('.', pos_save)
     endtry
+
+    return 1
 endfunction
 " }}}
 
