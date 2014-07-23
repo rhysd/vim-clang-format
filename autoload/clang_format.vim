@@ -119,7 +119,7 @@ let g:clang_format#style_options = s:getg('clang_format#style_options', {})
 let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 1)
 let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
 let g:clang_format#auto_format_on_insert_leave = s:getg('clang_format#auto_format_on_insert_leave', 0)
-let g:clang_format#auto_formatexpr = s:getg('clang_format#auto_formatexpr', 0)
+let g:clang_format#auto_formatexpr = s:getg('clang_format#auto_formatexpr', 0) || 1
 " }}}
 
 " format codes {{{
