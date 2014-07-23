@@ -1,4 +1,4 @@
-## Format your C++ code [![Build Status](https://travis-ci.org/rhysd/vim-clang-format.png?branch=master)](https://travis-ci.org/rhysd/vim-clang-format)
+## Format your C, C++ and Objective-C code [![Build Status](https://travis-ci.org/rhysd/vim-clang-format.png?branch=master)](https://travis-ci.org/rhysd/vim-clang-format)
 
 This plugin formats your C++ code with specific coding style using [clang](http://clang.llvm.org/).
 
@@ -83,6 +83,11 @@ Formatting is executed on `BufWritePre` event.
 
 When the value is 1, inserted lines are automatically formatted on leaving insert mode.
 Formatting is executed on `InsertLeave` event.
+
+- `g:clang_format#auto_formatexpr`
+
+When the value is 1, `formatexpr` option is set by vim-clang-format automatically in C, C++ and ObjC codes.
+Vim's format mappings (e.g. `gq`) get to use `clang-format` to format.
 
 ### Vimrc Example
 

@@ -297,3 +297,25 @@ describe 'g:clang_format#auto_format_on_insert_leave'
 end
 
 " }}}
+
+" test for auto 'formatexpr' setting feature
+
+describe 'g:clang_format#auto_formatexpr'
+    before
+        let g:clang_format#auto_formatexpr = 1
+        new
+        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+    end
+
+    after
+        bdelete!
+    end
+
+    it 'formats the text object using gq operator'
+        doautocmd Filetype cpp
+        let expected = ClangFormat(1, line('$'))
+        normal ggVGgq
+        let actual = GetBuffer()
+        Expect expected ==# actual
+    end
+end

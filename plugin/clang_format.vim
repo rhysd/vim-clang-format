@@ -16,6 +16,7 @@ augroup plugin-clang-format-auto-format
     autocmd!
     autocmd BufWritePre * if &ft =~# '^\%(c\|cpp\|objc\)$' && g:clang_format#auto_format && clang_format#check_cmd() ==# '' | call clang_format#replace(1, line('$')) | endif
     autocmd FileType c,cpp,objc if g:clang_format#auto_format_on_insert_leave && clang_format#check_cmd() ==# '' | call clang_format#enable_format_on_insert() | endif
+    autocmd FileType c,cpp,objc if g:clang_format#auto_formatexpr && clang_format#check_cmd() ==# '' | setlocal formatexpr=clang_format#replace(v:lnum,v:lnum+v:count-1) | endif
 augroup END
 
 let g:loaded_clang_format = 1
