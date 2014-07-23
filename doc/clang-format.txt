@@ -164,6 +164,14 @@ g:clang_format#auto_format_on_insert_leave
 
 
 
+g:clang_format#auto_formatexpr		        *g:clang_format#auto_formatexpr*
+
+    When the value is 1, 'formatexpr' option is set automatically in |c|, |cpp|
+    and |objc| codes.  Vim's format mappings (e.g. |gq|) get to use |clang-format|
+    to format.
+
+
+
 ==============================================================================
 SETUP EXAMPLE                                   *vim-clang-format-setup-example*
 
