@@ -76,10 +76,10 @@ function! clang_format#get_version()
     endtry
 endfunction
 
-function! clang_format#check_cmd()
+function! clang_format#is_invalid()
     if !exists('s:command_available')
         if ! executable(g:clang_format#command)
-            return 'clang-format is not found. check g:clang_format#command.'
+            return 1
         endif
         let s:command_available = 1
     endif
@@ -87,12 +87,21 @@ function! clang_format#check_cmd()
     if !exists('s:version')
         let v = clang_format#get_version()
         if v[0] < 3 || (v[0] == 3 && v[1] < 4)
-            return 'clang-format 3.3 or earlier is not supported for the lack of aruguments.'
+            return 2
         endif
         let s:version = v
     endif
 
-    return ''
+    return 0
+endfunction
+
+function! s:verify_command()
+    let invalidity = clang_format#is_invalid()
+    if invalidity == 1
+        echoerr "clang-format is not found. check g:clang_format#command."
+    elseif invalidity == 2
+        echoerr 'clang-format 3.3 or earlier is not supported for the lack of aruguments'
+    endif
 endfunction
 " }}}
 
@@ -145,10 +154,7 @@ endfunction
 " replace buffer {{{
 function! clang_format#replace(line1, line2)
 
-    let err_msg = clang_format#check_cmd()
-    if err_msg !=# ''
-        echoerr err_msg
-    endif
+    call s:verify_command()
 
     let pos_save = getpos('.')
     let sel_save = &l:selection
