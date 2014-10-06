@@ -191,7 +191,7 @@ function! clang_format#replace(line1, line2)
                 " The previous way.  It lets the cursor move to the first line
                 " on undo.
                 call setreg('g', formatted, 'V')
-                normal! ggVG"gp
+                silent keepjumps normal! ggVG"gp
             endtry
         else
             call s:error_message(formatted)
