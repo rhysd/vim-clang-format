@@ -165,8 +165,34 @@ function! clang_format#replace(line1, line2)
         let formatted = clang_format#format(a:line1, a:line2)
 
         if s:success(formatted)
-            call setreg('g', formatted, 'v')
-            silent keepjumps normal! ggVG"gp
+            try
+                " Note:
+                " Replace current buffer with workaround not to move
+                " the cursor on undo (issue #8)
+                "
+                " The points are:
+                "   - Do not touch the first line.
+                "   - Use :put (p, P and :put! is not available).
+                "
+                " To meet above condition:
+                "   - Delete all lines except for the first line.
+                "   - Put formatted text except for the first line.
+                "
+                let i = stridx(formatted, "\n")
+                if i == -1 || getline(1) !=# formatted[:i-1]
+                    throw "fallback"
+                endif
+
+                call setreg('g', formatted[i+1:], 'V')
+                undojoin | normal! 2gg"_dG
+                put g
+            catch
+                " Fallback:
+                " The previous way.  It lets the cursor move to the first line
+                " on undo.
+                call setreg('g', formatted, 'V')
+                normal! ggVG"gp
+            endtry
         else
             call s:error_message(formatted)
         endif
