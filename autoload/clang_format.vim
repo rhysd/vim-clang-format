@@ -184,8 +184,8 @@ function! clang_format#replace(line1, line2)
                 endif
 
                 call setreg('g', formatted[i+1:], 'V')
-                undojoin | normal! 2gg"_dG
-                put g
+                undojoin | silent normal! 2gg"_dG
+                silent put g
             catch
                 " Fallback:
                 " The previous way.  It lets the cursor move to the first line
