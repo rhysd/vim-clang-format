@@ -20,6 +20,8 @@ It is more convenient to map `:ClangFormat` to your favorite key mapping in norm
 
 If you install [vim-operator-user](https://github.com/kana/vim-operator-user) in advance, you can also map `<Plug>(operator-clang-format)` to your favorite key bind.
 
+`:ClangFormatAutoToggle` command toggles the auto formatting on buffer write.
+
 ### What is the difference from `clang-format.py`?
 
 `clang-format.py` is Python script to use clang-format from Vim, which is installed with clang-format.
@@ -103,6 +105,8 @@ autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " if you install vim-operator-user
 autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+" Toggle auto formatting:
+nmap <Leader>C :ClangFormatAutoToggle<CR>
 ```
 
 ### For More Information
