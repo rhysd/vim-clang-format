@@ -201,8 +201,6 @@ function! clang_format#replace(line1, line2)
         let &l:selection = sel_save
         call setpos('.', pos_save)
     endtry
-
-    return 1
 endfunction
 " }}}
 
