@@ -1,5 +1,5 @@
 if exists('g:loaded_clang_format')
-  finish
+    finish
 endif
 
 try
@@ -19,15 +19,6 @@ augroup plugin-clang-format-auto-format
     autocmd FileType c,cpp,objc if g:clang_format#auto_formatexpr && !clang_format#is_invalid() | setlocal formatexpr=clang_format#replace(v:lnum,v:lnum+v:count-1) | endif
 augroup END
 
-function! ClangFormatAutoToggleFunc()
-	if !exists("g:clang_format#auto_format") || g:clang_format#auto_format == 0
-		let g:clang_format#auto_format = 1
-		echo "Auto clang-format: enabled"
-	else
-		let g:clang_format#auto_format = 0
-		echo "Auto clang-format: disabled"
-	endif
-endfunction
-command! ClangFormatAutoToggle call ClangFormatAutoToggleFunc()
+command! ClangFormatAutoToggle let g:clang_format#auto_format = !g:clang_format#auto_format
 
 let g:loaded_clang_format = 1
