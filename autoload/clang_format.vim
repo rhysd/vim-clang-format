@@ -225,5 +225,15 @@ function! clang_format#enable_format_on_insert()
 endfunction
 " }}}
 
+" toggle auto formatting {{{
+function! clang_format#toggle_auto_format()
+    let g:clang_format#auto_format = !g:clang_format#auto_format
+    if g:clang_format#auto_format
+        echo "Auto clang-format: enabled"
+    else
+        echo "Auto clang-format: disabled"
+    endif
+endfunction
+" }}}
 let &cpo = s:save_cpo
 unlet s:save_cpo

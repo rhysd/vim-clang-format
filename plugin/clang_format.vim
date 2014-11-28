@@ -19,6 +19,6 @@ augroup plugin-clang-format-auto-format
     autocmd FileType c,cpp,objc if g:clang_format#auto_formatexpr && !clang_format#is_invalid() | setlocal formatexpr=clang_format#replace(v:lnum,v:lnum+v:count-1) | endif
 augroup END
 
-command! ClangFormatAutoToggle let g:clang_format#auto_format = !g:clang_format#auto_format
+command! ClangFormatAutoToggle call clang_format#toggle_auto_format()
 
 let g:loaded_clang_format = 1
