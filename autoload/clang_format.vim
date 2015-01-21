@@ -14,20 +14,28 @@ function! s:has_vimproc()
     return s:exists_vimproc
 endfunction
 
-function! s:system(str, ...)
-    let command = a:str
+let s:is_windows = has('win32') || has('win64')
+
+function! s:escape_for_windows(str)
+    return substitute(a:str, '[&()[\]{}^=;!''+,`~]', '^\0', 'g')
+endfunction
+
+function! s:system(cmd, ...)
     let input = a:0 >= 1 ? a:1 : ''
+    if s:is_windows
+        let input = s:escape_for_windows(input)
+    endif
 
     if a:0 == 0
         let output = s:has_vimproc() ?
-                    \ vimproc#system(command) : system(command)
+                    \ vimproc#system(a:cmd) : system(a:cmd)
     elseif a:0 == 1
         let output = s:has_vimproc() ?
-                    \ vimproc#system(command, input) : system(command, input)
+                    \ vimproc#system(a:cmd, input) : system(a:cmd, input)
     else
         " ignores 3rd argument unless you have vimproc.
         let output = s:has_vimproc() ?
-                    \ vimproc#system(command, input, a:2) : system(command, input)
+                    \ vimproc#system(a:cmd, input, a:2) : system(a:cmd, input)
     endif
 
     return output

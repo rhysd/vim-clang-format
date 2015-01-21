@@ -9,9 +9,10 @@ function! s:detect_clang_format()
             return candidate
         endif
     endfor
-    throw 'not ok because detect clang-format could not be found in $PATH'
+    throw 'not ok because no clang-format is found in $PATH'
 endfunction
 let g:clang_format#command = s:detect_clang_format()
+echo g:clang_format#command . ' is used'
 
 function! Chomp(s)
     return a:s =~# '\n$'
