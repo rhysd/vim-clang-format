@@ -21,21 +21,24 @@ function! s:escape_for_windows(str)
 endfunction
 
 function! s:system(cmd, ...)
+    let cmd = a:cmd
     let input = a:0 >= 1 ? a:1 : ''
+
     if s:is_windows
         let input = s:escape_for_windows(input)
+        let cmd = s:escape_for_windows(cmd)
     endif
 
     if a:0 == 0
         let output = s:has_vimproc() ?
-                    \ vimproc#system(a:cmd) : system(a:cmd)
+                    \ vimproc#system(cmd) : system(a:cmd)
     elseif a:0 == 1
         let output = s:has_vimproc() ?
-                    \ vimproc#system(a:cmd, input) : system(a:cmd, input)
+                    \ vimproc#system(cmd, input) : system(a:cmd, input)
     else
         " ignores 3rd argument unless you have vimproc.
         let output = s:has_vimproc() ?
-                    \ vimproc#system(a:cmd, input, a:2) : system(a:cmd, input)
+                    \ vimproc#system(cmd, input, a:2) : system(a:cmd, input)
     endif
 
     return output
@@ -142,7 +145,7 @@ let g:clang_format#auto_formatexpr = s:getg('clang_format#auto_formatexpr', 0)
 " format codes {{{
 function! s:detect_style_file()
     let dirname = expand('%:p:h')
-    let style_file_name = has('win32') || has('win64') ? '_clang-format' : '.clang-format'
+    let style_file_name = s:is_windows ? '_clang-format' : '.clang-format'
     return findfile(style_file_name, dirname.';') != ''
 endfunction
 
