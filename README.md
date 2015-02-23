@@ -28,7 +28,7 @@ If you install [vim-operator-user](https://github.com/kana/vim-operator-user) in
 The usage is [here](http://clang.llvm.org/docs/ClangFormat.html#vim-integration).
 Against `clang-format.py`, vim-clang-format has below advantages.
 
-- Style options are highly costomizable in `.vimrc`. `clang-format.py` requires `.clang-format` file to customize a style.
+- Style options are highly customizable in `.vimrc`. `clang-format.py` requires `.clang-format` file to customize a style.
 - vim-clang-format provides an operator mapping.
 - vim-clang-format doesn't need python interface.
 
