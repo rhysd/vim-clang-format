@@ -178,8 +178,8 @@ function! clang_format#format(line1, line2)
     endif
     let args .= printf("-assume-filename=%s ", shellescape(escape(expand('%'), " \t")))
     let args .= g:clang_format#extra_args
-    let clang_format = printf("%s %s --", g:clang_format#command, args)
-    return s:system(clang_format, join(getline(1, '$'), "\n"))
+    let clang_format = printf("%s %s --", g:clang_format#command, args) . " | " . "tail -n +" . a:line1
+    return s:system(clang_format, join(getline(1, a:line2), "\n"))
 endfunction
 " }}}
 
@@ -197,34 +197,27 @@ function! clang_format#replace(line1, line2)
         let formatted = clang_format#format(a:line1, a:line2)
 
         if s:success(formatted)
-            try
-                " Note:
-                " Replace current buffer with workaround not to move
-                " the cursor on undo (issue #8)
-                "
-                " The points are:
-                "   - Do not touch the first line.
-                "   - Use :put (p, P and :put! is not available).
-                "
-                " To meet above condition:
-                "   - Delete all lines except for the first line.
-                "   - Put formatted text except for the first line.
-                "
-                let i = stridx(formatted, "\n")
-                if i == -1 || getline(1) !=# formatted[:i-1]
-                    throw "fallback"
-                endif
+            call setreg('g', formatted, 'V')
 
-                call setreg('g', formatted[i+1:], 'V')
-                undojoin | silent normal! 2gg"_dG
+            silent execute "normal! " . a:line1 . "G"
+            silent execute "normal! \"_" . (a:line2 - a:line1 + 1) . "dd"
+
+            if line('$') == 1 && nextnonblank(1) == 0 && col('$') == 1
+                "empty buffer case (happens after deletion of the whole
+                "buffer) => need to place formatted text after current
+                "line and delete first empty line
                 silent put g
-            catch
-                " Fallback:
-                " The previous way.  It lets the cursor move to the first line
-                " on undo.
-                call setreg('g', formatted, 'V')
-                silent keepjumps normal! ggVG"gp
-            endtry
+                silent normal! gg"_dd
+            elseif line('.') != a:line1
+                "moved one line up after deletion (happens after deletion
+                "to the end of buffer) => need to placed formatted text
+                "after current line
+                silent put g
+            else
+                "normal situation => need to place formatted text before
+                "current line
+                silent put! g
+            endif
         else
             call s:error_message(formatted)
         endif
