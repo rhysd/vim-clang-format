@@ -139,6 +139,27 @@ g:clang_format#style_options                      *g:clang_format#style_options*
     CLANG-FORMAT STYLE OPTIONS
     http://clang.llvm.org/docs/ClangFormatStyleOptions.html
 
+g:clang_format#filetype_style_options
+                                         *g:clang_format#filetype_style_options*
+
+    If you want to use language-specific style options, you can use this
+    variable.  This variable is a |Dictionary| and its key is |filetype|.  You
+    can specify the filetype specific style options as a value of the key.
+    The format to specify options is the same as |g:clang_format#style_options|.
+
+    For example, if you want to set "C++11" to "Standard", you can specify it
+    only when the filetype is "cpp" as below:
+>
+    " Your common style options
+    let g:clang_format#style_options = {
+            \ 'AllowShortIfStatementsOnASingleLine' : 'true',
+            \ }
+
+    " Your filetype specific options
+    let g:clang_format#filetype_style_options = {
+                \   'cpp' : {"Standard" : "C++11"},
+                \ }
+<
 g:clang_format#extra_args                            *g:clang_format#extra_args*
 
     Extra arguments for clang-format.  This |String| value is passed to

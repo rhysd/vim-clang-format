@@ -29,9 +29,10 @@ function! GetBuffer()
     return join(getline(1, '$'), "\n")
 endfunction
 
-function! ClangFormat(line1, line2)
+function! ClangFormat(line1, line2, ...)
     let opt = printf(" -lines=%d:%d -style='{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s}' ", a:line1, a:line2, &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
-    let cmd = g:clang_format#command.opt.'./'.s:root_dir.'t/test.cpp --'
+    let file = a:0 == 0 ? 'test.cpp' : a:1
+    let cmd = g:clang_format#command.opt.'./'.s:root_dir.'t/' . file . ' --'
     return Chomp(system(cmd))
 endfunction
 "}}}
@@ -77,6 +78,7 @@ describe 'default settings'
         Expect exists('g:clang_format#extra_args') to_be_true
         Expect exists('g:clang_format#code_style') to_be_true
         Expect exists('g:clang_format#style_options') to_be_true
+        Expect exists('g:clang_format#filetype_style_options') to_be_true
         Expect exists('g:clang_format#command') to_be_true
         Expect exists('g:clang_format#detect_style_file') to_be_true
         Expect exists('g:clang_format#auto_format') to_be_true
@@ -84,6 +86,7 @@ describe 'default settings'
         Expect g:clang_format#extra_args to_be_empty
         Expect g:clang_format#code_style ==# 'google'
         Expect g:clang_format#style_options to_be_empty
+        Expect g:clang_format#filetype_style_options to_be_empty
         Expect executable(g:clang_format#command) to_be_true
         Expect g:clang_format#detect_style_file to_be_true
     end
@@ -213,41 +216,65 @@ end
 " test for :ClangFormat {{{
 describe ':ClangFormat'
 
-    before
-        let g:clang_format#detect_style_file = 0
-        new
-        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+    describe 'with filetype cpp'
+
+        before
+            let g:clang_format#detect_style_file = 0
+            new
+            execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        end
+
+        after
+            bdelete!
+        end
+
+        it 'formats the whole code in normal mode'
+            let by_clang_format_command = ClangFormat(1, line('$'))
+            ClangFormat
+            let buffer = GetBuffer()
+            Expect by_clang_format_command ==# buffer
+        end
+
+        it 'formats selected code in visual mode'
+            " format for statement
+            let by_clang_format_command = ClangFormat(11, 13)
+            " move to for statement block
+            execute 11
+            normal! VjjV
+            '<,'>ClangFormat
+            let buffer = GetBuffer()
+            Expect by_clang_format_command ==# buffer
+        end
+
+        it 'doesn''t move cursor'
+            execute 'normal!' (1+line('$')).'gg'
+            let pos = getpos('.')
+            ClangFormat
+            Expect pos == getpos('.')
+        end
+
     end
 
-    after
-        bdelete!
-    end
+    describe 'with filetype javascript'
 
-    it 'formats the whole code in normal mode'
-        let by_clang_format_command = ClangFormat(1, line('$'))
-        ClangFormat
-        let buffer = GetBuffer()
-        Expect by_clang_format_command ==# buffer
-    end
+        before
+            let g:clang_format#detect_style_file = 0
+            new
+            execute 'silent' 'edit!' './'.s:root_dir.'t/test.js'
+        end
 
-    it 'formats selected code in visual mode'
-        " format for statement
-        let by_clang_format_command = ClangFormat(11, 13)
-        " move to for statement block
-        execute 11
-        normal! VjjV
-        '<,'>ClangFormat
-        let buffer = GetBuffer()
-        Expect by_clang_format_command ==# buffer
-    end
+        after
+            bdelete!
+        end
 
-    it 'doesn''t move cursor'
-        execute 'normal!' (1+line('$')).'gg'
-        let pos = getpos('.')
-        ClangFormat
-        Expect pos == getpos('.')
-    end
+        it 'formats the whole code in normal mode'
+            let by_clang_format_command = ClangFormat(1, line('$'), 'test.js')
+            ClangFormat
+            let buffer = GetBuffer()
+            Expect by_clang_format_command ==# buffer
+        end
 
+    end
 end
 " }}}
 
