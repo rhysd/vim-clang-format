@@ -33,11 +33,23 @@ function! s:system(str, ...)
     return output
 endfunction
 
-function! s:make_style_options()
+function! s:build_extra_options()
     let extra_options = ""
-    for [key, value] in items(g:clang_format#style_options)
+
+    let opts = copy(g:clang_format#style_options)
+    if has_key(g:clang_format#filetype_style_options, &ft)
+        call extend(opts, g:clang_format#filetype_style_options[&ft])
+    endif
+
+    for [key, value] in items(opts)
         let extra_options .= printf(", %s: %s", key, value)
     endfor
+
+    return extra_options
+endfunction
+
+function! s:make_style_options()
+    let extra_options = s:build_extra_options()
     return printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
                         \ g:clang_format#code_style,
                         \ (exists('*shiftwidth') ? shiftwidth() : &l:shiftwidth),
@@ -124,6 +136,7 @@ endif
 
 let g:clang_format#code_style = s:getg('clang_format#code_style', 'google')
 let g:clang_format#style_options = s:getg('clang_format#style_options', {})
+let g:clang_format#filetype_style_options = s:getg('clang_format#filetype_style_options', {})
 
 let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 1)
 let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
