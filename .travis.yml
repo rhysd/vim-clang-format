@@ -7,9 +7,7 @@ env:
     - CLANG_VERSION="3.5"
 install:
     - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
-    - sudo echo 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main' > llvm.list
-    - sudo echo 'deb-src http://llvm.org/apt/precise/ llvm-toolchain-precise main' >> llvm.list
-    - sudo mv llvm.list /etc/apt/sources.list.d/
+    - echo "deb http://llvm.org/apt/precise/ llvm-toolchain-precise-${CLANG_VERSION} main" >> /etc/apt/sources.list
     - sudo apt-get -qq update
     - sudo apt-get -qq --force-yes install clang-format-${CLANG_VERSION}
     - bundle install
