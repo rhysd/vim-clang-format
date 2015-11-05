@@ -146,7 +146,7 @@ let g:clang_format#auto_formatexpr = s:getg('clang_format#auto_formatexpr', 0)
 
 " format codes {{{
 function! s:detect_style_file()
-    let dirname = expand('%:p:h')
+    let dirname = fnameescape(expand('%:p:h'))
     let style_file_name = has('win32') || has('win64') ? '_clang-format' : '.clang-format'
     return findfile(style_file_name, dirname.';') != ''
 endfunction
