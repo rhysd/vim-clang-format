@@ -189,7 +189,8 @@ g:clang_format#auto_formatexpr		        *g:clang_format#auto_formatexpr*
 
     When the value is 1, 'formatexpr' option is set automatically in |c|, |cpp|
     and |objc| codes.  Vim's format mappings (e.g. |gq|) get to use |clang-format|
-    to format.
+    to format. This option is not comptabile with Vim's `textwidth` feature. You
+    must set `textwidth` to `0` when the `formatexpr` is set.
 
 
 
