@@ -89,7 +89,9 @@ Formatting is executed on `InsertLeave` event.
 - `g:clang_format#auto_formatexpr`
 
 When the value is 1, `formatexpr` option is set by vim-clang-format automatically in C, C++ and ObjC codes.
-Vim's format mappings (e.g. `gq`) get to use `clang-format` to format.
+Vim's format mappings (e.g. `gq`) get to use `clang-format` to format. This
+option is not comptabile with Vim's `textwidth` feature. You must set
+`textwidth` to `0` when the `formatexpr` is set.
 
 ### Vimrc Example
 
