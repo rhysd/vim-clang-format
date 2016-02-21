@@ -250,12 +250,12 @@ endfunction
 " }}}
 
 " enable auto formatting {{{
-function !clang_format#enable_auto_format()
+function! clang_format#enable_auto_format()
     let g:clang_format#auto_format = 1
 " }}}
 
 " disable auto formatting {{{
-function !clang_format#disable_auto_format()
+function! clang_format#disable_auto_format()
     let g:clang_format#auto_format = 0
 " }}}
 let &cpo = s:save_cpo
