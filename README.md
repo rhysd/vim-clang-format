@@ -112,8 +112,8 @@ autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
 nmap <Leader>C :ClangFormatAutoToggle<CR>
 ```
 
+##### Auto-enabling auto-formatting
 ```vim
-" Enable auto formatting on c files:
 au FileType c ClangFormatAutoEnable
 ```
 
