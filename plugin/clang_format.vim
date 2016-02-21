@@ -20,5 +20,7 @@ augroup plugin-clang-format-auto-format
 augroup END
 
 command! ClangFormatAutoToggle call clang_format#toggle_auto_format()
+command! ClangFormatAutoEnable call clang_format#enable_auto_format()
+command! ClangFormatAutoDisable call clang_format#disable_auto_format()
 
 let g:loaded_clang_format = 1

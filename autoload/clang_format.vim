@@ -248,5 +248,15 @@ function! clang_format#toggle_auto_format()
     endif
 endfunction
 " }}}
+
+" enable auto formatting {{{
+function !clang_format#enable_auto_format()
+    let g:clang_format#auto_format = 1
+" }}}
+
+" disable auto formatting {{{
+function !clang_format#enable_auto_format()
+    let g:clang_format#auto_format = 0
+" }}}
 let &cpo = s:save_cpo
 unlet s:save_cpo
