@@ -252,11 +252,13 @@ endfunction
 " enable auto formatting {{{
 function! clang_format#enable_auto_format()
     let g:clang_format#auto_format = 1
+endfunction
 " }}}
 
 " disable auto formatting {{{
 function! clang_format#disable_auto_format()
     let g:clang_format#auto_format = 0
+endfunction
 " }}}
 let &cpo = s:save_cpo
 unlet s:save_cpo
