@@ -158,7 +158,7 @@ function! clang_format#format(line1, line2)
     else
         let args .= " -style=file "
     endif
-    let args .= printf("-assume-filename=%s", expand('%:p'))
+    let args .= printf("-assume-filename=%s", shellescape(expand('%:p')))
     let args .= g:clang_format#extra_args
     let clang_format = printf("%s %s --", g:clang_format#command, args)
     return s:system(clang_format, join(getline(1, '$'), "\n"))
