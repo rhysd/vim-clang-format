@@ -158,10 +158,7 @@ function! clang_format#format(line1, line2)
     else
         let args .= " -style=file "
     endif
-    let v = clang_format#get_version()
-    if (v[0] == 3 && v[1] >= 8) || v[0] > 3
-      let args .= printf("-assume-filename=%s ", shellescape(escape(expand('%:p'), " \t")))
-    endif
+    let args .= printf("-assume-filename=%s ", shellescape(escape(expand('%'), " \t")))
     let args .= g:clang_format#extra_args
     let clang_format = printf("%s %s --", g:clang_format#command, args)
     return s:system(clang_format, join(getline(1, '$'), "\n"))
