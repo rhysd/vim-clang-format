@@ -145,6 +145,39 @@ describe 'clang_format#format()'
         call s:expect_the_same_output(1, line('$'))
         Expect pos == getpos('.')
     end
+
+    it 'formats following g:clang_format#style_options'
+        let saved = [g:clang_format#style_options, &expandtab, &shiftwidth]
+        try
+            set expandtab
+            set shiftwidth=4
+            let g:clang_format#style_options = {'UseTab' : 'false', 'IndentWidth' : 4}
+            call s:expect_the_same_output(1, line('$'))
+        finally
+            let g:clang_format#style_options = saved[0]
+            let &expandtab = saved[1]
+            let &shiftwidth = saved[2]
+        endtry
+    end
+
+    it 'ensures to fix issue #38'
+        let saved = g:clang_format#style_options
+        try
+            let g:clang_format#style_options = {
+                        \ "BraceWrapping" : {
+                        \     "AfterControlStatement" : "true" ,
+                        \     "AfterClass " : "true",
+                        \   },
+                        \ }
+            try
+                call clang_format#format(1, line('$'))
+            catch /^YAML:\d\+:\d\+/
+                " OK
+            endtry
+        finally
+            let g:clang_format#style_options = saved
+        endtry
+    end
 end
 
 describe 'clang_format#replace()'

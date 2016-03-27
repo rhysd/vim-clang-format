@@ -33,6 +33,20 @@ function! s:system(str, ...)
     return output
 endfunction
 
+function! s:create_keyvals(key, val) abort
+    if type(a:val) == type({})
+        return a:key . ': {' . s:stringize_options(a:val) . '}'
+    else
+        return a:key . ': ' . a:val
+    endif
+endfunction
+
+function! s:stringize_options(opts) abort
+    let dict_type = type({})
+    let keyvals = map(items(a:opts), 's:create_keyvals(v:val[0], v:val[1])')
+    return join(keyvals, ',')
+endfunction
+
 function! s:build_extra_options()
     let extra_options = ""
 
@@ -41,9 +55,7 @@ function! s:build_extra_options()
         call extend(opts, g:clang_format#filetype_style_options[&ft])
     endif
 
-    for [key, value] in items(opts)
-        let extra_options .= printf(", %s: %s", key, value)
-    endfor
+    let extra_options .= ', ' . s:stringize_options(opts)
 
     return extra_options
 endfunction
