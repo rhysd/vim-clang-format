@@ -292,7 +292,7 @@ describe 'g:clang_format#auto_format'
     end
 
     it 'formats a current buffer on BufWritePre if the value is 1'
-        SKIP "because somehow BufWritePre event isn't fired"
+        SKIP because somehow BufWritePre event isn't fired
         let formatted = clang_format#format(1, line('$'))
         doautocmd BufWritePre
         let auto_formatted = join(getline(1, line('$')), "\n")
@@ -315,7 +315,7 @@ describe 'g:clang_format#auto_format_on_insert_leave'
     end
 
     it 'formats a inserted area on InsertLeave if the value is 1'
-        SKIP "because somehow InsertEnter and InsertLeave events aren't fired"
+        SKIP because somehow InsertEnter and InsertLeave events aren't fired
         execute 10
         execute 'normal' "iif(1+2)return 4;\<Esc>"
         Expect getline('.') ==# '    if (1 + 2) return 4;'
@@ -337,7 +337,7 @@ describe 'g:clang_format#auto_formatexpr'
     end
 
     it 'formats the text object using gq operator'
-        SKIP "because of unknown backslash on formatting too long macros"
+        SKIP because of unknown backslash on formatting too long macros
         doautocmd Filetype cpp
         let expected = ClangFormat(1, line('$'))
         normal ggVGgq
