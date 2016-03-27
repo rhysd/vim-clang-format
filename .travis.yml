@@ -11,3 +11,4 @@ install:
     - sudo apt-get -qq update
     - sudo apt-get -qq --force-yes install clang-format-${CLANG_VERSION}
     - bundle install
+    - clang-format-${CLANG_VERSION} -version || true
