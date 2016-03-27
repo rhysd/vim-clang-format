@@ -1,2 +1,2 @@
-*.lock
 .vim-flavor
+.bundle
