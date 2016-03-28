@@ -4,9 +4,14 @@
 " helpers "{{{
 " clang-format detection
 function! s:detect_clang_format()
-    for candidate in ['clang-format-3.4', 'clang-format', 'clang-format-HEAD', 'clang-format-3.5']
-        if executable(candidate)
-            return candidate
+    if $CLANG_FORMAT !=# '' && executable($CLANG_FORMAT)
+        return $CLANG_FORMAT
+    endif
+
+    for suffix in ['-HEAD', '-3.8', '-3.7', '-3.6', '-3.5', '-3.4', '']
+        let c = 'clang-format' . suffix
+        if executable(c)
+            return c
         endif
     endfor
     throw 'not ok because detect clang-format could not be found in $PATH'
