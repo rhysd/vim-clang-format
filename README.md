@@ -4,7 +4,7 @@ This plugin formats your C++ code with specific coding style using [clang](http:
 
 ### Screenshot
 
-![Screenshot](http://gifzo.net/BIteGJ9Vasg.gif)
+![Screenshot](https://raw.githubusercontent.com/rhysd/ss/master/vim-clang-format/main.gif)
 
 ### Requirements
 
