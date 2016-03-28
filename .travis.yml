@@ -1,8 +1,6 @@
 language: ruby
-sudo: false
 rvm:
     - 1.9.3
-
 env:
     - CLANG_VERSION="3.7"
     - CLANG_VERSION="3.8"
@@ -14,11 +12,13 @@ install:
 script:
     - CLANG_FORMAT=clang-format-${CLANG_VERSION} rake ci
 
-cache:
-    - apt
-
 addons:
     apt:
+        sources:
+            - llvm-toolchain-precise
+            - llvm-toolchain-precise-3.7
+            - ubuntu-toolchain-r-test
         packages:
-            - clang-format-3.8
+            - g++-4.9
             - clang-format-3.7
+            - clang-format-3.8
