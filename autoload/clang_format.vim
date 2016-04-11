@@ -92,7 +92,14 @@ function! clang_format#get_version()
         set shell=/bin/bash
     endif
     try
-        return matchlist(s:system(g:clang_format#command.' --version 2>&1'), '\(\d\+\)\.\(\d\+\)')[1:2]
+        let version_output = s:system(g:clang_format#command.' --version 2>&1')
+        if stridx(version_output, 'NPM') != -1
+            " Note:
+            " When clang-format is installed with npm, version string is changed (#39).
+            return matchlist(version_output, 'NPM version \d\+\.\d\+\.\(\d\)\(\d\+\)')[1:2]
+        else
+            return matchlist(version_output, '\(\d\+\)\.\(\d\+\)')[1:2]
+        endif
     finally
         if exists('l:shell_save')
             let &shell = shell_save
