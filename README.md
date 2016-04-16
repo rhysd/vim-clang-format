@@ -1,18 +1,26 @@
-## Format your C, C++ and Objective-C code [![Build Status](https://travis-ci.org/rhysd/vim-clang-format.png?branch=master)](https://travis-ci.org/rhysd/vim-clang-format)
+Format your C family code
+=======================================
+[![Build Status](https://travis-ci.org/rhysd/vim-clang-format.png?branch=master)](https://travis-ci.org/rhysd/vim-clang-format)
 
-This plugin formats your C++ code with specific coding style using [clang](http://clang.llvm.org/).
+This plugin formats your code with specific coding style using [clang](http://clang.llvm.org/).  Currently below languages are supported.
 
-### Screenshot
+- C
+- C++
+- Objective-C
+- JavaScript
+- Java
+
+## Screenshot
 
 ![Screenshot](https://raw.githubusercontent.com/rhysd/ss/master/vim-clang-format/main.gif)
 
-### Requirements
+## Requirements
 
 - `clang-format` command (**3.4 or later**), which is bundled in Clang extra tools
 - [vim-operator-user](https://github.com/kana/vim-operator-user)(highly recommended)
 - [vimproc.vim](https://github.com/Shougo/vimproc.vim)(recommended in Windows)
 
-### Usage
+## Usage
 
 `:ClangFormat` command is available.
 If you use it in normal mode, the whole code will be formatted. If you use it in visual mode, the selected code will be formatted.
@@ -23,7 +31,7 @@ If you install [vim-operator-user](https://github.com/kana/vim-operator-user) in
 `:ClangFormatAutoToggle` command toggles the auto formatting on buffer write.
 `:ClangFormatAutoEnable` command enables the auto formatting on buffer write. Useful for automatically enabling the auto format through a vimrc. `:ClangFormatAutoDisable` turns it off.
 
-### What is the difference from `clang-format.py`?
+## What is the difference from `clang-format.py`?
 
 `clang-format.py` is Python script to use clang-format from Vim, which is installed with clang-format.
 The usage is [here](http://clang.llvm.org/docs/ClangFormat.html#vim-integration).
@@ -35,7 +43,7 @@ Against `clang-format.py`, vim-clang-format has below advantages.
 
 In short, vim-clang-format has better Vim integration than `clang-format.py`.
 
-### Customization
+## Customization
 
 You can customize formatting using some variables.
 
@@ -94,7 +102,7 @@ Vim's format mappings (e.g. `gq`) get to use `clang-format` to format. This
 option is not comptabile with Vim's `textwidth` feature. You must set
 `textwidth` to `0` when the `formatexpr` is set.
 
-### Vimrc Example
+## Vimrc Example
 
 ```vim
 let g:clang_format#style_options = {
@@ -112,12 +120,13 @@ autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
 nmap <Leader>C :ClangFormatAutoToggle<CR>
 ```
 
-##### Auto-enabling auto-formatting
+### Auto-enabling auto-formatting
+
 ```vim
-au FileType c ClangFormatAutoEnable
+autocmd FileType c ClangFormatAutoEnable
 ```
 
-### For More Information
+## For More Information
 
 ```
 $ clang-format -help
@@ -130,9 +139,9 @@ $ clang-format -dump-config
 clang-format's documentation and API documentation is useful in some cases.
 In paticular, the following link is useful to know the information of a key and its value of a style setting.
 [CLANG-FORMAT STYLE OPTIONS](http://clang.llvm.org/docs/ClangFormatStyleOptions.html)
-    
 
-### License
+
+## License
 
     The MIT License (MIT)
 
