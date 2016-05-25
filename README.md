@@ -9,6 +9,7 @@ This plugin formats your code with specific coding style using [clang](http://cl
 - Objective-C
 - JavaScript
 - Java
+- TypeScript
 
 ## Screenshot
 
