@@ -33,6 +33,20 @@ function! s:system(str, ...)
     return output
 endfunction
 
+function! s:create_keyvals(key, val) abort
+    if type(a:val) == type({})
+        return a:key . ': {' . s:stringize_options(a:val) . '}'
+    else
+        return a:key . ': ' . a:val
+    endif
+endfunction
+
+function! s:stringize_options(opts) abort
+    let dict_type = type({})
+    let keyvals = map(items(a:opts), 's:create_keyvals(v:val[0], v:val[1])')
+    return join(keyvals, ',')
+endfunction
+
 function! s:build_extra_options()
     let extra_options = ""
 
@@ -41,9 +55,7 @@ function! s:build_extra_options()
         call extend(opts, g:clang_format#filetype_style_options[&ft])
     endif
 
-    for [key, value] in items(opts)
-        let extra_options .= printf(", %s: %s", key, value)
-    endfor
+    let extra_options .= ', ' . s:stringize_options(opts)
 
     return extra_options
 endfunction
@@ -80,7 +92,14 @@ function! clang_format#get_version()
         set shell=/bin/bash
     endif
     try
-        return matchlist(s:system(g:clang_format#command.' --version 2>&1'), '\(\d\+\)\.\(\d\+\)')[1:2]
+        let version_output = s:system(g:clang_format#command.' --version 2>&1')
+        if stridx(version_output, 'NPM') != -1
+            " Note:
+            " When clang-format is installed with npm, version string is changed (#39).
+            return matchlist(version_output, 'NPM version \d\+\.\d\+\.\(\d\)\(\d\+\)')[1:2]
+        else
+            return matchlist(version_output, '\(\d\+\)\.\(\d\+\)')[1:2]
+        endif
     finally
         if exists('l:shell_save')
             let &shell = shell_save
@@ -146,7 +165,7 @@ let g:clang_format#auto_formatexpr = s:getg('clang_format#auto_formatexpr', 0)
 
 " format codes {{{
 function! s:detect_style_file()
-    let dirname = expand('%:p:h')
+    let dirname = fnameescape(expand('%:p:h'))
     let style_file_name = has('win32') || has('win64') ? '_clang-format' : '.clang-format'
     return findfile(style_file_name, dirname.';')
 endfunction
@@ -159,6 +178,7 @@ function! clang_format#format(line1, line2)
     else
         let args .= " -style=file --assume-filename=".style_file
     endif
+    let args .= printf("-assume-filename=%s ", shellescape(escape(expand('%'), " \t")))
     let args .= g:clang_format#extra_args
     let clang_format = printf("%s %s --", g:clang_format#command, args)
     return s:system(clang_format, join(getline(1, '$'), "\n"))
@@ -247,6 +267,18 @@ function! clang_format#toggle_auto_format()
     else
         echo "Auto clang-format: disabled"
     endif
+endfunction
+" }}}
+
+" enable auto formatting {{{
+function! clang_format#enable_auto_format()
+    let g:clang_format#auto_format = 1
+endfunction
+" }}}
+
+" disable auto formatting {{{
+function! clang_format#disable_auto_format()
+    let g:clang_format#auto_format = 0
 endfunction
 " }}}
 let &cpo = s:save_cpo

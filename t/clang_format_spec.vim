@@ -4,9 +4,14 @@
 " helpers "{{{
 " clang-format detection
 function! s:detect_clang_format()
-    for candidate in ['clang-format-3.4', 'clang-format', 'clang-format-HEAD', 'clang-format-3.5']
-        if executable(candidate)
-            return candidate
+    if $CLANG_FORMAT !=# '' && executable($CLANG_FORMAT)
+        return $CLANG_FORMAT
+    endif
+
+    for suffix in ['-HEAD', '-3.8', '-3.7', '-3.6', '-3.5', '-3.4', '']
+        let c = 'clang-format' . suffix
+        if executable(c)
+            return c
         endif
     endfor
     throw 'not ok because detect clang-format could not be found in $PATH'
@@ -144,6 +149,39 @@ describe 'clang_format#format()'
         let pos = getpos('.')
         call s:expect_the_same_output(1, line('$'))
         Expect pos == getpos('.')
+    end
+
+    it 'formats following g:clang_format#style_options'
+        let saved = [g:clang_format#style_options, &expandtab, &shiftwidth]
+        try
+            set expandtab
+            set shiftwidth=4
+            let g:clang_format#style_options = {'UseTab' : 'false', 'IndentWidth' : 4}
+            call s:expect_the_same_output(1, line('$'))
+        finally
+            let g:clang_format#style_options = saved[0]
+            let &expandtab = saved[1]
+            let &shiftwidth = saved[2]
+        endtry
+    end
+
+    it 'ensures to fix issue #38'
+        let saved = g:clang_format#style_options
+        try
+            let g:clang_format#style_options = {
+                        \ "BraceWrapping" : {
+                        \     "AfterControlStatement" : "true" ,
+                        \     "AfterClass " : "true",
+                        \   },
+                        \ }
+            try
+                call clang_format#format(1, line('$'))
+            catch /^YAML:\d\+:\d\+/
+                " OK
+            endtry
+        finally
+            let g:clang_format#style_options = saved
+        endtry
     end
 end
 
@@ -292,7 +330,7 @@ describe 'g:clang_format#auto_format'
     end
 
     it 'formats a current buffer on BufWritePre if the value is 1'
-        SKIP "because somehow BufWritePre event isn't fired"
+        SKIP because somehow BufWritePre event isn't fired
         let formatted = clang_format#format(1, line('$'))
         doautocmd BufWritePre
         let auto_formatted = join(getline(1, line('$')), "\n")
@@ -315,7 +353,7 @@ describe 'g:clang_format#auto_format_on_insert_leave'
     end
 
     it 'formats a inserted area on InsertLeave if the value is 1'
-        SKIP "because somehow InsertEnter and InsertLeave events aren't fired"
+        SKIP because somehow InsertEnter and InsertLeave events aren't fired
         execute 10
         execute 'normal' "iif(1+2)return 4;\<Esc>"
         Expect getline('.') ==# '    if (1 + 2) return 4;'
@@ -337,7 +375,7 @@ describe 'g:clang_format#auto_formatexpr'
     end
 
     it 'formats the text object using gq operator'
-        SKIP "because of unknown backslash on formatting too long macros"
+        SKIP because of unknown backslash on formatting too long macros
         doautocmd Filetype cpp
         let expected = ClangFormat(1, line('$'))
         normal ggVGgq
