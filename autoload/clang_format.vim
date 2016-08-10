@@ -167,15 +167,16 @@ let g:clang_format#auto_formatexpr = s:getg('clang_format#auto_formatexpr', 0)
 function! s:detect_style_file()
     let dirname = fnameescape(expand('%:p:h'))
     let style_file_name = has('win32') || has('win64') ? '_clang-format' : '.clang-format'
-    return findfile(style_file_name, dirname.';') != ''
+    return findfile(style_file_name, dirname.';')
 endfunction
 
 function! clang_format#format(line1, line2)
     let args = printf(" -lines=%d:%d", a:line1, a:line2)
-    if ! (g:clang_format#detect_style_file && s:detect_style_file())
+    let style_file = s:detect_style_file()
+    if ! (g:clang_format#detect_style_file && style_file != '')
         let args .= printf(" -style=%s ", s:make_style_options())
     else
-        let args .= " -style=file "
+        let args .= " -style=file --assume-filename=".style_file
     endif
     let args .= printf("-assume-filename=%s ", shellescape(escape(expand('%'), " \t")))
     let args .= g:clang_format#extra_args
