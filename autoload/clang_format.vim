@@ -203,7 +203,7 @@ function! s:detect_style_file() abort
 endfunction
 
 function! clang_format#format(line1, line2) abort
-    let args = printf(' -lines=%d:%d', a:line1, a:line2)
+    let args = ""
     if ! (g:clang_format#detect_style_file && s:detect_style_file())
         if g:clang_format#enable_fallback_style
             let args .= ' ' . s:shellescape(printf('-style=%s', s:make_style_options())) . ' '
@@ -219,8 +219,7 @@ function! clang_format#format(line1, line2) abort
     endif
     let args .= g:clang_format#extra_args
     let clang_format = printf('%s %s --', s:shellescape(g:clang_format#command), args)
-    let source = join(getline(1, '$'), "\n")
-    return s:system(clang_format, source)
+    return s:system(clang_format, join(getline(a:line1, a:line2), "\n"))
 endfunction
 " }}}
 
@@ -236,15 +235,22 @@ function! clang_format#replace(line1, line2, ...) abort
     endif
 
     let winview = winsaveview()
+    let fold_closed_save = foldclosed(line('.'))
+
     let splitted = split(formatted, '\n', 1)
 
-    silent! undojoin
-    if line('$') > len(splitted)
-        execute len(splitted) .',$delete' '_'
-    endif
-    call setline(1, splitted)
+    let indent = indent(a:line1) / shiftwidth()
+    silent exe a:line1.','a:line2.'delete _'
+
+    call append(a:line1 - 1, splitted)
+    silent exe a:line1.";+".(len(splitted)-1).repeat('>', indent)
+
     call winrestview(winview)
     call setpos('.', pos_save)
+
+    if fold_closed_save == -1
+        foldopen!
+    endif
 endfunction
 " }}}
 
