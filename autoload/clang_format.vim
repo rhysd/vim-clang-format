@@ -110,13 +110,15 @@ endfunction
 function! clang_format#is_invalid()
     if !exists('s:command_available')
 	    " if running on windows and the path has spaces it needs to be quoted,
-		" but executable() get confused by the quotes, so we remove them
-	    if has("win32") && !executable(split(g:clang_format#command, '"')[0])
-		    return 1
-        elseif !has("win32")  && !executable(g:clang_format#command)
-            return 1
-        endif
-        let s:command_available = 1
+	    " but executable() get confused by the quotes, so we remove them
+	    if has("win32") || has("win64") 
+	    	if !executable(split(g:clang_format#command, '"')[0])
+	    	   return 1
+	    	endif
+	    else !executable(g:clang_format#command)
+	    	return 1
+	    endif
+	    let s:command_available = 1
     endif
 
     if !exists('s:version')
