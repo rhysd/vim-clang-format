@@ -1,6 +1,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+let s:on_windows = has('win32') || has('win64')
+
 " helper functions {{{
 function! s:has_vimproc()
     if !exists('s:exists_vimproc')
@@ -92,7 +94,7 @@ function! clang_format#get_version()
         set shell=/bin/bash
     endif
     try
-        let version_output = s:system(g:clang_format#command.' --version 2>&1')
+        let version_output = s:system(s:shellescape(g:clang_format#command).' --version 2>&1')
         if stridx(version_output, 'NPM') != -1
             " Note:
             " When clang-format is installed with npm, version string is changed (#39).
@@ -109,7 +111,7 @@ endfunction
 
 function! clang_format#is_invalid()
     if !exists('s:command_available')
-        if ! executable(g:clang_format#command)
+        if !executable(g:clang_format#command)
             return 1
         endif
         let s:command_available = 1
@@ -134,6 +136,17 @@ function! s:verify_command()
         echoerr 'clang-format 3.3 or earlier is not supported for the lack of aruguments'
     endif
 endfunction
+
+function! s:shellescape(str) abort
+    if s:on_windows && (&shell =~? 'cmd\.exe')
+        return '^"' . substitute(substitute(substitute(a:str,
+                    \ '[&|<>()^"%]', '^\0', 'g'),
+                    \ '\\\+\ze"', '\=repeat(submatch(0), 2)', 'g'),
+                    \ '\^"', '\\\0', 'g') . '^"'
+    endif
+    return shellescape(a:str)
+endfunction
+
 " }}}
 
 " variable definitions {{{
@@ -176,9 +189,9 @@ function! clang_format#format(line1, line2)
     else
         let args .= " -style=file "
     endif
-    let args .= printf("-assume-filename=%s ", shellescape(escape(expand('%'), " \t")))
+    let args .= printf("-assume-filename=%s ", s:shellescape(escape(expand('%'), " \t")))
     let args .= g:clang_format#extra_args
-    let clang_format = printf("%s %s --", g:clang_format#command, args)
+    let clang_format = printf("%s %s --", s:shellescape(g:clang_format#command), args)
     return s:system(clang_format, join(getline(1, '$'), "\n"))
 endfunction
 " }}}
