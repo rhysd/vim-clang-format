@@ -119,6 +119,10 @@ function! clang_format#is_invalid()
 
     if !exists('s:version')
         let v = clang_format#get_version()
+        if len(v) < 2
+            " XXX: Give up checking version
+            return 0
+        endif
         if v[0] < 3 || (v[0] == 3 && v[1] < 4)
             return 2
         endif
