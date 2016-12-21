@@ -35,9 +35,23 @@ function! GetBuffer()
 endfunction
 
 function! ClangFormat(line1, line2, ...)
-    let opt = printf(" -lines=%d:%d -style='{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s}' ", a:line1, a:line2, &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
-    let file = a:0 == 0 ? 'test.cpp' : a:1
-    let cmd = g:clang_format#command.opt.'./'.s:root_dir.'t/' . file . ' --'
+    let opt = printf("-lines=%d:%d -style='{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s", a:line1, a:line2, &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
+    let file = 'test.cpp'
+
+    for a in a:000
+        if a =~# '^test\.\w\+$'
+            let file = a
+        else
+            let opt .= a
+        endif
+    endfor
+    let opt .= "}'"
+
+    let cmd = printf('%s %s ./%st/%s --', g:clang_format#command, opt, s:root_dir, file)
+    let result = Chomp(system(cmd))
+    if v:shell_error
+        throw "Error on system(): clang-format exited with non-zero.\nCommand: " . cmd . "\nOutput: " . result
+    endif
     return Chomp(system(cmd))
 endfunction
 "}}}
