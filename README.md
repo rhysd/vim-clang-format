@@ -21,6 +21,10 @@ This plugin formats your code with specific coding style using [clang](http://cl
 - [vim-operator-user](https://github.com/kana/vim-operator-user)(highly recommended)
 - [vimproc.vim](https://github.com/Shougo/vimproc.vim)(recommended in Windows)
 
+## Installation
+
+Copy `plugin`, `doc` and `autoload` directories into your `~/.vim` or use `:packadd` in Vim8. Or please use your favorite plugin manager to install this plugin. I recommend latter.
+
 ## Usage
 
 `:ClangFormat` command is available.
