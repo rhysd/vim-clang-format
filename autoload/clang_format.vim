@@ -50,7 +50,7 @@ function! s:stringize_options(opts) abort
 endfunction
 
 function! s:build_extra_options()
-    let extra_options = ""
+    let extra_options = ''
 
     let opts = copy(g:clang_format#style_options)
     if has_key(g:clang_format#filetype_style_options, &ft)
@@ -67,7 +67,7 @@ function! s:make_style_options()
     return printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
                         \ g:clang_format#code_style,
                         \ (exists('*shiftwidth') ? shiftwidth() : &l:shiftwidth),
-                        \ &l:expandtab==1 ? "false" : "true",
+                        \ &l:expandtab==1 ? 'false' : 'true',
                         \ extra_options)
 endfunction
 
@@ -78,7 +78,7 @@ function! s:success(result)
 endfunction
 
 function! s:error_message(result)
-    echoerr "clang-format has failed to format."
+    echoerr 'clang-format has failed to format.'
     if a:result =~# '^YAML:\d\+:\d\+: error: unknown key '
         echohl ErrorMsg
         for l in split(a:result, "\n")[0:1]
@@ -187,15 +187,15 @@ function! s:detect_style_file()
 endfunction
 
 function! clang_format#format(line1, line2)
-    let args = printf(" -lines=%d:%d", a:line1, a:line2)
+    let args = printf(' -lines=%d:%d', a:line1, a:line2)
     if ! (g:clang_format#detect_style_file && s:detect_style_file())
-        let args .= printf(" -style=%s ", s:make_style_options())
+        let args .= printf(' -style=%s ', s:make_style_options())
     else
-        let args .= " -style=file "
+        let args .= ' -style=file '
     endif
-    let args .= printf("-assume-filename=%s ", s:shellescape(escape(expand('%'), " \t")))
+    let args .= printf('-assume-filename=%s ', s:shellescape(escape(expand('%'), " \t")))
     let args .= g:clang_format#extra_args
-    let clang_format = printf("%s %s --", s:shellescape(g:clang_format#command), args)
+    let clang_format = printf('%s %s --', s:shellescape(g:clang_format#command), args)
     return s:system(clang_format, join(getline(1, '$'), "\n"))
 endfunction
 " }}}
@@ -207,7 +207,7 @@ function! clang_format#replace(line1, line2)
 
     let pos_save = getpos('.')
     let sel_save = &l:selection
-    let &l:selection = "inclusive"
+    let &l:selection = 'inclusive'
     let [save_g_reg, save_g_regtype] = [getreg('g'), getregtype('g')]
 
     try
@@ -229,7 +229,7 @@ function! clang_format#replace(line1, line2)
                 "
                 let i = stridx(formatted, "\n")
                 if i == -1 || getline(1) !=# formatted[:i-1]
-                    throw "fallback"
+                    throw 'fallback'
                 endif
 
                 call setreg('g', formatted[i+1:], 'V')
@@ -278,9 +278,9 @@ endfunction
 function! clang_format#toggle_auto_format()
     let g:clang_format#auto_format = !g:clang_format#auto_format
     if g:clang_format#auto_format
-        echo "Auto clang-format: enabled"
+        echo 'Auto clang-format: enabled'
     else
-        echo "Auto clang-format: disabled"
+        echo 'Auto clang-format: disabled'
     endif
 endfunction
 " }}}
