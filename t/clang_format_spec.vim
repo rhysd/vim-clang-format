@@ -313,6 +313,31 @@ describe ':ClangFormat'
         end
 
     end
+
+    describe 'hard tab'
+
+        before
+            let g:clang_format#detect_style_file = 0
+            let s:saved_expandtab = &expandtab
+            let s:saved_shiftwidth = &shiftwidth
+            set noexpandtab shiftwidth=8
+            new
+            execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        end
+
+        after
+            let &expandtab = s:saved_expandtab
+            let &shiftwidth = s:saved_shiftwidth
+        end
+
+        it 'does not break formatting'
+            let by_clang_format_command = ClangFormat(1, line('$'), 'test.cpp')
+            ClangFormat
+            let buffer = GetBuffer()
+            Expect by_clang_format_command ==# buffer
+        end
+
+    end
 end
 " }}}
 
