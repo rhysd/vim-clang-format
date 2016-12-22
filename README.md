@@ -2,7 +2,9 @@ Format your C family code
 =======================================
 [![Build Status](https://travis-ci.org/rhysd/vim-clang-format.png?branch=master)](https://travis-ci.org/rhysd/vim-clang-format)
 
-This plugin formats your code with specific coding style using [clang](http://clang.llvm.org/).  Currently below languages are supported.
+This plugin formats your code with specific coding style using [clang-format](http://clang.llvm.org/docs/ClangFormat.html).
+
+Currently below languages are supported:
 
 - C
 - C++
@@ -10,6 +12,7 @@ This plugin formats your code with specific coding style using [clang](http://cl
 - JavaScript
 - Java
 - TypeScript
+- Protobuf
 
 ## Screenshot
 
