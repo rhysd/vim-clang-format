@@ -235,7 +235,7 @@ function! clang_format#replace(line1, line2)
                 " Create a new undo block to separate all formatting related
                 " changes from the last undo block but still preserve original
                 " cursor position (issue #30).
-                silent normal! i new undo block
+                silent execute "normal! ii\<esc>x"
 
                 call setreg('g', formatted[i+1:], 'V')
                 undojoin | silent normal! 2gg"_dG
