@@ -423,3 +423,23 @@ describe 'g:clang_format#auto_formatexpr'
     end
 end
 " }}}
+
+describe 'undo formatting text'
+    before
+        let g:clang_format#detect_style_file = 0
+        new
+        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+    end
+
+    after
+        bdelete!
+    end
+
+    it 'restores previous text as editing buffer normally'
+        let prev = GetBuffer()
+        ClangFormat
+        undo
+        let buf = GetBuffer()
+        Expect prev ==# buf
+    end
+end
