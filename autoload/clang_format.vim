@@ -232,13 +232,8 @@ function! clang_format#replace(line1, line2)
                     throw 'fallback'
                 endif
 
-                " Create a new undo block to separate all formatting related
-                " changes from the last undo block but still preserve original
-                " cursor position (issue #30).
-                silent execute "noautocmd normal! ii\<esc>\"_x"
-
                 call setreg('g', formatted[i+1:], 'V')
-                undojoin | silent normal! 2gg"_dG
+                silent normal! 2gg"_dG
                 silent put g
             catch
                 " Fallback:
