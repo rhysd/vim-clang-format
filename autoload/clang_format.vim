@@ -209,7 +209,7 @@ function! clang_format#replace(line1, line2)
     let sel_save = &l:selection
     let &l:selection = 'inclusive'
     let [save_g_reg, save_g_regtype] = [getreg('g'), getregtype('g')]
-    let [save_unnamed_reg, save_unnamed_regtype] = [getreg(''), getregtype('')]
+    let [save_unnamed_reg, save_unnamed_regtype] = [getreg(v:register), getregtype(v:register)]
 
     try
         let formatted = clang_format#format(a:line1, a:line2)
@@ -220,7 +220,7 @@ function! clang_format#replace(line1, line2)
             call s:error_message(formatted)
         endif
     finally
-        call setreg('', save_unnamed_reg, save_unnamed_regtype)
+        call setreg(v:register, save_unnamed_reg, save_unnamed_regtype)
         call setreg('g', save_g_reg, save_g_regtype)
         let &l:selection = sel_save
         call setpos('.', pos_save)
