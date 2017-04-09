@@ -424,6 +424,7 @@ describe 'g:clang_format#auto_formatexpr'
 end
 " }}}
 
+" test for undo {{{
 describe 'undo formatting text'
     before
         let g:clang_format#detect_style_file = 0
@@ -443,3 +444,26 @@ describe 'undo formatting text'
         Expect prev ==# buf
     end
 end
+" }}}
+
+" test for empty buffer {{{
+describe 'empty buffer'
+    before
+        let g:clang_format#detect_style_file = 0
+        new
+    end
+
+    after
+        bdelete!
+    end
+
+    it 'can format empty buffer'
+        ClangFormat
+    end
+
+    it 'can format a buffer containing only new lines'
+        call setline('.', ['', '', ''])
+        ClangFormat
+    end
+end
+" }}}"

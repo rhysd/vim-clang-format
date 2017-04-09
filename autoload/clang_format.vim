@@ -74,7 +74,6 @@ endfunction
 function! s:success(result)
     return (s:has_vimproc() ? vimproc#get_last_status() : v:shell_error) == 0
                 \ && a:result !~# '^YAML:\d\+:\d\+: error: unknown key '
-                \ && a:result !~# '^\n\?$'
 endfunction
 
 function! s:error_message(result)
@@ -193,7 +192,10 @@ function! clang_format#format(line1, line2)
     else
         let args .= ' -style=file '
     endif
-    let args .= printf('-assume-filename=%s ', s:shellescape(escape(expand('%'), " \t")))
+    let filename = expand('%')
+    if filename !=# ''
+        let args .= printf('-assume-filename=%s ', s:shellescape(escape(filename, " \t")))
+    endif
     let args .= g:clang_format#extra_args
     let clang_format = printf('%s %s --', s:shellescape(g:clang_format#command), args)
     return s:system(clang_format, join(getline(1, '$'), "\n"))
