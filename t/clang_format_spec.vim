@@ -462,6 +462,8 @@ describe 'empty buffer'
     end
 
     it 'can format a buffer containing only new lines'
+        call setline('.', ['', ''])
+        ClangFormat
         call setline('.', ['', '', ''])
         ClangFormat
     end
