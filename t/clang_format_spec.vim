@@ -305,6 +305,13 @@ describe ':ClangFormat'
             Expect pos == getpos('.')
         end
 
+        it 'maintains screen position while formatting'
+            execute 'normal!' "3\<C-e>"
+            let prev = line('w0')
+            ClangFormat
+            let current = line('w0')
+            Expect prev ==# current
+        end
     end
 
     describe 'with filetype javascript'

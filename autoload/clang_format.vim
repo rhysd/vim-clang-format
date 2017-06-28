@@ -87,6 +87,20 @@ function! s:error_message(result)
     endif
 endfunction
 
+function! s:restore_screen_pos(prev_screen) abort
+    let screen_line = line('w0')
+    if screen_line == a:prev_screen
+        return
+    endif
+    let delta = screen_line - a:prev_screen
+    if delta > 0
+        let keys = delta . "\<C-y>"
+    else
+        let keys = (-delta) . "\<C-e>"
+    endif
+    execute "normal!" keys
+endfunction
+
 function! clang_format#get_version()
     if &shell =~# 'csh$' && executable('/bin/bash')
         let shell_save = &shell
@@ -208,6 +222,7 @@ function! clang_format#replace(line1, line2)
     call s:verify_command()
 
     let pos_save = getpos('.')
+    let screen_save = line('w0')
     let sel_save = &l:selection
     let &l:selection = 'inclusive'
     let [save_g_reg, save_g_regtype] = [getreg('g'), getregtype('g')]
@@ -226,6 +241,7 @@ function! clang_format#replace(line1, line2)
         call setreg('g', save_g_reg, save_g_regtype)
         let &l:selection = sel_save
         call setpos('.', pos_save)
+        call s:restore_screen_pos(screen_save)
     endtry
 endfunction
 " }}}
