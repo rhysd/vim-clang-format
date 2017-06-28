@@ -3,7 +3,7 @@
 
 " helpers "{{{
 " clang-format detection
-function! s:detect_clang_format()
+function! s:detect_clang_format() abort
     if $CLANG_FORMAT !=# '' && executable($CLANG_FORMAT)
         return $CLANG_FORMAT
     endif
@@ -18,23 +18,23 @@ function! s:detect_clang_format()
 endfunction
 let g:clang_format#command = s:detect_clang_format()
 
-function! Chomp(s)
+function! Chomp(s) abort
     return a:s =~# '\n$'
                 \ ? a:s[0:len(a:s)-2]
                 \ : a:s
 endfunction
 
-function! ChompHead(s)
+function! ChompHead(s) abort
     return a:s =~# '^\n'
                 \ ? a:s[1:len(a:s)-1]
                 \ : a:s
 endfunction
 
-function! GetBuffer()
+function! GetBuffer() abort
     return join(getline(1, '$'), "\n")
 endfunction
 
-function! ClangFormat(line1, line2, ...)
+function! ClangFormat(line1, line2, ...) abort
     let opt = printf("-lines=%d:%d -style='{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s", a:line1, a:line2, &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
     let file = 'test.cpp'
 
@@ -65,7 +65,7 @@ runtime! plugin/clang_format.vim
 
 call vspec#customize_matcher('to_be_empty', function('empty'))
 
-function! RaisesException(cmd)
+function! RaisesException(cmd) abort
     try
         execute a:cmd
         return 0
@@ -118,7 +118,7 @@ end
 "}}}
 
 " test for clang_format#format() {{{
-function! s:expect_the_same_output(line1, line2)
+function! s:expect_the_same_output(line1, line2) abort
     Expect clang_format#format(a:line1, a:line2) ==# ClangFormat(a:line1, a:line2)
 endfunction
 

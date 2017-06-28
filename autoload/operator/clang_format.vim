@@ -1,8 +1,8 @@
-function! s:is_empty_region(begin, end)
+function! s:is_empty_region(begin, end) abort
     return a:begin[1] > a:end[1] || (a:begin[1] == a:end[1] && a:end[2] < a:begin[2])
 endfunction
 
-function! s:restore_screen_pos()
+function! s:restore_screen_pos() abort
     let line_diff = line('w0') - g:operator#clang_format#save_screen_pos
     if line_diff > 0
         execute 'silent normal!' line_diff."\<C-y>"
@@ -11,7 +11,7 @@ function! s:restore_screen_pos()
     endif
 endfunction
 
-function! operator#clang_format#do(motion_wise)
+function! operator#clang_format#do(motion_wise) abort
     if s:is_empty_region(getpos("'["), getpos("']"))
         return
     endif

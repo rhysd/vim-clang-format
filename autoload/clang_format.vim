@@ -4,7 +4,7 @@ set cpo&vim
 let s:on_windows = has('win32') || has('win64')
 
 " helper functions {{{
-function! s:has_vimproc()
+function! s:has_vimproc() abort
     if !exists('s:exists_vimproc')
         try
             silent call vimproc#version()
@@ -16,7 +16,7 @@ function! s:has_vimproc()
     return s:exists_vimproc
 endfunction
 
-function! s:system(str, ...)
+function! s:system(str, ...) abort
     let command = a:str
     let input = a:0 >= 1 ? a:1 : ''
 
@@ -49,7 +49,7 @@ function! s:stringize_options(opts) abort
     return join(keyvals, ',')
 endfunction
 
-function! s:build_extra_options()
+function! s:build_extra_options() abort
     let extra_options = ''
 
     let opts = copy(g:clang_format#style_options)
@@ -62,7 +62,7 @@ function! s:build_extra_options()
     return extra_options
 endfunction
 
-function! s:make_style_options()
+function! s:make_style_options() abort
     let extra_options = s:build_extra_options()
     return printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
                         \ g:clang_format#code_style,
@@ -71,12 +71,12 @@ function! s:make_style_options()
                         \ extra_options)
 endfunction
 
-function! s:success(result)
+function! s:success(result) abort
     return (s:has_vimproc() ? vimproc#get_last_status() : v:shell_error) == 0
                 \ && a:result !~# '^YAML:\d\+:\d\+: error: unknown key '
 endfunction
 
-function! s:error_message(result)
+function! s:error_message(result) abort
     echoerr 'clang-format has failed to format.'
     if a:result =~# '^YAML:\d\+:\d\+: error: unknown key '
         echohl ErrorMsg
@@ -101,7 +101,7 @@ function! s:restore_screen_pos(prev_screen) abort
     execute "normal!" keys
 endfunction
 
-function! clang_format#get_version()
+function! clang_format#get_version() abort
     if &shell =~# 'csh$' && executable('/bin/bash')
         let shell_save = &shell
         set shell=/bin/bash
@@ -122,7 +122,7 @@ function! clang_format#get_version()
     endtry
 endfunction
 
-function! clang_format#is_invalid()
+function! clang_format#is_invalid() abort
     if !exists('s:command_available')
         if !executable(g:clang_format#command)
             return 1
@@ -145,7 +145,7 @@ function! clang_format#is_invalid()
     return 0
 endfunction
 
-function! s:verify_command()
+function! s:verify_command() abort
     let invalidity = clang_format#is_invalid()
     if invalidity == 1
         echoerr "clang-format is not found. check g:clang_format#command."
@@ -167,7 +167,7 @@ endfunction
 " }}}
 
 " variable definitions {{{
-function! s:getg(name, default)
+function! s:getg(name, default) abort
     " backward compatibility
     if exists('g:operator_'.substitute(a:name, '#', '_', ''))
         echoerr 'g:operator_'.substitute(a:name, '#', '_', '').' is deprecated. Please use g:'.a:name
@@ -194,12 +194,12 @@ let g:clang_format#auto_formatexpr = s:getg('clang_format#auto_formatexpr', 0)
 " }}}
 
 " format codes {{{
-function! s:detect_style_file()
+function! s:detect_style_file() abort
     let dirname = fnameescape(expand('%:p:h'))
     return findfile('.clang-format', dirname.';') != '' || findfile('_clang-format', dirname.';') != ''
 endfunction
 
-function! clang_format#format(line1, line2)
+function! clang_format#format(line1, line2) abort
     let args = printf(' -lines=%d:%d', a:line1, a:line2)
     if ! (g:clang_format#detect_style_file && s:detect_style_file())
         let args .= printf(' -style=%s ', s:make_style_options())
@@ -217,7 +217,7 @@ endfunction
 " }}}
 
 " replace buffer {{{
-function! clang_format#replace(line1, line2)
+function! clang_format#replace(line1, line2) abort
 
     call s:verify_command()
 
@@ -249,7 +249,7 @@ endfunction
 " auto formatting on insert leave {{{
 let s:pos_on_insertenter = []
 
-function! s:format_inserted_area()
+function! s:format_inserted_area() abort
     let pos = getpos('.')
     " When in the same buffer
     if &modified && ! empty(s:pos_on_insertenter) && s:pos_on_insertenter[0] == pos[0]
@@ -258,7 +258,7 @@ function! s:format_inserted_area()
     endif
 endfunction
 
-function! clang_format#enable_format_on_insert()
+function! clang_format#enable_format_on_insert() abort
     augroup plugin-clang-format-auto-format-insert
         autocmd!
         autocmd InsertEnter <buffer> let s:pos_on_insertenter = getpos('.')
@@ -268,7 +268,7 @@ endfunction
 " }}}
 
 " toggle auto formatting {{{
-function! clang_format#toggle_auto_format()
+function! clang_format#toggle_auto_format() abort
     let g:clang_format#auto_format = !g:clang_format#auto_format
     if g:clang_format#auto_format
         echo 'Auto clang-format: enabled'
@@ -279,13 +279,13 @@ endfunction
 " }}}
 
 " enable auto formatting {{{
-function! clang_format#enable_auto_format()
+function! clang_format#enable_auto_format() abort
     let g:clang_format#auto_format = 1
 endfunction
 " }}}
 
 " disable auto formatting {{{
-function! clang_format#disable_auto_format()
+function! clang_format#disable_auto_format() abort
     let g:clang_format#auto_format = 0
 endfunction
 " }}}
