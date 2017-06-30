@@ -225,6 +225,10 @@ function! clang_format#replace(line1, line2) abort
     let screen_save = line('w0')
     let sel_save = &l:selection
     let &l:selection = 'inclusive'
+    let fold_save = 0
+    if &foldenable
+        let fold_save = foldlevel(line('.'))
+    endif
     let [save_g_reg, save_g_regtype] = [getreg('g'), getregtype('g')]
     let [save_unnamed_reg, save_unnamed_regtype] = [getreg(v:register), getregtype(v:register)]
 
@@ -242,6 +246,17 @@ function! clang_format#replace(line1, line2) abort
         let &l:selection = sel_save
         call setpos('.', pos_save)
         call s:restore_screen_pos(screen_save)
+        if fold_save > 0
+            let level = foldlevel(line('.'))
+            while fold_save > level
+                foldopen
+                let l = foldlevel(line('.'))
+                if l == level
+                    break
+                endif
+                let level = l
+            endwhile
+        endif
     endtry
 endfunction
 " }}}
