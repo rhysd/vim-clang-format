@@ -20,7 +20,7 @@ function! s:system(str, ...) abort
     let command = a:str
     let input = a:0 >= 1 ? a:1 : ''
 
-    if a:0 == 0
+    if a:0 == 0 || a:1 ==# ''
         let output = s:has_vimproc() ?
                     \ vimproc#system(command) : system(command)
     elseif a:0 == 1
@@ -72,8 +72,8 @@ function! s:make_style_options() abort
 endfunction
 
 function! s:success(result) abort
-    return (s:has_vimproc() ? vimproc#get_last_status() : v:shell_error) == 0
-                \ && a:result !~# '^YAML:\d\+:\d\+: error: unknown key '
+    let exit_success = (s:has_vimproc() ? vimproc#get_last_status() : v:shell_error) == 0
+    return exit_success && a:result !~# '^YAML:\d\+:\d\+: error: unknown key '
 endfunction
 
 function! s:error_message(result) abort
@@ -212,7 +212,8 @@ function! clang_format#format(line1, line2) abort
     endif
     let args .= g:clang_format#extra_args
     let clang_format = printf('%s %s --', s:shellescape(g:clang_format#command), args)
-    return s:system(clang_format, join(getline(1, '$'), "\n"))
+    let source = join(getline(1, '$'), "\n")
+    return s:system(clang_format, source)
 endfunction
 " }}}
 

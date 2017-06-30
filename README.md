@@ -1,6 +1,6 @@
 Format your C family code
 =======================================
-[![Build Status](https://travis-ci.org/rhysd/vim-clang-format.png?branch=master)](https://travis-ci.org/rhysd/vim-clang-format)
+[![Build Status](https://travis-ci.org/rhysd/vim-clang-format.svg?branch=master)](https://travis-ci.org/rhysd/vim-clang-format)
 
 This plugin formats your code with specific coding style using [clang-format](http://clang.llvm.org/docs/ClangFormat.html).
 
@@ -145,9 +145,8 @@ $ clang-format -dump-config
 ```
 
 clang-format's documentation and API documentation is useful in some cases.
-In paticular, the following link is useful to know the information of a key and its value of a style setting.
+In particular, the following link is useful to know the information of a key and its value of a style setting.
 [CLANG-FORMAT STYLE OPTIONS](http://clang.llvm.org/docs/ClangFormatStyleOptions.html)
-
 
 ## License
 
