@@ -218,18 +218,15 @@ endfunction
 " }}}
 
 " replace buffer {{{
-function! clang_format#replace(line1, line2) abort
+function! clang_format#replace(line1, line2, ...) abort
 
     call s:verify_command()
 
-    let pos_save = getpos('.')
-    let screen_save = line('w0')
+    let pos_save = a:0 >= 1 ? a:1 : getpos('.')
+    let screen_save = a:0 >= 2 ? a:2 : line('w0')
     let sel_save = &l:selection
     let &l:selection = 'inclusive'
-    let fold_save = 0
-    if &foldenable
-        let fold_save = foldlevel(line('.'))
-    endif
+    let fold_closed_save = foldclosed(line('.'))
     let [save_g_reg, save_g_regtype] = [getreg('g'), getregtype('g')]
     let [save_unnamed_reg, save_unnamed_regtype] = [getreg(v:register), getregtype(v:register)]
 
@@ -246,18 +243,13 @@ function! clang_format#replace(line1, line2) abort
         call setreg('g', save_g_reg, save_g_regtype)
         let &l:selection = sel_save
         call setpos('.', pos_save)
-        call s:restore_screen_pos(screen_save)
-        if fold_save > 0
-            let level = foldlevel(line('.'))
-            while fold_save > level
+        if fold_closed_save == -1
+            let l = line('.')
+            while foldclosed(l) >= 0
                 foldopen
-                let l = foldlevel(line('.'))
-                if l == level
-                    break
-                endif
-                let level = l
             endwhile
         endif
+        call s:restore_screen_pos(screen_save)
     endtry
 endfunction
 " }}}
