@@ -156,10 +156,10 @@ endfunction
 
 function! s:shellescape(str) abort
     if s:on_windows && (&shell =~? 'cmd\.exe')
-        return '^"' . substitute(substitute(substitute(a:str,
-                    \ '[&|<>()^"%]', '^\0', 'g'),
-                    \ '\\\+\ze"', '\=repeat(submatch(0), 2)', 'g'),
-                    \ '\^"', '\\\0', 'g') . '^"'
+        " Do not use shellescape() on Windows because it surrounds input with
+        " single quote when 'shellslash' is on. But cmd.exe requires double
+        " quotes. So we need to escape by ourselves.
+        return '"' . substitute(a:str, '[&()[\]{}^=;!''+,`~]', '^\0', 'g') . '"'
     endif
     return shellescape(a:str)
 endfunction
