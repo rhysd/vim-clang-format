@@ -156,10 +156,15 @@ endfunction
 
 function! s:shellescape(str) abort
     if s:on_windows && (&shell =~? 'cmd\.exe')
-        " Do not use shellescape() on Windows because it surrounds input with
-        " single quote when 'shellslash' is on. But cmd.exe requires double
-        " quotes. So we need to escape by ourselves.
-        return '"' . substitute(a:str, '[&()[\]{}^=;!''+,`~]', '^\0', 'g') . '"'
+        " shellescape() surrounds input with single quote when 'shellslash' is on. But cmd.exe
+        " requires double quotes. Temporarily set it to 0.
+        let shellslash = &shellslash
+        set noshellslash
+        try
+            return shellescape(a:str)
+        finally
+            let &shellslash = shellslash
+        endtry
     endif
     return shellescape(a:str)
 endfunction
