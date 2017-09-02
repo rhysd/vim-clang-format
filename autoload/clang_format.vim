@@ -239,7 +239,7 @@ function! clang_format#replace(line1, line2, ...) abort
         let formatted = clang_format#format(a:line1, a:line2)
         if s:success(formatted)
             call setreg('g', formatted, 'V')
-            silent keepjumps normal! ggVG"gp
+            silent keepjumps normal! gg0VG"gp
         else
             call s:error_message(formatted)
         endif
