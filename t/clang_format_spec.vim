@@ -35,7 +35,7 @@ function! GetBuffer() abort
 endfunction
 
 function! ClangFormat(line1, line2, ...) abort
-    let opt = printf("-lines=%d:%d -style='{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s", a:line1, a:line2, &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
+    let opt = printf("-lines=%d:%d -style=\"{BasedOnStyle: Google, IndentWidth: %d, UseTab: %s", a:line1, a:line2, &l:shiftwidth, &l:expandtab==1 ? "false" : "true")
     let file = 'test.cpp'
 
     for a in a:000
@@ -45,7 +45,7 @@ function! ClangFormat(line1, line2, ...) abort
             let opt .= a
         endif
     endfor
-    let opt .= "}'"
+    let opt .= "}\""
 
     let cmd = printf('%s %s ./%st/%s --', g:clang_format#command, opt, s:root_dir, file)
     let result = Chomp(system(cmd))
