@@ -50,21 +50,22 @@ function! s:stringize_options(opts) abort
 endfunction
 
 function! s:build_extra_options() abort
-    let extra_options = ''
-
     let opts = copy(g:clang_format#style_options)
     if has_key(g:clang_format#filetype_style_options, &ft)
         call extend(opts, g:clang_format#filetype_style_options[&ft])
     endif
 
-    let extra_options .= ', ' . s:stringize_options(opts)
+    let extra_options = s:stringize_options(opts)
+    if !empty(extra_options)
+        let extra_options = ', ' . extra_options
+    endif
 
     return extra_options
 endfunction
 
 function! s:make_style_options() abort
     let extra_options = s:build_extra_options()
-    return printf("'{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}'",
+    return printf("{BasedOnStyle: %s, IndentWidth: %d, UseTab: %s%s}",
                         \ g:clang_format#code_style,
                         \ (exists('*shiftwidth') ? shiftwidth() : &l:shiftwidth),
                         \ &l:expandtab==1 ? 'false' : 'true',
@@ -193,6 +194,8 @@ let g:clang_format#style_options = s:getg('clang_format#style_options', {})
 let g:clang_format#filetype_style_options = s:getg('clang_format#filetype_style_options', {})
 
 let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 1)
+let g:clang_format#enable_fallback_style = s:getg('clang_format#enable_fallback_style', 1)
+
 let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
 let g:clang_format#auto_format_on_insert_leave = s:getg('clang_format#auto_format_on_insert_leave', 0)
 let g:clang_format#auto_formatexpr = s:getg('clang_format#auto_formatexpr', 0)
@@ -207,7 +210,11 @@ endfunction
 function! clang_format#format(line1, line2) abort
     let args = printf(' -lines=%d:%d', a:line1, a:line2)
     if ! (g:clang_format#detect_style_file && s:detect_style_file())
-        let args .= printf(' -style=%s ', s:make_style_options())
+        if g:clang_format#enable_fallback_style
+            let args .= ' ' . s:shellescape(printf('-style=%s', s:make_style_options())) . ' '
+        else
+            let args .= ' -fallback-style=none '
+        endif
     else
         let args .= ' -style=file '
     endif
