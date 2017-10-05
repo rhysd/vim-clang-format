@@ -2,6 +2,12 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 let s:on_windows = has('win32') || has('win64')
+let s:dict_t = type({})
+if exists('v:true')
+    let s:bool_t = type(v:true)
+else
+    let s:bool_t = -1
+endif
 
 " helper functions {{{
 function! s:has_vimproc() abort
@@ -36,15 +42,18 @@ function! s:system(str, ...) abort
 endfunction
 
 function! s:create_keyvals(key, val) abort
-    if type(a:val) == type({})
+    if type(a:val) == s:dict_t
         return a:key . ': {' . s:stringize_options(a:val) . '}'
     else
-        return a:key . ': ' . a:val
+        if type(a:val) == s:bool_t
+            return a:key . (a:val == v:true ? ': true' : ': false')
+        else
+            return a:key . ': ' . a:val
+        endif
     endif
 endfunction
 
 function! s:stringize_options(opts) abort
-    let dict_type = type({})
     let keyvals = map(items(a:opts), 's:create_keyvals(v:val[0], v:val[1])')
     return join(keyvals, ',')
 endfunction
