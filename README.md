@@ -110,6 +110,12 @@ Vim's format mappings (e.g. `gq`) get to use `clang-format` to format. This
 option is not comptabile with Vim's `textwidth` feature. You must set
 `textwidth` to `0` when the `formatexpr` is set.
 
+- `g:clang_format#enable_fallback_style`
+
+When the value is 0, `-fallback-style=none` option is added on executing clang-format command.
+It means that vim-clang-format does nothing when `.clang-format` is not found.
+The default value is 1.
+
 ## Vimrc Example
 
 ```vim
