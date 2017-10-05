@@ -165,6 +165,35 @@ describe 'clang_format#format()'
         Expect pos == getpos('.')
     end
 
+    describe 'g:clang_format#style_options'
+        before
+            let g:clang_format#detect_style_file = 0
+            new
+            execute 'silent' 'edit!' './' . s:root_dir . 't/test.cpp'
+
+            let s:saved_styles = [g:clang_format#style_options, &expandtab, &shiftwidth]
+            set expandtab
+            set shiftwidth=4
+        end
+
+        after
+            close!
+            let [g:clang_format#style_options, &expandtab, &shiftwidth] = s:saved_styles
+        end
+
+        it 'customizes code styles'
+            let g:clang_format#style_options = {'UseTab' : 'false', 'IndentWidth' : 4}
+            call s:expect_the_same_output(1, line('$'))
+        end
+
+        it 'can contain v:true/v:false'
+            if exists('v:false')
+                let g:clang_format#style_options = {'UseTab' : v:false, 'IndentWidth' : 4}
+                call s:expect_the_same_output(1, line('$'))
+            endif
+        end
+    end
+
     it 'ensures to fix issue #38'
         let saved = g:clang_format#style_options
         try
@@ -344,37 +373,6 @@ describe ':ClangFormat'
             Expect by_clang_format_command ==# buffer
         end
 
-    end
-end
-" }}}
-
-" test for customizing formatting {{{
-describe 'g:clang_format#style_options'
-    before
-        let g:clang_format#detect_style_file = 0
-        new
-        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
-
-        let s:saved_styles = [g:clang_format#style_options, &expandtab, &shiftwidth]
-        set expandtab
-        set shiftwidth=4
-    end
-
-    after
-        close!
-        let [g:clang_format#style_options, &expandtab, &shiftwidth] = s:saved_styles
-    end
-
-    it 'customizes code styles'
-        let g:clang_format#style_options = {'UseTab' : 'false', 'IndentWidth' : 4}
-        call s:expect_the_same_output(1, line('$'))
-    end
-
-    it 'can contain v:true/v:false'
-        if exists('v:false')
-            let g:clang_format#style_options = {'UseTab' : v:false, 'IndentWidth' : 4}
-            call s:expect_the_same_output(1, line('$'))
-        endif
     end
 end
 " }}}
