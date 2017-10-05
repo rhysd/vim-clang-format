@@ -1,4 +1,5 @@
 language: ruby
+dist: trusty
 rvm:
     - 1.9.3
 env:
@@ -15,8 +16,8 @@ script:
 addons:
     apt:
         sources:
-            - llvm-toolchain-precise-5.0
-            - llvm-toolchain-precise-4.0
+            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-trusty-4.0
             - ubuntu-toolchain-r-test
         packages:
             - g++-4.9
