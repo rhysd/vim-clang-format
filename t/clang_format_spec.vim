@@ -8,7 +8,7 @@ function! s:detect_clang_format() abort
         return $CLANG_FORMAT
     endif
 
-    for suffix in ['-HEAD', '-3.8', '-3.7', '-3.6', '-3.5', '-3.4', '']
+    for suffix in ['-HEAD', '-5.0', '-4.0', '-3.8', '-3.7', '-3.6', '-3.5', '-3.4', '']
         let c = 'clang-format' . suffix
         if executable(c)
             return c
