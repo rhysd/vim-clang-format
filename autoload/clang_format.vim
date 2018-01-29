@@ -97,20 +97,6 @@ function! s:error_message(result) abort
     endif
 endfunction
 
-function! s:restore_screen_pos(prev_screen) abort
-    let screen_line = line('w0')
-    if screen_line == a:prev_screen
-        return
-    endif
-    let delta = screen_line - a:prev_screen
-    if delta > 0
-        let keys = delta . "\<C-y>"
-    else
-        let keys = (-delta) . "\<C-e>"
-    endif
-    execute "normal!" keys
-endfunction
-
 function! clang_format#get_version() abort
     if &shell =~# 'csh$' && executable('/bin/bash')
         let shell_save = &shell
@@ -240,38 +226,25 @@ endfunction
 
 " replace buffer {{{
 function! clang_format#replace(line1, line2, ...) abort
-
     call s:verify_command()
 
     let pos_save = a:0 >= 1 ? a:1 : getpos('.')
-    let screen_save = a:0 >= 2 ? a:2 : line('w0')
-    let sel_save = &l:selection
-    let &l:selection = 'inclusive'
-    let fold_closed_save = foldclosed(line('.'))
-    let [save_g_reg, save_g_regtype] = [getreg('g'), getregtype('g')]
-    let [save_unnamed_reg, save_unnamed_regtype] = [getreg(v:register), getregtype(v:register)]
+    let formatted = clang_format#format(a:line1, a:line2)
+    if s:success(formatted)
+        let winview = winsaveview()
+        let splitted = split(formatted, '\n')
 
-    try
-        let formatted = clang_format#format(a:line1, a:line2)
-        if s:success(formatted)
-            call setreg('g', formatted, 'V')
-            silent keepjumps normal! gg0VG"gp
-        else
-            call s:error_message(formatted)
+        silent! undojoin
+        if line('$') > len(splitted)
+            execute len(splitted) .',$delete'
         endif
-    finally
-        call setreg(v:register, save_unnamed_reg, save_unnamed_regtype)
-        call setreg('g', save_g_reg, save_g_regtype)
-        let &l:selection = sel_save
+        call setline(1, splitted)
+        call winrestview(winview)
         call setpos('.', pos_save)
-        if fold_closed_save == -1
-            let l = line('.')
-            while foldclosed(l) >= 0
-                foldopen
-            endwhile
-        endif
-        call s:restore_screen_pos(screen_save)
-    endtry
+    else
+        call s:error_message(formatted)
+    endif
+
 endfunction
 " }}}
 
