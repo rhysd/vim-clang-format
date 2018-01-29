@@ -1,5 +1,5 @@
 task :test do
-  sh 'bundle install'
+  sh 'bundle install --path=.bundle'
   sh 'bundle exec vim-flavor test'
 end
 

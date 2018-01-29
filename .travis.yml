@@ -7,7 +7,6 @@ env:
     - CLANG_VERSION="5.0"
 
 install:
-    - bundle install
     - clang-format-${CLANG_VERSION} -version || true
     - vim --version
     - clang-format --version
