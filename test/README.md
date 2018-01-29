@@ -9,9 +9,17 @@ How to run the tests
 
 ## How to run tests
 
+Following command does everything to run tests.
+
+```
+$ rake test
+```
+
+Or you can also run `vim-flavor` directly.
+
 ```
 $ bundle install --path=.bundle
-$ rake test
+$ bundle exec vim-flavor test
 ```
 
 ## How to watch file changes and run tests automatically
