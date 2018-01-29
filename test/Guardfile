@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require 'terminal-notifier'
-
 def which cmd
   dir = ENV['PATH'].split(':').find {|p| File.executable? File.join(p, cmd)}
   File.join(dir, cmd) unless dir.nil?
@@ -20,7 +18,7 @@ def notify m
 end
 
 guard :shell do
-  watch /^(autoload|plugin|t)\/.+\.vim$/ do
+  watch /^(\.\.\/autoload|plugin|t)\/.+\.vim$/ do
     system "rake test"
     unless $?
       notify "test(s) failed"

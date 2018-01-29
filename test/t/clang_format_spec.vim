@@ -47,7 +47,7 @@ function! ClangFormat(line1, line2, ...) abort
     endfor
     let opt .= "}'"
 
-    let cmd = printf('%s %s ./%st/%s --', g:clang_format#command, opt, s:root_dir, file)
+    let cmd = printf('%s %s ./t/%s --', g:clang_format#command, opt, file)
     let result = Chomp(system(cmd))
     if v:shell_error
         throw "Error on system(): clang-format exited with non-zero.\nCommand: " . cmd . "\nOutput: " . result
@@ -57,10 +57,9 @@ endfunction
 "}}}
 
 " setup {{{
-let s:root_dir = ChompHead(Chomp(system('git rev-parse --show-cdup')))
-execute 'set' 'rtp +=./'.s:root_dir
+let s:root_dir = resolve(getcwd() . '/..')
+execute 'set' 'rtp +=' . s:root_dir
 
-set rtp +=~/.vim/bundle/vim-operator-user
 runtime! plugin/clang_format.vim
 
 call vspec#customize_matcher('to_be_empty', function('empty'))
@@ -127,7 +126,7 @@ describe 'clang_format#format()'
     before
         let g:clang_format#detect_style_file = 0
         new
-        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        execute 'silent' 'edit!' './t/test.cpp'
     end
 
     after
@@ -169,7 +168,7 @@ describe 'clang_format#format()'
         before
             let g:clang_format#detect_style_file = 0
             new
-            execute 'silent' 'edit!' './' . s:root_dir . 't/test.cpp'
+            execute 'silent' 'edit!' './t/test.cpp'
 
             let s:saved_styles = [g:clang_format#style_options, &expandtab, &shiftwidth]
             set expandtab
@@ -218,7 +217,7 @@ describe 'clang_format#replace()'
     before
         let g:clang_format#detect_style_file = 0
         new
-        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        execute 'silent' 'edit!' './t/test.cpp'
         let s:cmd_tmp = g:clang_format#command
     end
 
@@ -233,7 +232,7 @@ describe 'clang_format#replace()'
     end
 
     it 'throws an error when command is not found'
-        let g:clang_format#command = './' . s:root_dir . 't/clang-format-dummy.sh'
+        let g:clang_format#command = './t/clang-format-dummy.sh'
         Expect "call clang_format#replace(1, line('$'))" to_throw_exception
     end
 end
@@ -245,7 +244,7 @@ describe '<Plug>(operator-clang-format)'
     before
         let g:clang_format#detect_style_file = 0
         new
-        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        execute 'silent' 'edit!' './t/test.cpp'
         map x <Plug>(operator-clang-format)
     end
 
@@ -288,7 +287,7 @@ describe ':ClangFormat'
         before
             let g:clang_format#detect_style_file = 0
             new
-            execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+            execute 'silent' 'edit!' './t/test.cpp'
         end
 
         after
@@ -334,7 +333,7 @@ describe ':ClangFormat'
         before
             let g:clang_format#detect_style_file = 0
             new
-            execute 'silent' 'edit!' './'.s:root_dir.'t/test.js'
+            execute 'silent' 'edit!' './t/test.js'
         end
 
         after
@@ -358,7 +357,7 @@ describe ':ClangFormat'
             let s:saved_shiftwidth = &shiftwidth
             set noexpandtab shiftwidth=8
             new
-            execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+            execute 'silent' 'edit!' './t/test.cpp'
         end
 
         after
@@ -383,7 +382,7 @@ describe 'g:clang_format#auto_format'
     before
         let g:clang_format#auto_format = 1
         new
-        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        execute 'silent' 'edit!' './t/test.cpp'
     end
 
     after
@@ -406,7 +405,7 @@ describe 'g:clang_format#auto_format_on_insert_leave'
     before
         let g:clang_format#auto_format_on_insert_leave = 1
         new
-        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        execute 'silent' 'edit!' './t/test.cpp'
     end
 
     after
@@ -428,7 +427,7 @@ describe 'g:clang_format#auto_formatexpr'
     before
         let g:clang_format#auto_formatexpr = 1
         new
-        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        execute 'silent' 'edit!' './t/test.cpp'
     end
 
     after
@@ -451,7 +450,7 @@ describe 'undo formatting text'
     before
         let g:clang_format#detect_style_file = 0
         new
-        execute 'silent' 'edit!' './'.s:root_dir.'t/test.cpp'
+        execute 'silent' 'edit!' './t/test.cpp'
     end
 
     after

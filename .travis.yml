@@ -9,9 +9,11 @@ env:
 install:
     - bundle install
     - clang-format-${CLANG_VERSION} -version || true
+    - vim --version
+    - clang-format --version
 
 script:
-    - CLANG_FORMAT=clang-format-${CLANG_VERSION} rake ci
+    - cd test && CLANG_FORMAT=clang-format-${CLANG_VERSION} rake test
 
 addons:
     apt:
