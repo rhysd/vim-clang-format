@@ -236,7 +236,7 @@ function! clang_format#replace(line1, line2, ...) abort
 
         silent! undojoin
         if line('$') > len(splitted)
-            execute len(splitted) .',$delete'
+            execute len(splitted) .',$delete' '_'
         endif
         call setline(1, splitted)
         call winrestview(winview)
