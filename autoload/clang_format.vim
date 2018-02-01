@@ -230,21 +230,21 @@ function! clang_format#replace(line1, line2, ...) abort
 
     let pos_save = a:0 >= 1 ? a:1 : getpos('.')
     let formatted = clang_format#format(a:line1, a:line2)
-    if s:success(formatted)
-        let winview = winsaveview()
-        let splitted = split(formatted, '\n')
-
-        silent! undojoin
-        if line('$') > len(splitted)
-            execute len(splitted) .',$delete' '_'
-        endif
-        call setline(1, splitted)
-        call winrestview(winview)
-        call setpos('.', pos_save)
-    else
+    if !s:success(formatted)
         call s:error_message(formatted)
+        return
     endif
 
+    let winview = winsaveview()
+    let splitted = split(formatted, '\n')
+
+    silent! undojoin
+    if line('$') > len(splitted)
+        execute len(splitted) .',$delete' '_'
+    endif
+    call setline(1, splitted)
+    call winrestview(winview)
+    call setpos('.', pos_save)
 endfunction
 " }}}
 
