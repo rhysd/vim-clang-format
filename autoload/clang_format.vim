@@ -236,7 +236,7 @@ function! clang_format#replace(line1, line2, ...) abort
     endif
 
     let winview = winsaveview()
-    let splitted = split(formatted, '\n')
+    let splitted = split(formatted, '\n', 1)
 
     silent! undojoin
     if line('$') > len(splitted)
