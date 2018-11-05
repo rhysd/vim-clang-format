@@ -3,6 +3,7 @@ set cpo&vim
 
 let s:on_windows = has('win32') || has('win64')
 let s:dict_t = type({})
+let s:list_t = type([])
 if exists('v:true')
     let s:bool_t = type(v:true)
 else
@@ -44,12 +45,12 @@ endfunction
 function! s:create_keyvals(key, val) abort
     if type(a:val) == s:dict_t
         return a:key . ': {' . s:stringize_options(a:val) . '}'
+    elseif type(a:val) == s:bool_t
+        return a:key . (a:val == v:true ? ': true' : ': false')
+    elseif type(a:val) == s:list_t
+        return a:key . ': [' . join(a:val,',') . ']'
     else
-        if type(a:val) == s:bool_t
-            return a:key . (a:val == v:true ? ': true' : ': false')
-        else
-            return a:key . ': ' . a:val
-        endif
+        return a:key . ': ''' . a:val . ''''
     endif
 endfunction
 
