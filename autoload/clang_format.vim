@@ -50,7 +50,7 @@ function! s:create_keyvals(key, val) abort
     elseif type(a:val) == s:list_t
         return a:key . ': [' . join(a:val,',') . ']'
     else
-        return a:key . ': ''' . a:val . ''''
+        return a:key . ': ''' . escape(a:val, '''') . ''''
     endif
 endfunction
 
