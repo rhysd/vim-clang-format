@@ -262,7 +262,7 @@ endfunction
 
 function! clang_format#enable_format_on_insert() abort
     augroup plugin-clang-format-auto-format-insert
-        autocmd!
+        autocmd! * <buffer>
         autocmd InsertEnter <buffer> let s:pos_on_insertenter = getpos('.')
         autocmd InsertLeave <buffer> call s:format_inserted_area()
     augroup END
