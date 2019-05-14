@@ -28,14 +28,14 @@ function! s:system(str, ...) abort
     let input = a:0 >= 1 ? a:1 : ''
 
     if a:0 == 0 || a:1 ==# ''
-        let output = s:has_vimproc() ?
+        silent let output = s:has_vimproc() ?
                     \ vimproc#system(command) : system(command)
     elseif a:0 == 1
-        let output = s:has_vimproc() ?
+        silent let output = s:has_vimproc() ?
                     \ vimproc#system(command, input) : system(command, input)
     else
         " ignores 3rd argument unless you have vimproc.
-        let output = s:has_vimproc() ?
+        silent let output = s:has_vimproc() ?
                     \ vimproc#system(command, input, a:2) : system(command, input)
     endif
 
