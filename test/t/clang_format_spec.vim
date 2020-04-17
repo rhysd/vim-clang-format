@@ -99,6 +99,7 @@ describe 'default settings'
         Expect exists('g:clang_format#filetype_style_options') to_be_true
         Expect exists('g:clang_format#command') to_be_true
         Expect exists('g:clang_format#detect_style_file') to_be_true
+        Expect exists('g:clang_format#praise') to_be_true
         Expect exists('g:clang_format#auto_format') to_be_true
         Expect exists('g:clang_format#auto_format_on_insert_leave') to_be_true
         Expect g:clang_format#extra_args to_be_empty
@@ -107,6 +108,7 @@ describe 'default settings'
         Expect g:clang_format#filetype_style_options to_be_empty
         Expect executable(g:clang_format#command) to_be_true
         Expect g:clang_format#detect_style_file to_be_true
+        Expect g:clang_format#praise to_be_true
     end
 
     it 'provide commands'

@@ -191,6 +191,7 @@ let g:clang_format#filetype_style_options = s:getg('clang_format#filetype_style_
 
 let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 1)
 let g:clang_format#enable_fallback_style = s:getg('clang_format#enable_fallback_style', 1)
+let g:clang_format#praise = s:getg('clang_format#praise', 1)
 
 let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
 let g:clang_format#auto_format_on_insert_leave = s:getg('clang_format#auto_format_on_insert_leave', 0)
@@ -238,6 +239,18 @@ function! clang_format#replace(line1, line2, ...) abort
 
     let winview = winsaveview()
     let splitted = split(formatted, '\n', 1)
+    if getline(a:line1, a:line2) ==# splitted[a:line1-1:a:line2-1]
+        if g:clang_format#praise
+            echo "No formatting needed, looking fabulous already!"
+        endif
+        " Early out, no need to introduce a change
+        return
+    endif
+
+    if g:clang_format#praise
+        " Reset any previous praise
+        echo ""
+    endif
 
     silent! undojoin
     if line('$') > len(splitted)
