@@ -147,7 +147,7 @@ function! s:verify_command() abort
     if invalidity == 1
         echoerr "clang-format is not found. check g:clang_format#command."
     elseif invalidity == 2
-        echoerr 'clang-format 3.3 or earlier is not supported for the lack of aruguments'
+        echoerr 'clang-format 3.3 or earlier is not supported for the lack of arguments'
     endif
 endfunction
 
