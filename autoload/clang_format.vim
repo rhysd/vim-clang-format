@@ -237,7 +237,6 @@ function! clang_format#replace(line1, line2, ...) abort
         return
     endif
 
-    let winview = winsaveview()
     let splitted = split(formatted, '\n', 1)
     if getline(a:line1, a:line2) ==# splitted[a:line1-1:a:line2-1]
         if g:clang_format#praise
@@ -252,7 +251,7 @@ function! clang_format#replace(line1, line2, ...) abort
         echo ""
     endif
 
-    silent! undojoin
+    let winview = winsaveview()
     if line('$') > len(splitted)
         execute len(splitted) .',$delete' '_'
     endif

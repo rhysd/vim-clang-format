@@ -459,9 +459,28 @@ describe 'undo formatting text'
         bdelete!
     end
 
+    it 'can make a change, format (constitutes as a second change), then undo and keep the first change'
+        normal! ggOmega
+        ClangFormat
+        " When running :ClangFormat from a normal vim instance, setline() does add an entry in the undolist
+        " For some reason it does not do so when running in this test framework
+        " Also, seems like it is hard to even add another item to the change list too, always rendering:
+        " # number changes  when               saved
+        " #      9       1  0 seconds ago
+        normal! ggOadditional
+        :Debug GetBuffer()
+        " TODO: should enable this
+        " normal! u
+        Expect 0 != search('mega', 'cw')
+        undo
+        Expect 0 == search('mega', 'cw')
+    end
+
     it 'restores previous text as editing buffer normally'
         let prev = GetBuffer()
         ClangFormat
+        let buf = GetBuffer()
+        Expect prev != buf
         undo
         let buf = GetBuffer()
         Expect prev ==# buf
