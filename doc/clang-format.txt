@@ -206,6 +206,13 @@ g:clang_format#enable_fallback_style	  *g:clang_format#enable_fallback_style*
     ".clang-format" is not found.
     The default value is 1.
 
+g:clang_format#praise                                    *g:clang_format#praise*
+
+    When the value is 1, |vim-clang-format| will praise you for already having
+    well-formatted code.  Some users might not want/need praise, thus
+    providing this variable.
+    The default value is 1.
+
 
 
 ==============================================================================
