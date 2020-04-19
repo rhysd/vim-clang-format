@@ -8,11 +8,12 @@ Currently below languages are supported:
 
 - C
 - C++
-- Objective-C
-- JavaScript
 - Java
-- TypeScript
+- JavaScript
+- Objective-C
 - Protobuf
+- TypeScript
+- Vala
 
 ## Screenshot
 
@@ -105,9 +106,9 @@ Formatting is executed on `InsertLeave` event.
 
 - `g:clang_format#auto_formatexpr`
 
-When the value is 1, `formatexpr` option is set by vim-clang-format automatically in C, C++ and ObjC codes.
+When the value is 1, `formatexpr` option is set by vim-clang-format automatically in any supported `filetype`.
 Vim's format mappings (e.g. `gq`) get to use `clang-format` to format. This
-option is not comptabile with Vim's `textwidth` feature. You must set
+option is not compatible with Vim's `textwidth` feature. You must set
 `textwidth` to `0` when the `formatexpr` is set.
 
 - `g:clang_format#enable_fallback_style`

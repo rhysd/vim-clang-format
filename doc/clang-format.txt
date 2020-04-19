@@ -22,14 +22,15 @@ INTRODUCTION                                     *vim-clang-format-introduction*
 *vim-clang-format* formats your C, C++ and Objective-C code with specific coding
 style using clang.  Following filetypes are supported.
 
+* arduino
 * c
 * cpp
-* objc
-* javascript
 * java
-* typescript
+* javascript
+* objc
 * proto
-* arduino
+* typescript
+* vala
 
 Screenshot:
 http://gifzo.net/BIteGJ9Vasg.gif
@@ -194,10 +195,11 @@ g:clang_format#auto_format_on_insert_leave
 
 g:clang_format#auto_formatexpr		        *g:clang_format#auto_formatexpr*
 
-    When the value is 1, 'formatexpr' option is set automatically in |c|, |cpp|
-    and |objc| codes.  Vim's format mappings (e.g. |gq|) get to use |clang-format|
-    to format. This option is not comptabile with Vim's `textwidth` feature. You
-    must set `textwidth` to `0` when the `formatexpr` is set.
+    When the value is 1, 'formatexpr' option is set automatically in any
+    supported |filetype|.  Vim's format mappings (e.g. |gq|) get to use
+    |clang-format| to format. This option is not compatible with Vim's
+    `textwidth` feature. You must set `textwidth` to `0` when the `formatexpr`
+    is set.
 
 g:clang_format#enable_fallback_style	  *g:clang_format#enable_fallback_style*
 
