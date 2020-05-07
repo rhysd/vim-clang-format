@@ -8,6 +8,7 @@ Currently below languages are supported:
 
 - C
 - C++
+- Cuda
 - Objective-C
 - JavaScript
 - Java
