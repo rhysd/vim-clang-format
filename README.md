@@ -4,7 +4,7 @@ Format your C family code
 
 This plugin formats your code with specific coding style using [clang-format](http://clang.llvm.org/docs/ClangFormat.html).
 
-Currently below languages are supported:
+Automatic formatting is provided for the following languages by default:
 
 - C
 - C++
@@ -109,6 +109,12 @@ When the value is 1, `formatexpr` option is set by vim-clang-format automaticall
 Vim's format mappings (e.g. `gq`) get to use `clang-format` to format. This
 option is not comptabile with Vim's `textwidth` feature. You must set
 `textwidth` to `0` when the `formatexpr` is set.
+
+- `g:clang_format#auto_filetypes`
+
+List of file types to which `g:clang_format#auto_format`, `g:clang_format#auto_format_on_insert_leave`,
+and `g:clang_format#auto_formatexpr` should be applied.
+The default value is `["c", "cpp", "objc", "java", "javascript", "proto", "arduino"]`.
 
 - `g:clang_format#enable_fallback_style`
 
