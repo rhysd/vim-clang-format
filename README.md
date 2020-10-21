@@ -114,7 +114,7 @@ option is not comptabile with Vim's `textwidth` feature. You must set
 
 List of file types to which `g:clang_format#auto_format`, `g:clang_format#auto_format_on_insert_leave`,
 and `g:clang_format#auto_formatexpr` should be applied.
-The default value is `["c", "cpp", "objc", "java", "javascript", "proto", "arduino"]`.
+The default value is `["c", "cpp", "objc", "java", "javascript", "typescript", "proto", "arduino"]`.
 
 - `g:clang_format#enable_fallback_style`
 
