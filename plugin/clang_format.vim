@@ -22,7 +22,7 @@ augroup plugin-clang-format-auto-format
         \ if &ft =~# '^\%(c\|cpp\|objc\|java\|javascript\|typescript\|proto\|arduino\)$' &&
         \     g:clang_format#auto_format &&
         \     !clang_format#is_invalid() |
-        \     call clang_format#replace(1, line('$')) |
+        \     call clang_format#do_auto_format() |
         \ endif
     autocmd FileType c,cpp,objc,java,javascript,typescript,proto,arduino
         \ if g:clang_format#auto_format_on_insert_leave &&
