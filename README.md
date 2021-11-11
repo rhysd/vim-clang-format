@@ -8,12 +8,13 @@ Automatic formatting is provided for the following languages by default:
 
 - C
 - C++
-- Cuda
 - Objective-C
 - JavaScript
 - Java
 - TypeScript
 - Protobuf
+- Cuda
+- Vala
 
 ## Screenshot
 

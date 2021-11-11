@@ -196,8 +196,8 @@ let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
 let g:clang_format#auto_format_on_insert_leave = s:getg('clang_format#auto_format_on_insert_leave', 0)
 let g:clang_format#auto_formatexpr = s:getg('clang_format#auto_formatexpr', 0)
 let g:clang_format#auto_filetypes = s:getg( 'clang_format#auto_filetypes',
-                                          \ [ 'c', 'cpp', 'objc', 'java', 'javascript',
-                                          \   'typescript', 'proto', 'arduino', 'cuda' ] )
+                                          \ [ 'c', 'cpp', 'objc', 'java', 'javascript', 'typescript',
+                                          \   'proto', 'arduino', 'cuda', 'vala' ] )
 " }}}
 
 " format codes {{{
