@@ -205,6 +205,10 @@ g:clang_format#auto_filetypes                    *g:clang_format#auto_filetypes*
     List of file types to which |g:clang_format#auto_format|,
     |g:clang_format#auto_format_on_insert_leave|, and
     |g:clang_format#auto_formatexpr| should be applied.
+
+    Note: This variable must be set in your vimrc which is loaded before
+    loading this plugin.
+
     The default value is [ "c", "cpp", "objc", "java",
                          \ "javascript", "typescript", "proto", "arduino" ].
 
