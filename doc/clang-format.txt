@@ -20,7 +20,8 @@ License          |vim-clang-format-license|
 INTRODUCTION                                     *vim-clang-format-introduction*
 
 *vim-clang-format* formats your C, C++ and Objective-C code with specific coding
-style using clang.  Following filetypes are supported.
+style using clang.  Automatic formatting is supported for the following file
+types by default.
 
 * c
 * cpp
@@ -199,6 +200,14 @@ g:clang_format#auto_formatexpr		        *g:clang_format#auto_formatexpr*
     to format. This option is not comptabile with Vim's `textwidth` feature. You
     must set `textwidth` to `0` when the `formatexpr` is set.
 
+g:clang_format#auto_filetypes                    *g:clang_format#auto_filetypes*
+
+    List of file types to which |g:clang_format#auto_format|,
+    |g:clang_format#auto_format_on_insert_leave|, and
+    |g:clang_format#auto_formatexpr| should be applied.
+    The default value is [ "c", "cpp", "objc", "java",
+                         \ "javascript", "typescript", "proto", "arduino" ].
+
 g:clang_format#enable_fallback_style	  *g:clang_format#enable_fallback_style*
 
     When the value is 0, "-fallback-style=none" option is added on executing
@@ -247,7 +256,7 @@ LICENSE                                               *vim-clang-format-license*
 
 |vim-clang-format| is distributed under MIT license.
 
-  Copyright (c) 2013-2017 rhysd
+  Copyright (c) 2013-2021 rhysd
 
   Permission is hereby granted, free of charge, to any person obtaining
   a copy of this software and associated documentation files (the
