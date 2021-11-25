@@ -128,6 +128,11 @@ g:clang_format#command                                  *g:clang_format#command*
     Name of clang-format command.
     The default value is "clang-format".
 
+g:clang_format#git                                          *g:clang_format#git*
+
+    Name of the git command.
+    The default value is "git".
+
 g:clang_format#code_style                            *g:clang_format#code_style*
 
     Base coding style for formatting.  Available coding styles are "llvm",
@@ -186,6 +191,25 @@ g:clang_format#auto_format                          *g:clang_format#auto_format*
     When the value is 1, |vim-clang-format| automatically formats a current
     buffer on saving the buffer.  Formatting is executed at |BufWritePre| event.
     The default value is 0.
+
+g:clang_format#auto_format_git_diff        *g:clang_format#auto_format_git_diff*
+
+    When this value is 1, and when g:clang_format#auto_format is 1, the auto
+    format only formats modified lines is the file is tracked in git.
+    If the file is not tracked, or even not in a git project, fallback
+    behavior depends on |g:clang_format#auto_format_git_diff_fallback|.
+    WARNING: this option should not be used with
+    |g:clang_format#auto_format_on_insert_leave|.
+    The default value is 0.
+
+g:clang_format#auto_format_git_diff_fallback
+                                  *g:clang_format#auto_format_git_diff_fallback*
+
+    Fallback behavior when |g:clang_format#auto_format_git_diff| is 1 and the
+    current file is not tracked. The value can be:
+    - 'file': the whole file is formatted (which is the default
+      |g:clang_format#auto_format| behavior).
+    - 'pass': the file is not formatted.
 
 g:clang_format#auto_format_on_insert_leave
                                     *g:clang_format#auto_format_on_insert_leave*

@@ -22,7 +22,7 @@ augroup plugin-clang-format-auto-format
         \ if index(g:clang_format#auto_filetypes, &ft) >= 0 &&
         \     g:clang_format#auto_format &&
         \     !clang_format#is_invalid() |
-        \     call clang_format#replace(1, line('$')) |
+        \     call clang_format#do_auto_format() |
         \ endif
     autocmd FileType *
         \ if index(g:clang_format#auto_filetypes, &ft) >= 0 &&
