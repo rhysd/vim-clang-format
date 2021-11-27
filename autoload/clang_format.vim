@@ -272,7 +272,7 @@ function! clang_format#replace_ranges(ranges, ...) abort
 endfunction
 
 function! clang_format#replace(line1, line2, ...) abort
-    call call(function("clang_format#replace_ranges"), [[line1, line2]], a:000)
+    call call(function("clang_format#replace_ranges"), [[[a:line1, a:line2]], a:000])
 endfunction
 " }}}
 
