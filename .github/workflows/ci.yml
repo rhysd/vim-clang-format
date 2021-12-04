@@ -1,0 +1,27 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  unit-tests:
+    name: Unit tests
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - run: sudo apt install -y --no-install-recommends clang-format
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+      - run: brew install clang-format
+        if: ${{ matrix.os == 'macos-latest' }}
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3
+          bundler-cache: true
+      - uses: rhysd/action-setup-vim@v1
+      - name: Run unit tests
+        run: |
+          cd ./test
+          bundle --version
+          bundle install
+          bundle exec vim-flavor test
