@@ -244,7 +244,7 @@ function! clang_format#format_ranges(ranges) abort
 endfunction
 
 function! clang_format#format(line1, line2) abort
-    return clang_format#format_ranges([[line1, line2]])
+    return clang_format#format_ranges([[a:line1, a:line2]])
 endfunction
 " }}}
 
