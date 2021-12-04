@@ -6,11 +6,13 @@ jobs:
     name: Unit tests
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - run: sudo apt install -y --no-install-recommends clang-format
         if: ${{ matrix.os == 'ubuntu-latest' }}
+      - run: brew install clang-format
+        if: ${{ matrix.os == 'macos-latest' }}
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
