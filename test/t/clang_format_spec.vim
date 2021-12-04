@@ -269,13 +269,6 @@ describe '<Plug>(operator-clang-format)'
         let buffer = GetBuffer()
         Expect by_clang_format_command ==# buffer
     end
-
-    it 'doesn''t move cursor'
-        execute 12
-        let pos = getpos('.')
-        normal xa{
-        Expect pos == getpos('.')
-    end
 end
 " }}}
 
