@@ -1,17 +1,17 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    parslet (1.8.1)
-    thor (0.20.0)
+    parslet (1.8.2)
+    thor (0.20.3)
     vim-flavor (1.1.5)
       parslet (~> 1.0)
       thor (~> 0.14)
 
 PLATFORMS
-  ruby
+  x86_64-darwin-19
 
 DEPENDENCIES
   vim-flavor (~> 1.1)
 
 BUNDLED WITH
-   1.11.2
+   2.2.22
