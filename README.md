@@ -1,6 +1,6 @@
 Format your C family code
 =======================================
-[![Build Status](https://travis-ci.org/rhysd/vim-clang-format.svg?branch=master)](https://travis-ci.org/rhysd/vim-clang-format)
+[![CI](https://github.com/rhysd/vim-clang-format/actions/workflows/ci.yml/badge.svg)](https://github.com/rhysd/vim-clang-format/actions/workflows/ci.yml)
 
 This plugin formats your code with specific coding style using [clang-format](http://clang.llvm.org/docs/ClangFormat.html).
 
