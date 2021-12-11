@@ -89,9 +89,9 @@ endfunction
 
 function! s:error_message(result) abort
     echoerr 'clang-format has failed to format.'
-    if a:result =~# '^YAML:\d\+:\d\+: error: unknown key '
+    if a:result =~# '^YAML:\d\+:\d\+: error: '
         echohl ErrorMsg
-        for l in split(a:result, "\n")[0:1]
+        for l in split(a:result, "\n")
             echomsg l
         endfor
         echohl None
@@ -155,7 +155,7 @@ function! s:verify_command() abort
     if invalidity == 1
         echoerr "clang-format is not found. check g:clang_format#command."
     elseif invalidity == 2
-        echoerr 'clang-format 3.3 or earlier is not supported for the lack of aruguments'
+        echoerr 'clang-format 3.3 or earlier is not supported for the lack of arguments'
     endif
 endfunction
 
@@ -200,6 +200,7 @@ let g:clang_format#filetype_style_options = s:getg('clang_format#filetype_style_
 
 let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 1)
 let g:clang_format#enable_fallback_style = s:getg('clang_format#enable_fallback_style', 1)
+let g:clang_format#praise = s:getg('clang_format#praise', 1)
 
 let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
 let g:clang_format#auto_format_git_diff = s:getg('clang_format#auto_format_git_diff', 0)
@@ -259,10 +260,21 @@ function! clang_format#replace_ranges(ranges, ...) abort
         return
     endif
 
-    let winview = winsaveview()
     let splitted = split(formatted, '\n', 1)
+    if getline(a:line1, a:line2) ==# splitted[a:line1-1:a:line2-1]
+        if g:clang_format#praise
+            echo "No formatting needed, looking fabulous already!"
+        endif
+        " Early out, no need to introduce a change
+        return
+    endif
 
-    silent! undojoin
+    if g:clang_format#praise
+        " Reset any previous praise
+        echo ""
+    endif
+
+    let winview = winsaveview()
     if line('$') > len(splitted)
         execute len(splitted) .',$delete' '_'
     endif

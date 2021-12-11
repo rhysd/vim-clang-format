@@ -124,6 +124,12 @@ When the value is 0, `-fallback-style=none` option is added on executing clang-f
 It means that vim-clang-format does nothing when `.clang-format` is not found.
 The default value is 1.
 
+- `g:clang_format#praise`
+
+When the value is 1, you will be praised for already having well-formatted code.
+Some users might not want/need praise, thus providing this variable.
+The default value is 1.
+
 ## Vimrc Example
 
 ```vim
