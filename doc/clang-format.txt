@@ -240,7 +240,15 @@ g:clang_format#enable_fallback_style	  *g:clang_format#enable_fallback_style*
     ".clang-format" is not found.
     The default value is 1.
 
+g:clang_format#trim_last_empty_line        *g:clang_format#trim_last_empty_line*
 
+    If the initial buffer ends with one or more empty lines, vim-clang-format
+    will let one single empty line. This is not the clang-format behavior,
+    which do not let any empty line at the end of the file.
+    When the value is 1, vim-clang-format ensures that formatted buffer does
+    end with any empty lines.
+    The default value is 0 (which is the historical vim-clang-format
+    behavior).
 
 ==============================================================================
 SETUP EXAMPLE                                   *vim-clang-format-setup-example*

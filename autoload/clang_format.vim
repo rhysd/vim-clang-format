@@ -200,6 +200,7 @@ let g:clang_format#filetype_style_options = s:getg('clang_format#filetype_style_
 
 let g:clang_format#detect_style_file = s:getg('clang_format#detect_style_file', 1)
 let g:clang_format#enable_fallback_style = s:getg('clang_format#enable_fallback_style', 1)
+let g:clang_format#trim_last_empty_line = s:getg('clang_format#trim_last_empty_line', 0)
 
 let g:clang_format#auto_format = s:getg('clang_format#auto_format', 0)
 let g:clang_format#auto_format_git_diff = s:getg('clang_format#auto_format_git_diff', 0)
@@ -260,6 +261,9 @@ function! clang_format#replace_ranges(ranges, ...) abort
     endif
 
     let winview = winsaveview()
+    if g:clang_format#trim_last_empty_line
+        let formatted = trim(formatted, "\n", 2)
+    endif
     let splitted = split(formatted, '\n', 1)
 
     silent! undojoin
