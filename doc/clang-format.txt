@@ -136,7 +136,7 @@ g:clang_format#git                                          *g:clang_format#git*
 g:clang_format#code_style                            *g:clang_format#code_style*
 
     Base coding style for formatting.  Available coding styles are "llvm",
-    "google", "chromium" and "mozilla".
+    "google", "chromium", "mozilla" and "microsoft".
     The default value is "google".
 
 g:clang_format#style_options                      *g:clang_format#style_options*

@@ -60,8 +60,9 @@ You can customize formatting using some variables.
 - `g:clang_format#code_style`
 
 `g:clang_format#code_style` is a base style.
-`llvm`, `google`, `chromium`, `mozilla` is supported.
+`llvm`, `google`, `chromium`, `mozilla`, `microsoft` is supported.
 The default value is `google`.
+Please note that 'microsoft' style is added in clang-format 9.
 
 - `g:clang_format#style_options`
 
