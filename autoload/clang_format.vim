@@ -80,6 +80,7 @@ function! s:make_style_options() abort
                         \ g:clang_format#code_style,
                         \ indentwidth,
                         \ indentwidth * 2,
+                        \ &l:expandtab==1 ? 'false' : 'true',
                         \ extra_options)
 endfunction
 
